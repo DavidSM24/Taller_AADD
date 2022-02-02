@@ -1,5 +1,9 @@
 package models;
 
-public class Gift {
+import java.io.Serializable;
+
+public class Gift implements Serializable {
+	
+	
 
 }
