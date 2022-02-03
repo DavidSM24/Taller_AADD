@@ -2,7 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@javax.persistence.Embeddable
+@javax.persistence.Table(name="insurancecompany")
 public class InsuranceCompany {
 	protected Long id;
 	protected String CIA_Name;

@@ -1,5 +1,5 @@
 package repositories;
 
-public class GiftRepository {
+public interface GiftRepository {
 
 }
