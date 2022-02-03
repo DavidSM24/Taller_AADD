@@ -1,5 +1,5 @@
 package repositories;
 
-public class CarRepairRepository {
+public interface CarRepairRepository {
 
 }
