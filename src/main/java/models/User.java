@@ -2,14 +2,29 @@ package models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@javax.persistence.Embeddable
+@javax.persistence.Table(name="user")
 public class User implements Serializable {
  
 	private static final long serialVersionUID=1L;
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
+	@Column(name="title",length =3 )
 	private int code;
+	 @Column(name="password",length=10)
 	private String pasword;
+	 @Column(name="administrator")
 	private boolean administrator;
+	 @Column(name="email",length = 50)
+	 private String email;
+	@Column(name="email",length=100)
 	private String name;
 	
 	/**
@@ -20,12 +35,13 @@ public class User implements Serializable {
 	 * @param administrator
 	 * @param name
 	 */
-	public User(Long id, int code, String pasword, boolean administrator, String name) {
+	public User(Long id, int code, String pasword, boolean administrator, String email, String name) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.pasword = pasword;
 		this.administrator = administrator;
+		this.email = email;
 		this.name = name;
 	}
 	/**
@@ -34,17 +50,16 @@ public class User implements Serializable {
 	 * @param administrator
 	 * @param name
 	 */
-	public User(int code, boolean administrator, String name) {
-		this.id=-1L;
-		//generar contraseña
+	public User(int code, boolean administrator, String email, String name) {
+		super();
 		this.code = code;
 		this.administrator = administrator;
+		this.email = email;
 		this.name = name;
 	}
 	
-	
 	public User() {
-		this(-1L,-1,"",false,"");
+		this(-1L,-1,"",false,"","");
 	}
 	public Long getId() {
 		return id;
