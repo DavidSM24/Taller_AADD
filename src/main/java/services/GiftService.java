@@ -27,7 +27,7 @@ public class GiftService {
 		if (result.isPresent()) {
 			return result.get();
 		} else {
-			throw new RecordNotFoundException("La agencia no existe", id);
+			throw new RecordNotFoundException("El regalo no existe", id);
 		}
 	}
 
