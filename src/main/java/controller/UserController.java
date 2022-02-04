@@ -23,29 +23,114 @@ import services.UserService;
 public class UserController {
 	@Autowired
 	UserService service;
+	
+	/**
+	 * Devuelve una respuesta HTTP con una lista de Usuarios dependiendo de si la consulta se
+	 * ha realizado correctamente o no.
+	 * 
+	 * @return la respuesta HTTP con la lista de usuarios.
+	 */
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> all=service.getall();
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
+	/**
+	 * Devuelve una respuesta HTTP con una lista de usuarios paginados dependiendo de si la consulta se
+	 * ha realizado correctamente o no.
+	 * 
+	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @return la respuesta HTTP con la lista de usuarios.
+	 */
 	@GetMapping("/page/{page}")
-	public ResponseEntity<List<User>> getAllUsersPaged(@PathVariable("page")int page){
+	public ResponseEntity<List<User>> getAllUsersPaged(@PathVariable("page")int page) throws RecordNotFoundException{
 		List<User> all=service.getAllPaged(page);
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
+	/**
+	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
+	 * dependiendo de si la consulta se ha realizado correctamente o no.
+	 * 
+	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param code codigo con el que se va a filtrar.
+	 * @return la respuesta HTTP con la lista de usuarios.
+	 */
+	@GetMapping("/code/{code}/page/{page}")
+	public ResponseEntity<List<User>> getAllUsersAgenciesPaged(@PathVariable("code")int code,@PathVariable("page")int page) throws RecordNotFoundException{
+		List<User> all=service.getAllUserAgenciesPaged(code, page);
+		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+	}
+	/**
+	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
+	 * dependiendo de si la consulta se ha realizado correctamente o no.
+	 * 
+	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param code codigo con el que se va a filtrar.
+	 * @return la respuesta HTTP con la lista de usuarios.
+	 */
+	@GetMapping("/code/{code}/page/{page}")
+	public ResponseEntity<List<User>> getAllAdminPaged(@PathVariable("code")int code,@PathVariable("page")int page) throws RecordNotFoundException{
+		List<User> all=service.getAllAdminPaged(code, page);
+		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+	}
+	/**
+	 * Devuelve una respuesta HTTP con un usuario filtrada por id.
+	 * 
+	 * @param id la id por la que se filtrará el usuario.
+	 * @return respuesta con el usuario encontrada con ese id.
+	 * @throws RecordNotFoundException
+	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getUserByID(@PathVariable("id")Long id){
+	public ResponseEntity<User> getUserByID(@PathVariable("id")Long id) throws RecordNotFoundException{
 		User user=service.getbyId(id);
 		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
 	}
-	
+	/**
+	 * Devuelve una respuesta HTTP con un usuario filtrada por nombre.
+	 * 
+	 * @param name el nombre por el que se filtrará el usuario.
+	 * @return respuesta con el usuario encontrada con ese nombre.
+	 * @throws RecordNotFoundException
+	 */
+	@GetMapping("/name/{name}")
+	public ResponseEntity<User> getUserByName(@PathVariable("name")String name) throws RecordNotFoundException{
+		User user=service.getByName(name);
+		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+	}
+	/**
+	 * Devuelve una respuesta HTTP con un usuario filtrada por codigo.
+	 * 
+	 * @param code el codigo por el que se filtrará el usuario.
+	 * @return respuesta con el usuario encontrada con ese nombre.
+	 * @throws RecordNotFoundException
+	 */
+	@GetMapping("/code/{code}")
+	public ResponseEntity<User> getUserByName(@PathVariable("code")int code) throws RecordNotFoundException{
+		User user=service.getByCode(code);
+		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+	}
+	/**
+	 * Recibe un usuario. Crea o updatea un usuario.
+	 * 
+	 * @param a usuario a crear o updatear recibida en el cuerpo.
+	 * @return respuesta con el usuario actualido o insertado con su id correspondiente.
+	 * @throws RecordNotFoundException
+	 */
 	@PostMapping
-	public ResponseEntity<User> createorUpdateUser(@RequestBody User u){
+	public ResponseEntity<User> createorUpdateUser(@RequestBody User u) throws RecordNotFoundException{
 		User user=service.createorupdate(u);
 		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
 	}
+	/**
+	 * Recibe un usuario y devuelve una respuesta HTTP en función de si ha podido eliminarla
+	 * correctamente.
+	 * 
+	 * @param usuario a eliminar recibida en el cuerpo.
+	 * @return respuesta http sobre el status de la petición.
+	 * @throws RecordNotFoundException
+	 */
 	@DeleteMapping
-	public HttpStatus deleteUserById(User u) throws RecordNotFoundException{
+	public HttpStatus deleteUserById(User u) throws RecordNotFoundException {
 		service.delete(u);
 		return HttpStatus.OK;
 	}

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import exception.RecordNotFoundException;
+import models.Agency;
 import models.ExchangeGift;
 import repositories.ExchangeGiftRepository;
 
@@ -99,6 +100,20 @@ public class ExchangeGiftService {
 	}
 	
 	public List<ExchangeGift> getAllPaged(int page){
+		return new ArrayList<ExchangeGift>();
+	}
+	
+	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int page){
+		if(isdelivered) {
+			return new ArrayList<ExchangeGift>();
+			
+		}else {
+			return new ArrayList<ExchangeGift>();
+		}
+	}
+	
+	public List<ExchangeGift> getByAgencyPaged(Agency agency, int page){
+		
 		return new ArrayList<ExchangeGift>();
 	}
 }

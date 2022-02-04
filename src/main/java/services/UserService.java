@@ -96,4 +96,20 @@ public class UserService {
 	public List<User> getAllPaged(int page){
 		return new ArrayList<User>();
 	}
+	
+	public User getByCode(int code){
+		return new User();
+	}
+	
+	public  User getByName(String name){
+		return new User();
+	}
+	
+	public List<User> getAllUserAgenciesPaged(int code, int page){
+		return new ArrayList<User>();
+	}
+	
+	public List<User> getAllAdminPaged(int code, int page){
+		return new ArrayList<User>();
+	}
 }
