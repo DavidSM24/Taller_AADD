@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,15 @@ public class AgencyService {
 		return repository.findAll();
 	}
 
+	/**
+	 * Devuelve una lista de agencias paginada en función de la página que se está buscando.
+	 * 
+	 * @param page nº de página a partir del cual buscar.
+	 * @return Una lista de agencias.
+	 */
+	public List<Agency> getAllPaged(int page){
+		return new ArrayList<Agency>();
+	}
 	
 	/***
 	 * Método para conseguir una agencia a partir de su id. Recibe un Long.
@@ -45,7 +55,31 @@ public class AgencyService {
 			throw new RecordNotFoundException("La agencia no existe", id);
 		}
 	}
-
+	
+	/**
+	 * Devuelve una lista paginada de agencias cuyo nombre de usuario contenga el
+	 * parametro username.
+	 * 
+	 * @param username el nombre del usuario.
+	 * @param page comienzo de la paginación.
+	 * @return La lista paginada y filtrada de agencias.
+	 */
+	public List<Agency> getByUsernamePaged(String username, int page){
+		return new ArrayList<Agency>();
+	}
+	
+	
+	/**
+	 *  Devuelve todas las agencias que coincidan con el parámetro isActive paginadas,
+	 *  pudiendo ser las que estén o no activas en función de lo que se reciba.
+	 * 
+	 * @param active boolean con el parámetro para filtrar por active/inactive
+	 * @param page pagina por la que se empieza a paginar
+	 * @return Lista de agencias paginada y flitrada por isActive.
+	 */
+	public List<Agency> getByActivePaged(boolean active, int page){
+		return new ArrayList<Agency>();
+	}
 	
 	/***
 	 * Método para insertar o actualizar una agencia dependiendo de si existe 
