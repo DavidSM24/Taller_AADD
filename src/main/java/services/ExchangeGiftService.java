@@ -13,13 +13,28 @@ import repositories.ExchangeGiftRepository;
 
 @Service
 public class ExchangeGiftService {
+	/**
+	 * Repositorio de el regalo intercambiado asociado a este servicio.
+	 */
 	@Autowired
 	ExchangeGiftRepository repository;
-	
+	/**
+	 * Método que devuelve todos los regalos intercambiado.
+	 * 
+	 * @return lista de los regalos intercambiado
+	 */
 	public List<ExchangeGift> getAll(){
 		return repository.findAll();
 	}
-	public ExchangeGift getallbyId(Long id){
+	/***
+	 * Método para conseguir un regalo intercambiado a partir de su id. Recibe un Long.
+	 * Posibilidad de dar una excepción NotFound.
+	 *
+	 * @param id
+	 * @return el regalo intercambiado con ese id
+	 * @throws RecordNotFoundException
+	 */
+	public ExchangeGift getbyId(Long id){
 		Optional<ExchangeGift> result=repository.findById(id);
 		if(result.isPresent()) {
 			return result.get();
@@ -28,6 +43,15 @@ public class ExchangeGiftService {
 		}
 		
 	}
+	/***
+	 * Método para insertar o actualizar un regalo intercambiado dependiendo de si existe 
+	 * un registro con este id en la BBDD. Lanza una excepción si no se
+	 * encuentra al regalo intercambiado en la BBDD.
+	 * 
+	 * @param Agency: El regalo intercambiado a actualizar/insertar.
+	 * @return Devuelve el regalo intercambiado con el id generado.
+	 * @throws RecordNotFoundException
+	 */
 	public ExchangeGift createorupdate(ExchangeGift exgift) {
 		if(exgift.getId()>0) {
 			Optional<ExchangeGift>n=repository.findById(exgift.getId());
@@ -50,12 +74,20 @@ public class ExchangeGiftService {
 		}
 		return exgift;
 	}
-	public void deletenotebyId(Long id) throws RecordNotFoundException{
-		Optional<ExchangeGift> carp=repository.findById(id);
-		if(carp.isPresent()) {
-			repository.deleteById(id);
-		}else {
-			throw new RecordNotFoundException("CarRepair no existe",id);
+	/***
+	 * Método que recibe un regalo intercambiado y la elimina de la BBDD. Lanza una
+	 * excepción si no se encuentra el regalo intercambiado en la BBDD.
+	 * 
+	 * @param Agency: El regalo intercambiado a eliminar.
+	 * @throws RecordNotFoundException
+	 */
+	public void delete(ExchangeGift gift) throws RecordNotFoundException{
+		Optional<ExchangeGift> optional=repository.findById(gift.getId());
+		if(optional.isPresent()) {
+			repository.deleteById(gift.getId());
+		}
+		else {
+			throw new RecordNotFoundException("El regalo intercambiado no existe", gift.getId());
 		}
 	}
 }
