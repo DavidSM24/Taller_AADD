@@ -1,6 +1,7 @@
 package services;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,5 +96,9 @@ public class ExchangeGiftService {
 			
 		}
 		return result;
+	}
+	
+	public List<ExchangeGift> getAllPaged(int page){
+		return new ArrayList<ExchangeGift>();
 	}
 }

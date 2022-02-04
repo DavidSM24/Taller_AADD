@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,5 +92,8 @@ public class UserService {
 			throw new RecordNotFoundException("El usuario no existe", user.getId());
 		}
 		return result;
+	}
+	public List<User> getAllPaged(int page){
+		return new ArrayList<User>();
 	}
 }
