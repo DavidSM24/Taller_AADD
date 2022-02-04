@@ -15,13 +15,22 @@ public class GiftService {
 	GiftRepository repository;
 
 	/**
-	 * Devuelve todas las agencias.
-	 * @return
+	 * Método que devuelve todos los regalos.
+	 * 
+	 * @return lista de regalos.
 	 */
 	public List<Gift> getAll() {
 		return repository.findAll();
 	}
-
+	
+	/***
+	 * Método para conseguir un regalotir a partir de su id. Recibe un Long.
+	 * Posibilidad de dar una excepción NotFound.
+	 *
+	 * @param id
+	 * @return el regalo con ese id
+	 * @throws RecordNotFoundException
+	 */
 	public Gift getById(Long id) throws RecordNotFoundException {
 		Optional<Gift> result = repository.findById(id);
 		if (result.isPresent()) {
@@ -31,6 +40,16 @@ public class GiftService {
 		}
 	}
 
+	
+	/***
+	 * Método para insertar o actualizar un regalo dependiendo de si existe un
+	 * registro con este id en la BBDD. Lanza una excepción
+	 * si no se encuentra el regalo en la BBDD.
+	 * 
+	 * @param Gift: El regalo a actualizar/insertar.
+	 * @return Devuelve el regalo con el id generado.
+	 * @throws RecordNotFoundException
+	 */
 	public Gift createOrUpdate(Gift Gift) throws RecordNotFoundException {
 		if (Gift.getId() != null && Gift.getId() > 0) {
 			Optional<Gift> a = repository.findById(Gift.getId());
@@ -60,7 +79,14 @@ public class GiftService {
 			return Gift;
 		}
 	}
-	
+
+	/***
+	 * Método que recibe un regalo y lo elimina de la BBDD. Lanza una excepción
+	 * si no se encuentra el regalo en la BBDD.
+	 * 
+	 * @param: Gift El regalo a eliminar.
+	 * @throws RecordNotFoundException
+	 */
 	public void delete(Gift Gift) throws RecordNotFoundException{
 		Optional<Gift> optional=repository.findById(Gift.getId());
 		if(optional.isPresent()) {
