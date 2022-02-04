@@ -1,5 +1,7 @@
 package exception;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -16,6 +18,10 @@ public class RecordNotFoundException extends RuntimeException{
 		super();
 		this.ex = ex;
 		this.f = f;
+	}
+	
+	public RecordNotFoundException(String ex){
+		super(ex);
 	}
 	
 	//no hacen falta los seters porque estos se generan con el constructor
