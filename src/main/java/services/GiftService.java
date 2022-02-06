@@ -23,6 +23,16 @@ public class GiftService {
 		return repository.findAll();
 	}
 	
+	/**
+	 * Devuelve todas los regalos paginados empezando en la pagina recibida.
+	 * 
+	 * @param page pagina por la que se comienza la paginación.
+	 * @return lista de regalos paginada.
+	 */
+	public List<Gift> getAllPaged(int page) {
+		return repository.getAllPaged((page-1)*15);
+	}
+	
 	/***
 	 * Método para conseguir un regalotir a partir de su id. Recibe un Long.
 	 * Posibilidad de dar una excepción NotFound.
@@ -40,6 +50,29 @@ public class GiftService {
 		}
 	}
 
+	/**
+	 * Devuelve una lista de regalos filtrada por el nombre recibido y paginada comenzando por
+	 * la pagina recivida.
+	 * 
+	 * @param name nombre con el que se filtrará la búsqueda.
+	 * @param page pagina por la que comienza la paginación de la lista.
+	 * @return lista de regalos filtrada por nombre y paginada.
+	 */
+	public List<Gift> getByNamePaged(String name, int page) {
+		return repository.getByNamePaged(name, (page-1)*15);
+	}
+	
+	/**
+	 * Devuelve una lista de regalos paginada filtrada por la disponibilidad actual, comenzando
+	 * por la pagina recivida.
+	 * 
+	 * @param avaliable disponibilidad para filtrar la búsqueda.
+	 * @param page página para empezar la paginación en la búsqueda.
+	 * @return lista de regalos paginada y filtrada por nombre
+	 */
+	public List<Gift> getByAvaliablePaged(boolean avaliable, int page) {
+		return repository.getByAvaliablePaged(avaliable, (page-1)*15);
+	}
 	
 	/***
 	 * Método para insertar o actualizar un regalo dependiendo de si existe un

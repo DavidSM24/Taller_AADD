@@ -17,11 +17,12 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	
 	@Query(value = "SELECT a.* FROM agency a "
 			+ "INNER JOIN user u IN a.id_user=u.id "
-			+ "WHERE LOWER(u.name) LIKE '%:username%'")
-	public List<Agency>getByUsernamePaged(String username,int offset);
+			+ "WHERE LOWER(u.name) LIKE '%:username%' "
+			+ "LIMIT 15 OFFSET :offset")
+	public List<Agency>getByUsernamePaged(@Param("username")String username, @Param("offset")int offset);
 	
 	@Query(value = "SELECT * FROM agency WHERE isActive = :active LIMIT 15 OFFSET :offset")
-	public List<Agency> getByActivePaged(boolean active, int offset);
+	public List<Agency> getByActivePaged(@Param("active") boolean active, @Param("offset") int offset);
 }
 
 
