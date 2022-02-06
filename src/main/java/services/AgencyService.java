@@ -36,7 +36,8 @@ public class AgencyService {
 	 * @return Una lista de agencias.
 	 */
 	public List<Agency> getAllPaged(int page){
-		return new ArrayList<Agency>();
+		
+		return repository.getAllPaged((page-1)*15);
 	}
 	
 	/***
@@ -65,7 +66,8 @@ public class AgencyService {
 	 * @return La lista paginada y filtrada de agencias.
 	 */
 	public List<Agency> getByUsernamePaged(String username, int page){
-		return new ArrayList<Agency>();
+		
+		return repository.getByUsernamePaged(username.toLowerCase(),(page-1)*15);
 	}
 	
 	
@@ -78,7 +80,7 @@ public class AgencyService {
 	 * @return Lista de agencias paginada y flitrada por isActive.
 	 */
 	public List<Agency> getByActivePaged(boolean active, int page){
-		return new ArrayList<Agency>();
+		return repository.getByActivePaged(active,(page-1)*15);
 	}
 	
 	/***
