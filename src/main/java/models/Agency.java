@@ -1,23 +1,64 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Agency {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+@Entity
+@Table(name = "agency")
+public class Agency implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
+	
+	@Column(name = "zipCode", length = 50)
 	protected Long zipCode;
+	
+	@Column(name = "address", length = 50)
 	protected String address;
+	
+	@Column(name = "location", length = 50)
 	protected String location;
+	
+	@Column(name = "phone", length = 9)
 	protected Long phoneNumber;
-	// protected Long repairs
+	
+	@Column(name = "amount", length = 10)
 	protected float amount;
+	
+	@Column(name = "points", length = 9)
 	protected Long points;
+	
+	@Column(name = "pointsRedeemed", length = 9)
 	protected Long pointsRedeemed;
+	
+	@Column(name = "isActive")
 	protected boolean isActive;
+	
+	//@ManyToOne()
 	protected InsuranceCompany myInsurenceCompany;
+	
+	//@OneToMany(mappedBy = "carRepair", cascade = CascadeType.ALL, orphanRemoval = true)
 	protected List<CarRepair> myCarRepairs;
+	
+	//@OneToMany(mappedBy = "exchangeGift", cascade = CascadeType.ALL, orphanRemoval = true)
 	protected List<ExchangeGift> myExchangesGifts;
+	
+	//@OneToOne(mappedBy="user")
 	protected User myUser;
 
 	public Agency() {
@@ -195,8 +236,8 @@ public class Agency {
 	public String toString() {
 		return "Agency [id=" + id + ", zipCode=" + zipCode + ", address=" + address + ", location=" + location
 				+ ", phoneNumber=" + phoneNumber + ", amount=" + amount + ", points=" + points + ", pointsRedeemed="
-				+ pointsRedeemed + ", isActive=" + isActive + ", myInsurenceCompany=" + myInsurenceCompany
-				+ ", myCarRepairs=" + myCarRepairs + ", myExchangesGifts=" + myExchangesGifts + ", myUser=" + myUser
+				+ pointsRedeemed + ", isActive=" + isActive + ", myInsurenceCompany(CIA_Name)=" + myInsurenceCompany.getCIA_Name()
+				+ ", myCarRepairs(size)=" + myCarRepairs.size() + ", myExchangesGifts(size)=" + myExchangesGifts.size() + ", myUser(code)=" + myUser.getCode()
 				+ "]";
 	}
 }
