@@ -2,13 +2,27 @@ package project.models;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+@javax.persistence.Embeddable
+@javax.persistence.Table(name="exchangeGift")
 public class ExchangeGift {
-
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	protected Long id;
+	@Column(name="dateExchange")
 	protected LocalDate dateExchange;
+	@Column(name="observations",length = 300)
 	protected String observations;
+	@Column(name="isDelivered")
 	protected boolean isDelivered;
+	@ManyToOne
 	protected Agency agency;
+	@ManyToOne
 	protected Gift gift;
 	
 	public ExchangeGift() {

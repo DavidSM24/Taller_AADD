@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 @javax.persistence.Embeddable
-@javax.persistence.Table(name="carrepair")
+@javax.persistence.Table(name="carRepair")
 public class CarRepair {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class CarRepair {
 	@Column(name="operation", length = 3)
 	protected Long operation;
 	
-	@Column(name="carplate", length = 7)
+	@Column(name="carPlate", length = 7)
 	protected String carPlate;
 	
 	@Column(name="model", length = 50)
@@ -26,10 +26,10 @@ public class CarRepair {
 	@Column(name="brandcar", length = 50)
 	protected String brandCar;
 	
-	@Column(name="clientename", length = 50)
+	@Column(name="clienteName", length = 50)
 	protected String clienteName;
 	
-	@Column(name="deorder")
+	@Column(name="dateeOrder")
 	protected LocalDateTime dateOrder;
 	
 	@Column(name="nor", length = 3)
@@ -38,10 +38,10 @@ public class CarRepair {
 	@Column(name="amount", length = 3)
 	protected float amount;
 	
-	@Column(name="daterepair")
+	@Column(name="dateRepair")
 	protected LocalDateTime dateRepair;
 	
-	@Column(name="asigpoints", length = 3)
+	@Column(name="asigPoints", length = 3)
 	protected Long asigPoints;
 	
 	@Column(name="repaired")

@@ -2,12 +2,25 @@ package project.models;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 @javax.persistence.Embeddable
 @javax.persistence.Table(name="insurancecompany")
 public class InsuranceCompany {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	protected Long id;
+	@Column(name="dateExchange",length = 50)
 	protected String CIA_Name;
+	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
 	protected List<Agency> agencies;
+	
 	public InsuranceCompany(Long id, String cIA_Name, List<Agency> agencies) {
 		super();
 		this.id = id;
