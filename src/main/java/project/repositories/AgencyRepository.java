@@ -24,12 +24,3 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	@Query(value = "SELECT * FROM agency WHERE isActive = :active LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<Agency> getByActivePaged(@Param("active") boolean active, @Param("element") int element, @Param("page") int page);
 }
-
-
-/*
-
-SELECT a.* FROM agency a
-INNER JOIN user u IN a.id_user=u.id
-WHERE LOWER(u.name) LIKE '%:username%'
-
-*/

@@ -49,16 +49,16 @@ public class Agency implements Serializable{
 	@Column(name = "isActive")
 	protected boolean isActive;
 	
-	//@ManyToOne()
+	@ManyToOne()
 	protected InsuranceCompany myInsurenceCompany;
 	
-	//@OneToMany(mappedBy = "carRepair", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "carRepair", cascade = CascadeType.ALL, orphanRemoval = true)
 	protected List<CarRepair> myCarRepairs;
 	
-	//@OneToMany(mappedBy = "exchangeGift", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "exchangeGift", cascade = CascadeType.ALL, orphanRemoval = true)
 	protected List<ExchangeGift> myExchangesGifts;
 	
-	//@OneToOne(mappedBy="user")
+	@OneToOne(mappedBy="user")
 	protected User myUser;
 
 	public Agency() {

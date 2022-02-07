@@ -97,8 +97,9 @@ public class GiftService {
 				newGift.setName(Gift.getName());
 				newGift.setPoints(Gift.getPoints());
 				newGift.setAvailable(Gift.isAvailable());
+				newGift.setPicture(Gift.getPicture());
 				newGift.setExchangeGifts(Gift.getExchangeGifts());
-				
+							
 				newGift=repository.save(newGift);
 				return newGift;
 			

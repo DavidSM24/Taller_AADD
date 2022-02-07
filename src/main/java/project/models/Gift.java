@@ -4,14 +4,38 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "gift")
 public class Gift implements Serializable {
 	
 	private static final long serialVersionUID=1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private  Long id;
+	
+	@Column(name = "name", length = 50)
 	private String name;
+	
+	@Column(name = "points")
 	private int points;
+	
+	@Column(name = "isAvaliable")
 	private boolean isAvailable;
+	
+	@Column(name="picture", length=250)
+	private String picture;
+	
+	@OneToMany(mappedBy = "exchangeGift", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ExchangeGift> exchangeGifts;
 	
 	
@@ -23,17 +47,18 @@ public class Gift implements Serializable {
 	 * @param isAvailable
 	 * @param exchangeGifts
 	 */
-	public Gift(Long id, String name, int points, boolean isAvailable, List<ExchangeGift> exchangeGifts) {
+	public Gift(Long id, String name, int points, boolean isAvailable, String picture, List<ExchangeGift> exchangeGifts) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.points = points;
 		this.isAvailable = isAvailable;
+		this.picture=picture;
 		this.exchangeGifts = exchangeGifts;
 	}
 	
 	public Gift() {
-		this(-1L,"",-1,false,new ArrayList<ExchangeGift>());
+		this(-1L,"",-1,false,"",new ArrayList<ExchangeGift>());
 	}
 
 	/**
@@ -42,12 +67,13 @@ public class Gift implements Serializable {
 	 * @param points
 	 * @param isAvailable
 	 */
-	public Gift(String name, int points, boolean isAvailable) {
+	public Gift(String name, int points, boolean isAvailable, String picture) {
 		this.id=-1L;
 		this.name = name;
 		this.points = points;
 		this.isAvailable = isAvailable;
 		this.exchangeGifts=new ArrayList<ExchangeGift>();
+		this.picture=picture;
 	}
 
 	public Long getId() {
@@ -80,6 +106,14 @@ public class Gift implements Serializable {
 
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	public List<ExchangeGift> getExchangeGifts() {
@@ -140,7 +174,7 @@ public class Gift implements Serializable {
 	@Override
 	public String toString() {
 		return "Gift [id=" + id + ", name=" + name + ", points=" + points + ", isAvailable=" + isAvailable
-				+ ", exchangeGifts=" + exchangeGifts + "]";
+				+ ", exchangeGifts=" + exchangeGifts.size() + "]";
 	}
 	
 	
