@@ -98,22 +98,39 @@ public class ExchangeGiftService {
 		}
 		return result;
 	}
-	
-	public List<ExchangeGift> getAllPaged(int page){
-		return new ArrayList<ExchangeGift>();
+	/**
+	 * Devuelve una lista de regalos intercambiados paginada en función de la página que se está buscando.
+	 * 
+	 * @param element nº de elementos a buscar
+	 * @param page nº de página a partir del cual buscar.
+	 * @return Una lista de regalos intercambiados intercambiados.
+	 */
+	public List<ExchangeGift> getAllPaged(int element, int page){
+		return repository.getAllPaged(element, page);
 	}
-	
-	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int page){
-		if(isdelivered) {
-			return new ArrayList<ExchangeGift>();
-			
-		}else {
-			return new ArrayList<ExchangeGift>();
-		}
+	/**
+	 *  Devuelve todos los regalos intercambiados que coincidan con el parámetro isDelivered paginadas,
+	 *  pudiendo ser los que estén o no enviados en función de lo que se reciba.
+	 * 
+	 * @param isdelivered boolean con el parámetro para filtrar.
+	 * @param element nº de elementos a buscar
+	 * @param page pagina por la que se empieza a paginar
+	 * @return Lista de regalos intercambiados paginados y flitrados por isDelivered.
+	 */
+	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int element, int page){
+		return repository.getByDeliveredPaged(isdelivered, element, page);
 	}
-	
-	public List<ExchangeGift> getByAgencyPaged(Agency agency, int page){
+	/**
+	 * Devuelve una lista paginada de regalos intercambiados cuyo id de agencia contenga el
+	 * parametro agency.
+	 * 
+	 * @param agency el id de la agencia.
+	 * @param element nº de elementos a buscar
+	 * @param page comienzo de la paginación.
+	 * @return La lista paginada y filtrada de regalos intercambiados.
+	 */
+	public List<ExchangeGift> getByAgencyPaged(int agency, int element, int page){
 		
-		return new ArrayList<ExchangeGift>();
+		return repository.getByAgencyPaged(agency, element, page);
 	}
 }

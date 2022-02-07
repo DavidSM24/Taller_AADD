@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import project.exception.RecordNotFoundException;
-import project.models.Agency;
 import project.models.ExchangeGift;
 import project.services.ExchangeGiftService;
 
@@ -42,34 +41,37 @@ public class ExchangeGiftsController {
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
-	@GetMapping("/page/{page}")
-	public ResponseEntity<List<ExchangeGift>> getAllUsersPaged(@PathVariable("page")int page){
-		List<ExchangeGift> all=service.getAllPaged(page);
+	@GetMapping("/element/{element}/page/{page}")
+	public ResponseEntity<List<ExchangeGift>> getAllUsersPaged(@PathVariable("element") int element, @PathVariable("page") int page){
+		List<ExchangeGift> all=service.getAllPaged(element, page);
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
+	 * @param element nº de elementos a buscar.
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @param boolean con el parametro deliverd para filtrar.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
-	@GetMapping("/delivered/{delivered}/paged/{paged}")
-	public ResponseEntity<List<ExchangeGift>> getByDelivered(@PathVariable("delivered")Boolean isdelivered, @PathVariable("page")int page){
-		List<ExchangeGift> all=service.getByDeliveredPaged(isdelivered,page);
+	@GetMapping("/delivered/{delivered}/element/{element}/paged/{paged}")
+	public ResponseEntity<List<ExchangeGift>> getByDelivered(@PathVariable("delivered")Boolean isdelivered, @PathVariable("element") int element, @PathVariable("page") int page){
+		List<ExchangeGift> all=service.getByDeliveredPaged(isdelivered,element, page);
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
-	 * @param agendy agencia por la que se filtrar.
+	 * @param element nº de elementos a buscar.
+	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param id_agency agencia por la que se filtrar.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
-	@GetMapping("/agency/{agency}/paged/{paged}")
-	public ResponseEntity<List<ExchangeGift>> getByAgency(@PathVariable("agency")Agency agency,@PathVariable("page")int page){
-		List<ExchangeGift> all=service.getByAgencyPaged(agency,page);
+	@GetMapping("/id_agency/{id_agency}/element/{element}/paged/{paged}")
+	public ResponseEntity<List<ExchangeGift>> getByAgency(@PathVariable("id_agency")int agency,@PathVariable("element") int element, @PathVariable("page") int page){
+		List<ExchangeGift> all=service.getByAgencyPaged(agency,element,page);
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	

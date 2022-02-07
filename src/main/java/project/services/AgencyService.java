@@ -32,12 +32,13 @@ public class AgencyService {
 	/**
 	 * Devuelve una lista de agencias paginada en función de la página que se está buscando.
 	 * 
+	 * @param element nº de elementos a buscar
 	 * @param page nº de página a partir del cual buscar.
 	 * @return Una lista de agencias.
 	 */
-	public List<Agency> getAllPaged(int page){
+	public List<Agency> getAllPaged(int element, int page){
 		
-		return repository.getAllPaged((page-1)*15);
+		return repository.getAllPaged(element,page);
 	}
 	
 	/***
@@ -62,12 +63,13 @@ public class AgencyService {
 	 * parametro username.
 	 * 
 	 * @param username el nombre del usuario.
+	 * @param element nº de elementos a buscar
 	 * @param page comienzo de la paginación.
 	 * @return La lista paginada y filtrada de agencias.
 	 */
-	public List<Agency> getByUsernamePaged(String username, int page){
+	public List<Agency> getByUsernamePaged(String username, int element, int page){
 		
-		return repository.getByUsernamePaged(username.toLowerCase(),(page-1)*15);
+		return repository.getByUsernamePaged(username.toLowerCase(),element,page);
 	}
 	
 	
@@ -76,11 +78,12 @@ public class AgencyService {
 	 *  pudiendo ser las que estén o no activas en función de lo que se reciba.
 	 * 
 	 * @param active boolean con el parámetro para filtrar por active/inactive
+	 * @param element nº de elementos a buscar
 	 * @param page pagina por la que se empieza a paginar
 	 * @return Lista de agencias paginada y flitrada por isActive.
 	 */
-	public List<Agency> getByActivePaged(boolean active, int page){
-		return repository.getByActivePaged(active,(page-1)*15);
+	public List<Agency> getByActivePaged(boolean active, int element, int page){
+		return repository.getByActivePaged(active,element,page);
 	}
 	
 	/***

@@ -94,23 +94,54 @@ public class UserService {
 		}
 		return result;
 	}
-	public List<User> getAllPaged(int page){
-		return new ArrayList<User>();
+	/**
+	 * Devuelve una lista de usuarios paginada en función de la página que se está buscando.
+	 * 
+	 * @param element nº de elementos a buscar
+	 * @param page nº de página a partir del cual buscar.
+	 * @return Una lista de usuarios intercambiados.
+	 */
+	public List<User> getAllPaged(int element,int page){
+		return repository.getAllPaged(element, page);
 	}
-	
+	/**
+	 * Metodo que devuelve un usuario a partir de su codigo.
+	 * 
+	 * @param code codigo del usuario a recivir
+	 * @return Usuario encontrado.
+	 */
 	public User getByCode(int code){
-		return new User();
+		return repository.getByCode(code);
 	}
-	
+	/**
+	 * Metodo que devuelve un usuario a partir de su nombre.
+	 * 
+	 * @param name nombre del usuario a recivir
+	 * @return Usuario encontrado.
+	 */
 	public  User getByName(String name){
-		return new User();
+		return repository.getByName(name.toLowerCase());
 	}
-	
-	public List<User> getAllUserAgenciesPaged(int code, int page){
-		return new ArrayList<User>();
+	/**
+	 * Devuelve una lista de usuarios paginada en función de la página que se está buscando y si no es administrador.
+	 * 
+	 * @param administrator booleano para identificar el rol del usuario
+	 * @param element nº de elementos a buscar
+	 * @param page nº de página a partir del cual buscar.
+	 * @return Una lista de usuarios intercambiados.
+	 */
+	public List<User> getAllUserAgenciesPaged(Boolean administrator, int element, int page){
+		return repository.getAllUserAgenciesPaged(administrator, element, page);
 	}
-	
-	public List<User> getAllAdminPaged(int code, int page){
-		return new ArrayList<User>();
+	/**
+	 * Devuelve una lista de usuarios paginada en función de la página que se está buscando y si es administrador.
+	 * 
+	 * @param administrator booleano para identificar el rol del usuario
+	 * @param element nº de elementos a buscar
+	 * @param page nº de página a partir del cual buscar.
+	 * @return Una lista de usuarios intercambiados.
+	 */
+	public List<User> getAllAdminPaged(Boolean administrator,  int element, int page){
+		return repository.getAllAdminPaged(administrator, element, page);
 	}
 }

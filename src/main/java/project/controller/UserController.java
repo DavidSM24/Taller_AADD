@@ -39,38 +39,41 @@ public class UserController {
 	 * Devuelve una respuesta HTTP con una lista de usuarios paginados dependiendo de si la consulta se
 	 * ha realizado correctamente o no.
 	 * 
+	 * @param element nº de elementos a buscar.
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
-	@GetMapping("/page/{page}")
-	public ResponseEntity<List<User>> getAllUsersPaged(@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getAllPaged(page);
+	@GetMapping("/element/{element}/page/{page}")
+	public ResponseEntity<List<User>> getAllUsersPaged(@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
+		List<User> all=service.getAllPaged(element,page);
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
+	 * @param element nº de elementos a buscar.
 	 * @param page el nº de pagina por el que empieza la paginación.
-	 * @param code codigo con el que se va a filtrar.
+	 * @param administrator booleano para identificar si es admnistrador o no.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
-	@GetMapping("/code/{code}/page/{page}")
-	public ResponseEntity<List<User>> getAllUsersAgenciesPaged(@PathVariable("code")int code,@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getAllUserAgenciesPaged(code, page);
+	@GetMapping("/administrator/{administrator}/element/{element}/page/{page}")
+	public ResponseEntity<List<User>> getAllUsersAgenciesPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
+		List<User> all=service.getAllUserAgenciesPaged(administrator,element, page);
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
+	 * @param element nº de elementos a buscar.
 	 * @param page el nº de pagina por el que empieza la paginación.
-	 * @param code codigo con el que se va a filtrar.
+	 * @param administrator booleano para identificar si es admnistrador o no.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
-	@GetMapping("/code/{code}/page/{page}")
-	public ResponseEntity<List<User>> getAllAdminPaged(@PathVariable("code")int code,@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getAllAdminPaged(code, page);
+	@GetMapping("/administrator/{administrator}/page/{page}")
+	public ResponseEntity<List<User>> getAllAdminPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
+		List<User> all=service.getAllAdminPaged(administrator,element, page);
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**

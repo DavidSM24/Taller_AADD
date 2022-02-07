@@ -43,12 +43,13 @@ public class GiftController {
 	 * Devuelve una respuesta HTTP con una lista de regalos paginada dependiendo de si la
 	 * consulta se ha realizado correctamente o no.
 	 * 
+	 * @param element nº de elementos a buscar.
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de regalos paginada.
 	 */
-	@GetMapping("/page/{page}")
-	public ResponseEntity<List<Gift>> getAllPaged(@PathVariable("page") int page){
-		List<Gift> paged=service.getAllPaged(page);
+	@GetMapping("/element/{element}/page/{page}")
+	public ResponseEntity<List<Gift>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
+		List<Gift> paged=service.getAllPaged(element, page);
 		return new ResponseEntity<List<Gift>>(paged,new HttpHeaders(),HttpStatus.OK);
 	}
 	
@@ -72,12 +73,13 @@ public class GiftController {
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param name nombre por el cual filtrar la búsqueda.
+	 * @param element nº de elementos a buscar.
 	 * @param page página para empezar la paginación en la búsqueda.
 	 * @return lista de regalos paginada y filtrada por nombre
 	 */
-	@GetMapping("/name/{name}/page/{page}")
-	public ResponseEntity<List<Gift>> getByNamePaged(@PathVariable("name")String name, @PathVariable("page") int page){
-		List<Gift> result=service.getByNamePaged(name,page);
+	@GetMapping("/name/{name}/element/{element}/page/{page}")
+	public ResponseEntity<List<Gift>> getByNamePaged(@PathVariable("name")String name, @PathVariable("element") int element, @PathVariable("page") int page){
+		List<Gift> result=service.getByNamePaged(name,element,page);
 		return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
 	}
 	
@@ -86,12 +88,13 @@ public class GiftController {
 	 * disponibilidadvdependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param avaliable disponibilidad para filtrar la búsqueda.
+	 * @param element nº de elementos a buscar.
 	 * @param page página para empezar la paginación en la búsqueda.
 	 * @return lista de regalos paginada y filtrada por nombre
 	 */
-	@GetMapping("/avaliable/{avaliable}/page/{page}")
-	public ResponseEntity<List<Gift>> getByAvaliablePaged(@PathVariable("avaliable")boolean avaliable, @PathVariable("page")int page) {
-		List<Gift> result=service.getByAvaliablePaged(avaliable,page);
+	@GetMapping("/avaliable/{avaliable}/element/{element}/page/{page}")
+	public ResponseEntity<List<Gift>> getByAvaliablePaged(@PathVariable("avaliable")boolean avaliable, @PathVariable("element") int element, @PathVariable("page") int page) {
+		List<Gift> result=service.getByAvaliablePaged(avaliable,element, page);
 		return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
 	}
 

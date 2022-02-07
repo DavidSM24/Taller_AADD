@@ -43,12 +43,13 @@ public class AgencyController {
 	 * Devuelve una respuesta HTTP con una lista de agencias paginadas dependiendo de si la
 	 * consulta se ha realizado correctamente o no.
 	 * 
+	 * @param element nº de elementos a buscar.
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de agencias paginadas.
 	 */
-	@GetMapping("/page/{page}")
-	public ResponseEntity<List<Agency>> getAllPaged(@PathVariable("page") int page){
-		List<Agency> paged=service.getAllPaged(page);
+	@GetMapping("/element/{element}/page/{page}")
+	public ResponseEntity<List<Agency>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
+		List<Agency> paged=service.getAllPaged(element,page);
 		return new ResponseEntity<List<Agency>>(paged,new HttpHeaders(),HttpStatus.OK);
 	}
 	
@@ -72,17 +73,19 @@ public class AgencyController {
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param username nombre por el que filtrar.
+	 * @param element nº de elementos a buscar.
 	 * @param page paginar para empezar la paginación.
 	 * @return respuesta con lista de agencias paginada y filtrada por username.
 	 * @throws RecordNotFoundException
 	 */
-	@GetMapping("/username/{username}/page/{page}")
+	@GetMapping("/username/{username}/element/{element}/page/{page}")
 	public ResponseEntity<List<Agency>> getByUsernamePaged(
-			@PathVariable("username") String username, 
+			@PathVariable("username") String username,
+			@PathVariable("element") int element,
 			@PathVariable("page") int page)
 					throws RecordNotFoundException{
 		
-		List<Agency> result=service.getByUsernamePaged(username,page);
+		List<Agency> result=service.getByUsernamePaged(username,element,page);
 		return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
 	}
 	
@@ -91,17 +94,19 @@ public class AgencyController {
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param active boolean con el parametro active para filtrar.
+	 * @param element nº de elementos a buscar.
 	 * @param page pagina por la cual empieza la paginación.
 	 * @return respuesta con lista de agencias paginada y filtrada por active.
 	 * @throws RecordNotFoundException
 	 */
-	@GetMapping("/active/{active}/page/{page}")
+	@GetMapping("/active/{active}/element/{element}/page/{page}")
 	public ResponseEntity<List<Agency>> getByActivePaged(
 			@PathVariable("active") boolean active,
+			@PathVariable("element") int element,
 			@PathVariable("page") int page)
 					throws RecordNotFoundException {
 		
-		List<Agency> result=service.getByActivePaged(active,page);
+		List<Agency> result=service.getByActivePaged(active,element,page);
 		return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
 	}
 	
