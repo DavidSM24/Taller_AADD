@@ -27,6 +27,27 @@ public class InsuranceCompanyService {
 	public List<InsuranceCompany> getAll() {
 		return repository.findAll();
 	}
+	
+	/**
+	 * Método que devuelve una lista con las compañias de seguros paginadas
+	 * @param nElement número de elemtos que se quieran devolver
+	 * @param page
+	 * @return List<InsuranceCompany>
+	 * @throws ServiceException
+	 */
+	public List<InsuranceCompany> getAllPaged(int nElement, int page) throws ServiceException{
+		if(nElement>0) {
+			if(page>0) {
+				return repository.getAllPaged(nElement, (page - 1) * nElement);
+			}else {
+				throw new ServiceException("Número de páginas introducidas menor de 1");
+			}
+			
+		}else {
+			throw new ServiceException("nElemnt intruducido menor de 1");
+			
+		}
+	}
 
 	/**
 	 * Método para obtener una compañia de seguros através de su identificador
@@ -130,21 +151,31 @@ public class InsuranceCompanyService {
 	 */
 	public List<InsuranceCompany> getByNamePaged(String name,int nElements, int page) throws ServiceException {
 		if (name != null) {
-			if (!name.equals("")) {
-				List<InsuranceCompany> insuranceCompany = repository.getByNamePaged(name, nElements, (page-1)*nElements);
-				if (insuranceCompany != null) {
-					if (insuranceCompany.size() > 0) {
-						return insuranceCompany;
+			if(nElements>0) {
+				if(page>0) {
+					if (!name.equals("")) {
+						List<InsuranceCompany> insuranceCompany = repository.getByNamePaged(name, nElements,
+								(page - 1) * nElements);
+						if (insuranceCompany != null) {
+							if (insuranceCompany.size() > 0) {
+								return insuranceCompany;
+
+							} else {
+								throw new ServiceException("La lista obtenida esta vacia");
+							}
+						} else {
+							throw new ServiceException("La lista obtenida esta a nulo");
+						}
 
 					} else {
-						throw new ServiceException("La lista obtenida esta vacia");
+						throw new ServiceException("El nombre introducido esta vacio");
 					}
-				} else {
-					throw new ServiceException("La lista obtenida esta a nulo");
+					
+				}else {
+					throw new ServiceException("El numero de página no es valido");
 				}
-
-			} else {
-				throw new ServiceException("El nombre introducido esta vacio");
+			}else {
+				throw new ServiceException("Numero de elementos insuficiente");
 			}
 		} else {
 			throw new ServiceException("El nombre introducido es nulo");
