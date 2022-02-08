@@ -54,7 +54,7 @@ public class InsuranceCompanyController {
 	 * @return List<InsuranceCompany> Grupo reducido de compañias de seguros con ese nombre y dentro de una posición determinada
 	 * @throws ServiceException 
 	 */
-	@GetMapping("/insuranceCompany/CIA_Name{CIA_Name}elements{elements}/page/{page}")
+	@GetMapping("/CIA_Name{CIA_Name}elements{elements}/page/{page}")
 	public ResponseEntity<List<InsuranceCompany>> getByNamePaged(String name,int elements,int page) throws ServiceException{
 		List<InsuranceCompany> result=service.getByNamePaged(name, elements, page);
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
@@ -65,7 +65,7 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<InsuranceCompany>
 	 * @throws ServiceException
 	 */
-	@GetMapping("/insuranceCompany/id/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<InsuranceCompany> getByID(Long id) throws ServiceException {
 		InsuranceCompany result=service.getInsuranceCompanyById(id);
 		return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
@@ -97,7 +97,7 @@ public class InsuranceCompanyController {
 	 * Método que devuelva todas las compañias de seguros de la base de datos
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 */
-	@GetMapping("/insuranceCompany")
+	@GetMapping()
 	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompany(){
 		List<InsuranceCompany> result=service.getAll();
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
@@ -110,7 +110,7 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 * @throws ServiceException
 	 */
-	@GetMapping("/insuranceCompany/elements{elements}/page/{page}")
+	@GetMapping("/elements{elements}/page/{page}")
 	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompanyPaged(int elements,int page) throws ServiceException{
 		List<InsuranceCompany> result=service.getAllPaged(elements, page);
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
