@@ -7,10 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -49,16 +53,18 @@ public class Agency implements Serializable{
 	@Column(name = "isActive")
 	protected boolean isActive;
 	
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="id_InsuranceCompany")
 	protected InsuranceCompany myInsurenceCompany;
 	
-	@OneToMany(mappedBy = "carRepair", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "myAgency", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	protected List<CarRepair> myCarRepairs;
 	
-	@OneToMany(mappedBy = "exchangeGift", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	protected List<ExchangeGift> myExchangesGifts;
 	
-	@OneToOne(mappedBy="user")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="id")
 	protected User myUser;
 
 	public Agency() {

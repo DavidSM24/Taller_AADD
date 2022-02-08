@@ -3,32 +3,41 @@ package project.models;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-@javax.persistence.Embeddable
-@javax.persistence.Table(name="exchangeGift")
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "exchangeGift")
 public class ExchangeGift {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	protected Long id;
-	@Column(name="dateExchange")
+	@Column(name = "dateExchange")
 	protected LocalDate dateExchange;
-	@Column(name="observations",length = 300)
+	@Column(name = "observations", length = 300)
 	protected String observations;
-	@Column(name="isDelivered")
+	@Column(name = "isDelivered")
 	protected boolean isDelivered;
-	@ManyToOne
-	protected Agency agency;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="id_agency")
+	protected Agency agency;	
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_gift")
 	protected Gift gift;
-	
+
 	public ExchangeGift() {
-		this(0L,LocalDate.now(),"",false,new Agency(),new Gift());
+		this(0L, LocalDate.now(), "", false, new Agency(), new Gift());
 	}
-	
+
 	public ExchangeGift(Long id, LocalDate dateExchange, String observations, boolean isDelivered, Agency agency,
 			Gift gift) {
 		super();

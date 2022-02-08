@@ -3,32 +3,36 @@ package project.models;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@javax.persistence.Embeddable
-@javax.persistence.Table(name="user")
+@Entity
+@Table(name = "user")
 public class User implements Serializable {
- 
-	private static final long serialVersionUID=1L;
+
+	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
-	@Column(name="title",length =3 )
+	@Column(name = "title", length = 3)
 	private int code;
-	 @Column(name="password",length=10)
+	@Column(name = "password", length = 10)
 	private String pasword;
-	 @Column(name="administrator")
+	@Column(name = "administrator")
 	private boolean administrator;
-	 @Column(name="email",length = 50)
-	 private String email;
-	@Column(name="email",length=100)
+	@Column(name = "email", length = 50)
+	private String email;
+	@Column(name = "name", length = 100)
 	private String name;
-	
+
 	/**
-	 * Constructor con todos los parametros, para usar cuando se obtenga de la base de datos
+	 * Constructor con todos los parametros, para usar cuando se obtenga de la base
+	 * de datos
+	 * 
 	 * @param id
 	 * @param code
 	 * @param pasword
@@ -44,8 +48,10 @@ public class User implements Serializable {
 		this.email = email;
 		this.name = name;
 	}
+
 	/**
 	 * Constructor para crear un usuario que no este en la base de datos
+	 * 
 	 * @param code
 	 * @param administrator
 	 * @param name
@@ -57,41 +63,51 @@ public class User implements Serializable {
 		this.email = email;
 		this.name = name;
 	}
-	
+
 	public User() {
-		this(-1L,-1,"",false,"","");
+		this(-1L, -1, "", false, "", "");
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public int getCode() {
 		return code;
 	}
+
 	public void setCode(int code) {
 		this.code = code;
 	}
+
 	public String getPasword() {
 		return pasword;
 	}
+
 	public void setPasword(String pasword) {
 		this.pasword = pasword;
 	}
+
 	public boolean isAdministrator() {
 		return administrator;
 	}
-	
+
 	public void setAdministrator(boolean administrator) {
 		this.administrator = administrator;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,6 +116,7 @@ public class User implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -118,15 +135,11 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", code=" + code + ", pasword=" + pasword + ", administrator=" + administrator
 				+ ", name=" + name + "]";
 	}
-	
-	
-	
-	
-	
-	
+
 }

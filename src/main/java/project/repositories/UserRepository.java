@@ -17,8 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	public User getByCode(@Param("code") int code );
 	@Query(value = "SELECT * FROM user WHERE LOWER(name) LIKE '%:name%'" ,nativeQuery = true)
 	public User getByName(@Param("name") String name );
-	@Query(value = "SELECT * FROM user WHERE administrator != administrator : LIMIT :element OFFSET :page",nativeQuery = true)
+	@Query(value = "SELECT * FROM user WHERE administrator != :administrator LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<User> getAllUserAgenciesPaged(@Param("administrator") Boolean administrator, @Param("element") int element,@Param("page") int page );
-	@Query(value = "SELECT * FROM user WHERE administrator = administrator : LIMIT :element OFFSET :page",nativeQuery = true)
+	@Query(value = "SELECT * FROM user WHERE administrator = :administrator LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<User> getAllAdminPaged(@Param("administrator") Boolean administrator, @Param("element") int element,@Param("page") int page );
 }
