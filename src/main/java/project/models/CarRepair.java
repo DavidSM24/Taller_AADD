@@ -1,54 +1,69 @@
 package project.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-@javax.persistence.Embeddable
-@javax.persistence.Table(name="carRepair")
-public class CarRepair {
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "carRepair")
+public class CarRepair implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	protected Long id;
-	
-	@Column(name="operation", length = 3)
+
+	@Column(name = "operation", length = 3)
 	protected Long operation;
-	
-	@Column(name="carPlate", length = 7)
+
+	@Column(name = "carPlate", length = 7)
 	protected String carPlate;
-	
-	@Column(name="model", length = 50)
+
+	@Column(name = "model", length = 50)
 	protected String model;
-	
-	@Column(name="brandcar", length = 50)
+
+	@Column(name = "brandcar", length = 50)
 	protected String brandCar;
-	
-	@Column(name="clienteName", length = 50)
+
+	@Column(name = "clienteName", length = 50)
 	protected String clienteName;
-	
-	@Column(name="dateeOrder")
+
+	@Column(name = "dateeOrder")
 	protected LocalDateTime dateOrder;
-	
-	@Column(name="nor", length = 3)
+
+	@Column(name = "nor", length = 3)
 	protected Long nor;
-	
-	@Column(name="amount", length = 3)
+
+	@Column(name = "amount", length = 3)
 	protected float amount;
-	
-	@Column(name="dateRepair")
+
+	@Column(name = "dateRepair")
 	protected LocalDateTime dateRepair;
-	
-	@Column(name="asigPoints", length = 3)
+
+	@Column(name = "asigPoints", length = 3)
 	protected Long asigPoints;
-	
-	@Column(name="repaired")
+
+	@Column(name = "repaired")
 	protected boolean repaired;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="id_agency")
 	protected Agency myAgency;
-	
+
 	public CarRepair() {
 		this(0L, 0L, "", "", "", "", LocalDateTime.now(), 0L, 0f, LocalDateTime.now(), 0L, false, new Agency());
 	}
@@ -71,7 +86,7 @@ public class CarRepair {
 		this.repaired = repaired;
 		this.myAgency = myAgency;
 	}
-	
+
 	public CarRepair(Long operation, String carPlate, String model, String brandCar, String clienteName,
 			LocalDateTime dateOrder, Long nor, float amount, LocalDateTime dateRepair, Long asigPoints,
 			boolean repaired, Agency myAgency) {
@@ -193,5 +208,5 @@ public class CarRepair {
 	public void setMyAgency(Agency myAgency) {
 		this.myAgency = myAgency;
 	}
-	
+
 }

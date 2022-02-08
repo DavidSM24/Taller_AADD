@@ -7,73 +7,79 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "gift")
 public class Gift implements Serializable {
-	
-	private static final long serialVersionUID=1L;
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private  Long id;
-	
+	private Long id;
+
 	@Column(name = "name", length = 50)
 	private String name;
-	
+
 	@Column(name = "points")
 	private int points;
-	
+
 	@Column(name = "isAvaliable")
 	private boolean isAvailable;
-	
-	@Column(name="picture", length=250)
+
+	@Column(name = "picture", length = 250)
 	private String picture;
-	
-	@OneToMany(mappedBy = "exchangeGift", cascade = CascadeType.ALL, orphanRemoval = true)
+
+
+	@OneToMany(mappedBy = "gift", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<ExchangeGift> exchangeGifts;
-	
-	
+
 	/**
-	 * Construsctor con todos los atributos para usar cuando se obtenga de la base de datos
+	 * Construsctor con todos los atributos para usar cuando se obtenga de la base
+	 * de datos
+	 * 
 	 * @param id
 	 * @param name
 	 * @param points
 	 * @param isAvailable
 	 * @param exchangeGifts
 	 */
-	public Gift(Long id, String name, int points, boolean isAvailable, String picture, List<ExchangeGift> exchangeGifts) {
+	public Gift(Long id, String name, int points, boolean isAvailable, String picture,
+			List<ExchangeGift> exchangeGifts) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.points = points;
 		this.isAvailable = isAvailable;
-		this.picture=picture;
+		this.picture = picture;
 		this.exchangeGifts = exchangeGifts;
 	}
-	
+
 	public Gift() {
-		this(-1L,"",-1,false,"",new ArrayList<ExchangeGift>());
+		this(-1L, "", -1, false, "", new ArrayList<ExchangeGift>());
 	}
 
 	/**
 	 * Contructor usado para crear un regalo cuando no este en la base de datos
+	 * 
 	 * @param name
 	 * @param points
 	 * @param isAvailable
 	 */
 	public Gift(String name, int points, boolean isAvailable, String picture) {
-		this.id=-1L;
+		this.id = -1L;
 		this.name = name;
 		this.points = points;
 		this.isAvailable = isAvailable;
-		this.exchangeGifts=new ArrayList<ExchangeGift>();
-		this.picture=picture;
+		this.exchangeGifts = new ArrayList<ExchangeGift>();
+		this.picture = picture;
 	}
 
 	public Long getId() {
@@ -176,13 +182,5 @@ public class Gift implements Serializable {
 		return "Gift [id=" + id + ", name=" + name + ", points=" + points + ", isAvailable=" + isAvailable
 				+ ", exchangeGifts=" + exchangeGifts.size() + "]";
 	}
-	
-	
-	
-	
-	
-	
-		
-	
 
 }

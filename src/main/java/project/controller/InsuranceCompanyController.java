@@ -97,7 +97,8 @@ public class InsuranceCompanyController {
 	 * Método que devuelva todas las compañias de seguros de la base de datos
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 */
-	@GetMapping("/insuranceCompany")
+
+	@GetMapping()
 	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompany(){
 		List<InsuranceCompany> result=service.getAll();
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
