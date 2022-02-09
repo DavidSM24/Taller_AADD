@@ -1,5 +1,27 @@
 package project.repositories;
 
-public interface CarRepairRepository {
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import project.models.CarRepair;
+import project.models.ExchangeGift;
+
+public interface CarRepairRepository extends JpaRepository<ExchangeGift, Long>{
+@Query(value="SELECT * FROM carRepair WHERE operation = :operation LIMIT :element OFFSET :paged",nativeQuery = true) 
+public List<CarRepair> getByIdOperationPaged(@Param("operation")String operation,@Param("element") int nElement,@Param("paged")int paged);
+@Query(value="SELECT * FROM carRepair WHERE carPlate= :carPlate LIMIT :element OFFSET :paged",nativeQuery=true)
+public List<CarRepair> getByCarPlatePaged(@Param("carPlate")String carPlate,@Param("element")int nElement,@Param("paged")int paged);
+@Query(value="SELECT * FROM carRepair WHERE clienteName LIKE %:name% LIMIT :element OFFSET :paged",nativeQuery=true)
+public List<CarRepair> getByClientNamePaged(@Param("name")String name,@Param("element")int nElement,@Param("paged") int paged);
+@Query(value="SELECT * FROM  carRepair WHERE dateRepair BETWEEN :ini AND :end LIMIT :element OFFSET :paged",nativeQuery = true)
+public List<CarRepair> getByDateOrderPaged(@Param("ini")LocalDateTime ini,@Param("end") LocalDateTime end,@Param("element") int nELement,@Param("paged") int paged);
+@Query (value="SELECT * FROM carRepair WHERE asigPoints BETWEEN :ini AND :max LIMIT :element OFFSET :paged",nativeQuery=true)
+public List<CarRepair> getByPointsPaged(@Param("min")int min,@Param("max") int max,@Param("element") int nElement,@Param("paged")int paged);
+@Query (value="SELECT * FROM carRepair WHERE repaired =:repaired LIMIT :element OFFSET :paged",nativeQuery=true)
+public List<CarRepair> getByStatePaged(@Param("repaired")boolean repaired,@Param("element")int nElement,@Param("paged") int paged);
 
 }
