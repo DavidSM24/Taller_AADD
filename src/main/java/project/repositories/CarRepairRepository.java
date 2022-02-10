@@ -6,14 +6,17 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import project.models.CarRepair;
 import project.models.ExchangeGift;
-
-public interface CarRepairRepository extends JpaRepository<ExchangeGift, Long>{
+@Repository
+public interface CarRepairRepository extends JpaRepository<CarRepair, Long>{
+@Query(value="SELECT * FROM carRepair LIMIT :element OFFSET :paged",nativeQuery = true)
+public List<CarRepair> getAllPaged(@Param("element")int element,@Param("paged") int paged);
 @Query(value="SELECT * FROM carRepair WHERE operation = :operation LIMIT :element OFFSET :paged",nativeQuery = true) 
 public List<CarRepair> getByIdOperationPaged(@Param("operation")String operation,@Param("element") int nElement,@Param("paged")int paged);
-@Query(value="SELECT * FROM carRepair WHERE carPlate= :carPlate LIMIT :element OFFSET :paged",nativeQuery=true)
+@Query(value="SELECT * FROM carRepair WHERE carPlate= %:carPlate% LIMIT :element OFFSET :paged",nativeQuery=true)
 public List<CarRepair> getByCarPlatePaged(@Param("carPlate")String carPlate,@Param("element")int nElement,@Param("paged")int paged);
 @Query(value="SELECT * FROM carRepair WHERE clienteName LIKE %:name% LIMIT :element OFFSET :paged",nativeQuery=true)
 public List<CarRepair> getByClientNamePaged(@Param("name")String name,@Param("element")int nElement,@Param("paged") int paged);
