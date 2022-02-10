@@ -26,11 +26,47 @@ public class CarRepairService {
 	 * @return List<CarRepair>
 	 */
 	public List<CarRepair> getAll() {
+		
 		return repository.findAll();
+		
 	}
+	
+	public boolean delete(CarRepair carRepair) throws ServiceException {
+		
+		boolean result=false;
+		
+		if(carRepair!=null) {
+			if(carRepair.getId()!=null&&carRepair.getId()>0) {
+				Optional<CarRepair> aux=repository.findById(carRepair.getId());
+				if(aux.isPresent()) {
+					repository.deleteById(carRepair.getId());
+					result=true;
+					return result;
+					
+				}else {
+					throw new RecordNotFoundException("El id introducido no se encuentra en la base de datos",carRepair.getId());
+				}
+			}else {
+				throw new RecordNotFoundException("El id introducido no es válido",carRepair.getId());
+			}
+		}else {
+			throw new ServiceException("La reparación introducida es nula");
+			
+		}
+	}
+	
+	/**
+	 * Método que devuelve todas las reparaciones paginadas
+	 * @param element
+	 * @param paged
+	 * @return
+	 * @throws ServiceException
+	 */
 	public List<CarRepair> getAllPaged(int element,int paged) throws ServiceException{
 		if(element>0&&paged>0) {
+			
 			return repository.getAllPaged(element, paged);
+			
 		}else {
 			throw new ServiceException("La paginación no es correcta");
 		}
@@ -45,9 +81,13 @@ public class CarRepairService {
 	public CarRepair getById(Long id) {
 		if (id != null) {
 			if (id > 0) {
+				
 				Optional<CarRepair> result = repository.findById(id);
+				
 				if (result.isPresent()) {
+					
 					return result.get();
+					
 				} else {
 					throw new RecordNotFoundException("El id introducido no es válido", id);
 				}
@@ -71,7 +111,9 @@ public class CarRepairService {
 	public CarRepair createOrUpdateCarRepair(CarRepair carRepair) throws ServiceException {
 		if (carRepair != null) {
 			if (carRepair.getId() != null && carRepair.getId() > 0) {// si tiene id y es mayor de 0
+				
 				Optional<CarRepair> result = repository.findById(carRepair.getId());
+				
 				if (result.isPresent()) {// si lo encuentra en la base de datos
 					CarRepair newCarRepair = result.get();
 					newCarRepair.setId(carRepair.getId());// id
@@ -87,15 +129,21 @@ public class CarRepairService {
 					newCarRepair.setAsigPoints(carRepair.getAsigPoints());// puntos
 					newCarRepair.setRepaired(carRepair.isRepaired());// reparado
 					newCarRepair.setMyAgency(carRepair.getMyAgency());// agencia
+					
 					return newCarRepair;
+					
 				} else {// Si no esta en la base de datos
 					carRepair.setId(null);
 					carRepair = repository.save(carRepair);
+					
 					return carRepair;
+					
 				}
 			} else {// en caso de que el id sea nulo o menor de 1
 				carRepair = repository.save(carRepair);
+				
 				return carRepair;
+				
 			}
 		} else {
 			throw new ServiceException("La reparación introducida no es valida");
@@ -115,7 +163,9 @@ public class CarRepairService {
 		if (carPlate != null) {
 			if (!carPlate.equals("")) {
 				if (element > 0 && paged > 0) {
+					
 					return repository.getByCarPlatePaged(carPlate, element, paged);
+					
 				} else {
 					throw new ServiceException("la paginación no es correcta");
 				}
@@ -139,7 +189,9 @@ public class CarRepairService {
 		if (operation != null) {
 			if (!operation.equals("")) {
 				if (element > 0 && paged > 0) {
+					
 					return repository.getByIdOperationPaged(operation, element, paged);
+				
 				} else {
 					throw new ServiceException("la paginación no es correcta");
 				}
@@ -162,7 +214,9 @@ public class CarRepairService {
 		if (name != null) {
 			if (!name.equals("")) {
 				if (nElement > 1 && paged > 1) {
+					
 					return repository.getByClientNamePaged(name, nElement, paged);
+					
 				} else {
 					throw new ServiceException("la paginación no es correcta");
 				}
@@ -187,7 +241,9 @@ public class CarRepairService {
 		if (ini != null&&end!=null) {
 			if (ini.equals("")&&end.equals("")) {
 				if (nELement > 0 && paged > 0) {
+					
 					return repository.getByDateOrderPaged(ini,end, nELement, paged);
+					
 				} else {
 					throw new ServiceException("la paginación no es correcta");
 				}
@@ -211,7 +267,9 @@ public class CarRepairService {
 	public List<CarRepair> getByPointsPaged(int min, int max, int nElement,int paged) throws ServiceException{
 		if (min >0&&max>0) {			
 				if (nElement > 0 && paged > 0) {
+					
 					return repository.getByPointsPaged(min,max, nElement, paged);
+					
 				} else {
 					throw new ServiceException("la paginación no es correcta");
 				}
@@ -230,7 +288,9 @@ public class CarRepairService {
 	 */
 	public List<CarRepair> getByStatePaged(boolean repaired,int nElement, int paged) throws ServiceException{
 		if(nElement>0&&paged>0) {
+			
 			return repository.getByStatePaged(repaired, nElement, paged);
+			
 		}else {
 			throw new ServiceException("La paginación no es correcta");
 		}
