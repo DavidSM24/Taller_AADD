@@ -1,6 +1,8 @@
-package project.controller;
+	package project.controller;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +21,7 @@ import project.models.ExchangeGift;
 import project.services.ExchangeGiftService;
 
 @RestController
-@RequestMapping("/exchangegift")
+@RequestMapping("/exchangeGifts")
 public class ExchangeGiftsController {
 	@Autowired
 	ExchangeGiftService service;
@@ -82,8 +84,8 @@ public class ExchangeGiftsController {
 	 * @return respuesta con el regalos intercambiados encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
-	@GetMapping("/{id}")
-	public ResponseEntity<ExchangeGift> getUserByID(@PathVariable("id")Long id){
+	@GetMapping("id/{id}")
+	public ResponseEntity<ExchangeGift> getByID(@PathVariable("id")Long id){
 		ExchangeGift gift=service.getbyId(id);
 		return new ResponseEntity<ExchangeGift>(gift,new HttpHeaders(),HttpStatus.OK);
 	}
@@ -94,8 +96,8 @@ public class ExchangeGiftsController {
 	 * @return respuesta con el regalo intercambiado actualido o insertado con su id correspondiente.
 	 * @throws RecordNotFoundException
 	 */
-	@PostMapping
-	public ResponseEntity<ExchangeGift> createorUpdateUser(@RequestBody ExchangeGift ex){
+	@PostMapping()
+	public ResponseEntity<ExchangeGift> createorUpdateUser(@Valid @RequestBody ExchangeGift ex){
 		ExchangeGift gift=service.createorupdate(ex);
 		return new ResponseEntity<ExchangeGift>(gift,new HttpHeaders(),HttpStatus.OK);
 	}
@@ -107,8 +109,8 @@ public class ExchangeGiftsController {
 	 * @return respuesta http sobre el status de la petición.
 	 * @throws RecordNotFoundException
 	 */
-	@DeleteMapping
-	public HttpStatus deleteUserById(ExchangeGift ex) throws RecordNotFoundException{
+	@DeleteMapping()
+	public HttpStatus deleteUserById(@Valid @RequestBody ExchangeGift ex) throws RecordNotFoundException{
 		service.delete(ex);
 		return HttpStatus.OK;
 	}

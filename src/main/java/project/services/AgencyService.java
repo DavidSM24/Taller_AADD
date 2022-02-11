@@ -111,7 +111,7 @@ public class AgencyService {
 				newAgency.setPoints(agency.getPoints()	);
 				newAgency.setPointsRedeemed(agency.getPointsRedeemed());
 				newAgency.setActive(agency.isActive());
-				newAgency.setMyInsurenceCompany(agency.getMyInsurenceCompany());
+				newAgency.setMyInsuranceCompany(agency.getMyInsuranceCompany());
 				newAgency.setMyCarRepairs(agency.getMyCarRepairs());
 				newAgency.setMyExchangesGifts(agency.getMyExchangesGifts());
 				newAgency.setMyUser(agency.getMyUser());

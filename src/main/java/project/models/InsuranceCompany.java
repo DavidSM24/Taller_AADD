@@ -4,49 +4,49 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "insuranceCompany")
+@Table(name = "insuranceCompany", schema ="public")
 public class InsuranceCompany implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	protected Long id;
-	@Column(name = "dateExchange", length = 50)
-	protected String CIA_Name;
-
-	@OneToMany(mappedBy = "myInsurenceCompany", cascade = CascadeType.ALL, orphanRemoval = true,fetch =FetchType.LAZY)
-	protected List<Agency> agencies;
+	private Long id;
+	@Column(name = "CIA_Name", length = 50)
+	private String CIA_Name;
+	
+	@JsonIgnoreProperties("myInsuranceCompany")
+	@OneToMany(mappedBy = "myInsuranceCompany")	
+	private List<Agency> agencies;
 
 	public InsuranceCompany(Long id, String cIA_Name, List<Agency> agencies) {
-		super();
 		this.id = id;
 		CIA_Name = cIA_Name;
 		this.agencies = agencies;
 	}
 
 	public InsuranceCompany() {
-		this(0L, "", new ArrayList<Agency>());
+
 	}
 
 	public InsuranceCompany(String cIA_Name, List<Agency> agencies) {
-		super();
 		CIA_Name = cIA_Name;
 		this.agencies = agencies;
 	}
+
+	
 
 	public Long getId() {
 		return id;
@@ -64,11 +64,21 @@ public class InsuranceCompany implements Serializable{
 		CIA_Name = cIA_Name;
 	}
 
-	public List<Agency> getAgencias() {
+	public List<Agency> getAgencies() {
+		if(agencies==null) agencies=new ArrayList<Agency>();
 		return agencies;
 	}
 
-	public void setAgencias(List<Agency> agencias) {
-		this.agencies = agencias;
+	public void setAgencies(List<Agency> agencies) {
+		this.agencies = agencies;
 	}
+
+	@Override
+	public String toString() {
+		return "InsuranceCompany [id=" + id + ", CIA_Name=" + CIA_Name + ", agencies=" + agencies + "]";
+	}
+
+	
+	
+	
 }

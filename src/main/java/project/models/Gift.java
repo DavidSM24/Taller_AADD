@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "gift")
 public class Gift implements Serializable {
@@ -25,7 +27,7 @@ public class Gift implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "name", length = 50)
+	@Column(name = "name", length = 50)	
 	private String name;
 
 	@Column(name = "points")
@@ -37,12 +39,12 @@ public class Gift implements Serializable {
 	@Column(name = "picture", length = 250)
 	private String picture;
 
-
-	@OneToMany(mappedBy = "gift", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("gift")
+	@OneToMany(mappedBy = "gift")
 	private List<ExchangeGift> exchangeGifts;
 
 	/**
-	 * Construsctor con todos los atributos para usar cuando se obtenga de la base
+	 * Construsctor c	on todos los atributos para usar cuando se obtenga de la base
 	 * de datos
 	 * 
 	 * @param id

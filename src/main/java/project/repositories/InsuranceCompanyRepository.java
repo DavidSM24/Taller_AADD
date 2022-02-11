@@ -11,11 +11,11 @@ import project.models.InsuranceCompany;
 
 @Repository
 public interface InsuranceCompanyRepository  extends JpaRepository<InsuranceCompany, Long>{
-	@Query(value="SELECT * FROM insuranceCompany LIMIT :limit OFFSET :offset",nativeQuery = true)
+	@Query(value="SELECT * FROM insurance_company",nativeQuery = true)
 	List<InsuranceCompany> getAllPaged(@Param("limit")int limit,@Param("offset") int offset);
-	@Query(value = "SELECT * FROM insuranceCompany WHERE LOWER(name) LIKE '%:name%' LIMIT :limit OFFSET :offset",nativeQuery = true)
+	@Query(value = "SELECT * FROM insurance_company WHERE LOWER(cia_name) LIKE '%:name%' LIMIT :limit OFFSET :offset",nativeQuery = true)
 	List<InsuranceCompany> getByNamePaged(@Param("name") String name,@Param("limit") int limit, @Param("offset") int offset);
-	@Query(value = "SELECT * FROM insuranceCompany WHERE LOWER(name) LIKE '%:name%'",nativeQuery = true)
+	@Query(value = "SELECT * FROM insurance_company WHERE LOWER(cia_name) LIKE '%:name%'",nativeQuery = true)
 	List<InsuranceCompany> getByCIAName(@Param("name") String name);
 
 }

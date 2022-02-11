@@ -55,6 +55,9 @@ public class ExchangeGiftService {
 	 * @throws RecordNotFoundException
 	 */
 	public ExchangeGift createorupdate(ExchangeGift exgift) {
+		
+		System.out.println("entro al servicio?");
+		
 		if(exgift.getId()>0) {
 			Optional<ExchangeGift>n=repository.findById(exgift.getId());
 			if(n.isPresent()) {

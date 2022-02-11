@@ -89,7 +89,7 @@ public class InsuranceCompanyService {
 					InsuranceCompany newInsuranceCompany = insuranceCompanyDB.get();
 					newInsuranceCompany.setId(insuranceCompany.getId());
 					newInsuranceCompany.setCIA_Name(insuranceCompany.getCIA_Name());
-					newInsuranceCompany.setAgencias(insuranceCompany.getAgencias());
+					newInsuranceCompany.setAgencies(insuranceCompany.getAgencies());
 					newInsuranceCompany = repository.save(insuranceCompany);
 					return newInsuranceCompany;
 				} else {// guardado sin estar en la base de datos
@@ -114,22 +114,22 @@ public class InsuranceCompanyService {
 	 * @return boolean que especifica si se ha borrado o no de la base de datos
 	 * @throws ServiceException
 	 */
-	public boolean deleteInsuranceCompany(Long id) throws ServiceException {
+	public boolean deleteInsuranceCompany(InsuranceCompany insurance) throws ServiceException {
 		boolean result = false;
-		if (id != null) {
-			if (id > 0) {
-				Optional<InsuranceCompany> insuranceCompany = repository.findById(id);
+		if (insurance!=null && insurance.getId() != null) {
+			if (insurance.getId() > 0) {
+				Optional<InsuranceCompany> insuranceCompany = repository.findById(insurance.getId());
 				if (insuranceCompany.isPresent()) {
-					repository.deleteById(id);
+					repository.deleteById(insurance.getId());
 					result = true;
 				} else {
 					result = false;
 					throw new RecordNotFoundException(
-							"La nota no se ha podido borrar por que su id no existe en la base de datos", id);
+							"La nota no se ha podido borrar por que su id no existe en la base de datos", insurance.getId());
 				}
 			} else {
 				result = false;
-				throw new RecordNotFoundException("El id introducido no es valido", id);
+				throw new RecordNotFoundException("El id introducido no es valido", insurance.getId());
 			}
 		} else {
 			result = false;
