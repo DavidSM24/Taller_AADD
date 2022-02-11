@@ -11,12 +11,7 @@ import project.models.InsuranceCompany;
 //modificado por David
 @Repository
 public interface InsuranceCompanyRepository  extends JpaRepository<InsuranceCompany, Long>{
-<<<<<<< HEAD
-
-	@Query(value="SELECT * FROM insuranceCompany LIMIT :limit OFFSET :offset",nativeQuery = true)
-=======
 	@Query(value="SELECT * FROM insurance_company",nativeQuery = true)
->>>>>>> 94c4ffa (errores loop relationship resueltos)
 	List<InsuranceCompany> getAllPaged(@Param("limit")int limit,@Param("offset") int offset);
 	@Query(value = "SELECT * FROM insurance_company WHERE LOWER(cia_name) LIKE '%:name%' LIMIT :limit OFFSET :offset",nativeQuery = true)
 	List<InsuranceCompany> getByNamePaged(@Param("name") String name,@Param("limit") int limit, @Param("offset") int offset);
