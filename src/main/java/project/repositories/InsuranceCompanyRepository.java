@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import project.models.InsuranceCompany;
-
+//modificado por David
 @Repository
 public interface InsuranceCompanyRepository  extends JpaRepository<InsuranceCompany, Long>{
 <<<<<<< HEAD
