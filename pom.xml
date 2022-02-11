@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>es.api</groupId>
-  <artifactId>taller</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Taller</name>
-  <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>es.api</groupId>
+	<artifactId>taller</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Taller</name>
+	<dependencies>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -40,18 +42,28 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 			<version>2.6.2</version>
 		</dependency>
-		<!-- Dependencia que genera la documentación generando un documento en json-->
+		<!-- Dependencia que genera la documentación generando un documento en 
+			json -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-		<!-- Dependencia que convierte el json de la primera dependencia en pagina web-->
+		<!-- Dependencia que convierte el json de la primera dependencia en pagina 
+			web -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.25</version>
+		</dependency>
+
 
 	</dependencies>
 </project>

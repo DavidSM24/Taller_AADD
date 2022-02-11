@@ -59,7 +59,7 @@ public class UserService {
 				User newUser=n.get();
 				newUser.setId(user.getId());
 				newUser.setCode(user.getCode());
-				newUser.setPasword(user.getPasword());
+				newUser.setPassword(user.getPassword());
 				newUser.setAdministrator(user.isAdministrator());
 				newUser.setName(user.getName());
 				newUser=repository.save(newUser);

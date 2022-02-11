@@ -2,6 +2,8 @@ package project.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,7 @@ import project.models.User;
 import project.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 	@Autowired
 	UserService service;
@@ -83,7 +85,7 @@ public class UserController {
 	 * @return respuesta con el usuario encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<User> getUserByID(@PathVariable("id")Long id) throws RecordNotFoundException{
 		User user=service.getbyId(id);
 		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
@@ -133,7 +135,7 @@ public class UserController {
 	 * @throws RecordNotFoundException
 	 */
 	@DeleteMapping
-	public HttpStatus deleteUserById(User u) throws RecordNotFoundException {
+	public HttpStatus deleteUserById(@Valid @RequestBody User u) throws RecordNotFoundException {
 		service.delete(u);
 		return HttpStatus.OK;
 	}

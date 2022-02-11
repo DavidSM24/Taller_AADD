@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "carRepair")
 public class CarRepair implements Serializable{
@@ -60,12 +62,13 @@ public class CarRepair implements Serializable{
 	@Column(name = "repaired")
 	protected boolean repaired;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("myCarRepairs")
+	@ManyToOne()
 	@JoinColumn(name="id_agency")
 	protected Agency myAgency;
 
 	public CarRepair() {
-		this(0L, 0L, "", "", "", "", LocalDateTime.now(), 0L, 0f, LocalDateTime.now(), 0L, false, new Agency());
+		
 	}
 
 	public CarRepair(Long id, Long operation, String carPlate, String model, String brandCar, String clienteName,

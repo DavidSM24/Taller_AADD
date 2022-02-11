@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,10 +18,10 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "title", length = 3)
+	@Column(name = "code", length = 3)
 	private int code;
 	@Column(name = "password", length = 10)
-	private String pasword;
+	private String password;
 	@Column(name = "administrator")
 	private boolean administrator;
 	@Column(name = "email", length = 50)
@@ -43,7 +43,7 @@ public class User implements Serializable {
 		super();
 		this.id = id;
 		this.code = code;
-		this.pasword = pasword;
+		this.password = pasword;
 		this.administrator = administrator;
 		this.email = email;
 		this.name = name;
@@ -65,8 +65,9 @@ public class User implements Serializable {
 	}
 
 	public User() {
-		this(-1L, -1, "", false, "", "");
 	}
+
+	
 
 	public Long getId() {
 		return id;
@@ -84,12 +85,12 @@ public class User implements Serializable {
 		this.code = code;
 	}
 
-	public String getPasword() {
-		return pasword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasword(String pasword) {
-		this.pasword = pasword;
+	public void setPassword(String pasword) {
+		this.password = pasword;
 	}
 
 	public boolean isAdministrator() {
@@ -98,6 +99,14 @@ public class User implements Serializable {
 
 	public void setAdministrator(boolean administrator) {
 		this.administrator = administrator;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getName() {
@@ -138,7 +147,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", code=" + code + ", pasword=" + pasword + ", administrator=" + administrator
+		return "User [id=" + id + ", code=" + code + ", pasword=" + password + ", administrator=" + administrator
 				+ ", name=" + name + "]";
 	}
 

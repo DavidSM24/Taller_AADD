@@ -3,13 +3,17 @@ package project.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +34,7 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException 
 	 */
 	@GetMapping("/CIA_Name/{CIA_Name}")
-	public ResponseEntity<List<InsuranceCompany>> getByCIAName(String name) throws ServiceException {
+	public ResponseEntity<List<InsuranceCompany>> getByCIAName(@PathVariable("CIA_NAME") String name) throws ServiceException {
 		if(name!=null) {
 			if(!name.equals("")) {
 				List<InsuranceCompany> result=service.getByCIAName(name);
@@ -54,8 +58,8 @@ public class InsuranceCompanyController {
 	 * @return List<InsuranceCompany> Grupo reducido de compañias de seguros con ese nombre y dentro de una posición determinada
 	 * @throws ServiceException 
 	 */
-	@GetMapping("/insuranceCompany/CIA_Name{CIA_Name}elements{elements}/page/{page}")
-	public ResponseEntity<List<InsuranceCompany>> getByNamePaged(String name,int elements,int page) throws ServiceException{
+	@GetMapping("/CIA_Name/{CIA_Name}/elements/{elements}/page/{page}")
+	public ResponseEntity<List<InsuranceCompany>> getByNamePaged(@PathVariable("CIA_Name")String name,@PathVariable("elements")int elements,@PathVariable("page")int page) throws ServiceException{
 		List<InsuranceCompany> result=service.getByNamePaged(name, elements, page);
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
 	}
@@ -65,8 +69,8 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<InsuranceCompany>
 	 * @throws ServiceException
 	 */
-	@GetMapping("/insuranceCompany/id/{id}")
-	public ResponseEntity<InsuranceCompany> getByID(Long id) throws ServiceException {
+	@GetMapping("/id/{id}")
+	public ResponseEntity<InsuranceCompany> getByID(@PathVariable("id")Long id) throws ServiceException {
 		InsuranceCompany result=service.getInsuranceCompanyById(id);
 		return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
 		
@@ -76,7 +80,7 @@ public class InsuranceCompanyController {
 	 * @Return ResponseEntity<InsuranceCompany>
 	 */
 	@PostMapping()
-	public ResponseEntity<InsuranceCompany> creatoOrUpdateIsuranceCompany(InsuranceCompany isuranceCompany) throws ServiceException {
+	public ResponseEntity<InsuranceCompany> creatoOrUpdateIsuranceCompany(@Valid @RequestBody InsuranceCompany isuranceCompany) throws ServiceException {
 		InsuranceCompany result=service.createOrUpadateInsuranceCompany(isuranceCompany);
 		return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
 		
@@ -88,8 +92,8 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException
 	 */
 	@DeleteMapping()
-	public HttpStatus deleteInsuranceCompany(Long id) throws ServiceException {
-		service.deleteInsuranceCompany(id);
+	public HttpStatus deleteInsuranceCompany(@Valid @RequestBody InsuranceCompany insurance) throws ServiceException {
+		service.deleteInsuranceCompany(insurance);
 		return HttpStatus.OK;
 		
 	}
@@ -111,8 +115,8 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 * @throws ServiceException
 	 */
-	@GetMapping("/insuranceCompany/elements{elements}/page/{page}")
-	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompanyPaged(int elements,int page) throws ServiceException{
+	@GetMapping("/elements/{elements}/page/{page}")
+	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompanyPaged(@PathVariable("elements")int elements,@PathVariable("page")int page) throws ServiceException{
 		List<InsuranceCompany> result=service.getAllPaged(elements, page);
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
 		

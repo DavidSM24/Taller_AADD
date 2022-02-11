@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,56 +23,59 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-@Table(name = "agency")
+@Table(name = "agency",schema = "public")
 public class Agency implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long id;
+	private Long id;
 	
 	@Column(name = "zipCode", length = 50)
-	protected Long zipCode;
+	private Long zipCode;
 	
 	@Column(name = "address", length = 50)
-	protected String address;
+	private String address;
 	
 	@Column(name = "location", length = 50)
-	protected String location;
+	private String location;
 	
 	@Column(name = "phone", length = 9)
-	protected Long phoneNumber;
+	private Long phoneNumber;
 	
 	@Column(name = "amount", length = 10)
-	protected float amount;
+	private float amount;
 	
 	@Column(name = "points", length = 9)
-	protected Long points;
+	private Long points;
 	
 	@Column(name = "pointsRedeemed", length = 9)
-	protected Long pointsRedeemed;
+	private Long pointsRedeemed;
 	
 	@Column(name = "isActive")
-	protected boolean isActive;
+	private boolean isActive;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@JsonIgnoreProperties("agencies")
+	@ManyToOne()
 	@JoinColumn(name="id_InsuranceCompany")
-	protected InsuranceCompany myInsurenceCompany;
+	protected InsuranceCompany myInsuranceCompany;
 	
-	@OneToMany(mappedBy = "myAgency", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("myAgency")
+	@OneToMany(mappedBy = "myAgency")	
 	protected List<CarRepair> myCarRepairs;
 	
-	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("agency")
+	@OneToMany(mappedBy = "agency")
 	protected List<ExchangeGift> myExchangesGifts;
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="id")
+	@OneToOne()
+	@JoinColumn(name="id_user")
 	protected User myUser;
 
 	public Agency() {
-		this(0L, 0L, "", "", 0L, 0.0f, 0L, 0L, false, new InsuranceCompany(), new ArrayList<CarRepair>(),
-				new ArrayList<ExchangeGift>(), new User());
+
 	}
 
 	public Agency(Long id, Long zipCode, String address, String location, Long phoneNumber, float amount, Long points,
@@ -85,7 +91,7 @@ public class Agency implements Serializable{
 		this.points = points;
 		this.pointsRedeemed = pointsRedeemed;
 		this.isActive = isActive;
-		this.myInsurenceCompany = myInsurenceCompany;
+		this.myInsuranceCompany = myInsurenceCompany;
 		this.myCarRepairs = myCarRepairs;
 		this.myExchangesGifts = myExchangesGifts;
 		this.myUser = myUser;
@@ -103,10 +109,35 @@ public class Agency implements Serializable{
 		this.points = points;
 		this.pointsRedeemed = pointsRedeemed;
 		this.isActive = isActive;
-		this.myInsurenceCompany = myInsurenceCompany;
+		this.myInsuranceCompany = myInsurenceCompany;
 		this.myCarRepairs = myCarRepairs;
 		this.myExchangesGifts = myExchangesGifts;
 		this.myUser = myUser;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Agency other = (Agency) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 	public Long getId() {
@@ -181,12 +212,12 @@ public class Agency implements Serializable{
 		this.isActive = isActive;
 	}
 
-	public InsuranceCompany getMyInsurenceCompany() {
-		return myInsurenceCompany;
+	public InsuranceCompany getMyInsuranceCompany() {
+		return myInsuranceCompany;
 	}
 
-	public void setMyInsurenceCompany(InsuranceCompany myInsurenceCompany) {
-		this.myInsurenceCompany = myInsurenceCompany;
+	public void setMyInsuranceCompany(InsuranceCompany myInsuranceCompany) {
+		this.myInsuranceCompany = myInsuranceCompany;
 	}
 
 	public List<CarRepair> getMyCarRepairs() {
@@ -214,36 +245,13 @@ public class Agency implements Serializable{
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Agency other = (Agency) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString() {
 		return "Agency [id=" + id + ", zipCode=" + zipCode + ", address=" + address + ", location=" + location
 				+ ", phoneNumber=" + phoneNumber + ", amount=" + amount + ", points=" + points + ", pointsRedeemed="
-				+ pointsRedeemed + ", isActive=" + isActive + ", myInsurenceCompany(CIA_Name)=" + myInsurenceCompany.getCIA_Name()
-				+ ", myCarRepairs(size)=" + myCarRepairs.size() + ", myExchangesGifts(size)=" + myExchangesGifts.size() + ", myUser(code)=" + myUser.getCode()
+				+ pointsRedeemed + ", isActive=" + isActive + ", myInsuranceCompany=" + myInsuranceCompany
+				+ ", myCarRepairs=" + myCarRepairs + ", myExchangesGifts=" + myExchangesGifts + ", myUser=" + myUser
 				+ "]";
 	}
+
+	
 }

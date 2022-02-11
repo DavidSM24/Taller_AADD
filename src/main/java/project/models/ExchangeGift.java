@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "exchangeGift")
 public class ExchangeGift implements Serializable{
@@ -31,11 +33,14 @@ public class ExchangeGift implements Serializable{
 	protected String observations;
 	@Column(name = "isDelivered")
 	protected boolean isDelivered;
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@JsonIgnoreProperties("myExchangesGifts")
+	@ManyToOne()
 	@JoinColumn(name="id_agency")
 	protected Agency agency;	
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonIgnoreProperties("exchangeGifts")
+	@ManyToOne()
 	@JoinColumn(name="id_gift")
 	protected Gift gift;
 
