@@ -261,26 +261,36 @@ public class CarRepairController {
 		
 		}
 	}
-	
-	@DeleteMapping("/id/{id}")
-	public ResponseEntity<CarRepair> delete(@PathVariable("id")Long id){
+	/**
+	 * Método que borra una reparación de la base de datos
+	 * @param carRepair
+	 * @return ResponseEntity<CarRepair>
+	 */
+	@DeleteMapping()
+	public ResponseEntity<CarRepair> delete(CarRepair carRepair){
 		
-		CarRepair result=service.getById(id);
-		
-		try {
-			if(service.delete(result)) {
-				
-				return new ResponseEntity<CarRepair>(result,new HttpHeaders(),HttpStatus.OK);
+		if(carRepair!=null) {
 			
-			}else {
+			CarRepair result=service.getById(carRepair.getId());
+			
+			try {
+				if(service.delete(result)) {
+					
+					return new ResponseEntity<CarRepair>(result,new HttpHeaders(),HttpStatus.OK);
+					
+				}else {
+					
+					return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
+					
+				}
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 				
 				return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
-				
 			}
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			
+		}else {
 			return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
