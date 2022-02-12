@@ -50,6 +50,7 @@ public class UserController {
 		List<User> all=service.getAllPaged(element,page);
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
+
 	/**
 	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
@@ -60,22 +61,8 @@ public class UserController {
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
 	@GetMapping("/administrator/{administrator}/element/{element}/page/{page}")
-	public ResponseEntity<List<User>> getAllUsersAgenciesPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getAllUserAgenciesPaged(administrator,element, page);
-		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
-	}
-	/**
-	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
-	 * dependiendo de si la consulta se ha realizado correctamente o no.
-	 * 
-	 * @param element nº de elementos a buscar.
-	 * @param page el nº de pagina por el que empieza la paginación.
-	 * @param administrator booleano para identificar si es admnistrador o no.
-	 * @return la respuesta HTTP con la lista de usuarios.
-	 */
-	@GetMapping("/administrator/{administrator}/page/{page}")
-	public ResponseEntity<List<User>> getAllAdminPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getAllAdminPaged(administrator,element, page);
+	public ResponseEntity<List<User>> getByAdministratorPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
+		List<User> all=service.getByAdministratorPaged(administrator,element, page);
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
@@ -99,7 +86,7 @@ public class UserController {
 	 */
 	@GetMapping("/name/{name}")
 	public ResponseEntity<User> getUserByName(@PathVariable("name")String name) throws RecordNotFoundException{
-		User user=service.getByName(name);
+		User user=service.getByName(name.toLowerCase());
 		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
@@ -122,8 +109,11 @@ public class UserController {
 	 * @throws RecordNotFoundException
 	 */
 	@PostMapping
-	public ResponseEntity<User> createorUpdateUser(@RequestBody User u) throws RecordNotFoundException{
+	public ResponseEntity<User> createorUpdateUser(@Valid @RequestBody User u) throws RecordNotFoundException{
+		System.out.println(u.getName());
 		User user=service.createorupdate(u);
+		
+		
 		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**

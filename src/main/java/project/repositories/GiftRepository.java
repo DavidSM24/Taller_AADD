@@ -15,10 +15,10 @@ public interface GiftRepository extends JpaRepository<Gift,Long>{
 	@Query(value = "SELECT * FROM gift LIMIT :element OFFSET :page", nativeQuery = true)
 	public List<Gift>getAllPaged(@Param("element") int element,@Param("page") int page);
 	
-	@Query(value = "SELECT * FROM gift WHERE LOWER(name) LIKE '%:name%' LIMIT :element OFFSET :page", nativeQuery = true)
+	@Query(value = "SELECT * FROM gift WHERE LOWER(name) LIKE %:name% LIMIT :element OFFSET :page", nativeQuery = true)
 	public List<Gift>getByNamePaged(@Param("name") String name, @Param("element") int element,@Param("page") int page);
 	
-	@Query(value = "SELECT * FROM gift WHERE isAvaliable = :avaliable LIMIT :element OFFSET :page", nativeQuery = true)
+	@Query(value = "SELECT * FROM gift WHERE is_avaliable = :avaliable LIMIT :element OFFSET :page", nativeQuery = true)
 	public List<Gift> getByAvaliablePaged(@Param("avaliable")boolean avaliable, @Param("element") int element,@Param("page") int page);
 
 }

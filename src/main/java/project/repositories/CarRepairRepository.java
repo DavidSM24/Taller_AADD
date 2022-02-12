@@ -10,21 +10,34 @@ import org.springframework.stereotype.Repository;
 
 import project.models.CarRepair;
 import project.models.ExchangeGift;
+
 @Repository
-public interface CarRepairRepository extends JpaRepository<CarRepair, Long>{
-@Query(value="SELECT * FROM carRepair LIMIT :element OFFSET :paged",nativeQuery = true)
-public List<CarRepair> getAllPaged(@Param("element")int element,@Param("paged") int paged);
-@Query(value="SELECT * FROM carRepair WHERE operation = :operation LIMIT :element OFFSET :paged",nativeQuery = true) 
-public List<CarRepair> getByIdOperationPaged(@Param("operation")String operation,@Param("element") int nElement,@Param("paged")int paged);
-@Query(value="SELECT * FROM carRepair WHERE carPlate= %:carPlate% LIMIT :element OFFSET :paged",nativeQuery=true)
-public List<CarRepair> getByCarPlatePaged(@Param("carPlate")String carPlate,@Param("element")int nElement,@Param("paged")int paged);
-@Query(value="SELECT * FROM carRepair WHERE clienteName LIKE %:name% LIMIT :element OFFSET :paged",nativeQuery=true)
-public List<CarRepair> getByClientNamePaged(@Param("name")String name,@Param("element")int nElement,@Param("paged") int paged);
-@Query(value="SELECT * FROM  carRepair WHERE dateRepair BETWEEN :ini AND :end LIMIT :element OFFSET :paged",nativeQuery = true)
-public List<CarRepair> getByDateOrderPaged(@Param("ini")LocalDateTime ini,@Param("end") LocalDateTime end,@Param("element") int nELement,@Param("paged") int paged);
-@Query (value="SELECT * FROM carRepair WHERE asigPoints BETWEEN :ini AND :max LIMIT :element OFFSET :paged",nativeQuery=true)
-public List<CarRepair> getByPointsPaged(@Param("min")int min,@Param("max") int max,@Param("element") int nElement,@Param("paged")int paged);
-@Query (value="SELECT * FROM carRepair WHERE repaired =:repaired LIMIT :element OFFSET :paged",nativeQuery=true)
-public List<CarRepair> getByStatePaged(@Param("repaired")boolean repaired,@Param("element")int nElement,@Param("paged") int paged);
+public interface CarRepairRepository extends JpaRepository<CarRepair, Long> {
+	@Query(value = "SELECT * FROM car_repair LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getAllPaged(@Param("element") int element, @Param("paged") int paged);
+
+	@Query(value = "SELECT * FROM car_repair WHERE operation = :operation LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getByIdOperationPaged(@Param("operation") Long operation, @Param("element") int nElement,
+			@Param("paged") int paged);
+
+	@Query(value = "SELECT * FROM car_repair WHERE LOWER(car_plate) LIKE %:carPlate% LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getByCarPlatePaged(@Param("carPlate") String carPlate, @Param("element") int nElement,
+			@Param("paged") int paged);
+
+	@Query(value = "SELECT * FROM car_repair WHERE LOWER(cliente_name) LIKE %:name% LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getByClientNamePaged(@Param("name") String name, @Param("element") int nElement,
+			@Param("paged") int paged);
+
+	@Query(value = "SELECT * FROM  car_repair WHERE date_repair BETWEEN :ini AND :end LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getByDateOrderPaged(@Param("ini") LocalDateTime ini, @Param("end") LocalDateTime end,
+			@Param("element") int nELement, @Param("paged") int paged);
+
+	@Query(value = "SELECT * FROM car_repair WHERE asig_points BETWEEN :min AND :max LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getByPointsPaged(@Param("min") int min, @Param("max") int max,
+			@Param("element") int nElement, @Param("paged") int paged);
+
+	@Query(value = "SELECT * FROM car_repair WHERE repaired =:repaired LIMIT :element OFFSET :paged", nativeQuery = true)
+	public List<CarRepair> getByStatePaged(@Param("repaired") boolean repaired, @Param("element") int nElement,
+			@Param("paged") int paged);
 
 }

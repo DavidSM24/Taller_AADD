@@ -56,28 +56,34 @@ public class ExchangeGiftService {
 	 */
 	public ExchangeGift createorupdate(ExchangeGift exgift) {
 		
-		System.out.println("entro al servicio?");
-		
-		if(exgift.getId()>0) {
-			Optional<ExchangeGift>n=repository.findById(exgift.getId());
-			if(n.isPresent()) {
-				ExchangeGift newexchangegift=n.get();
-				newexchangegift.setId(exgift.getId());
-				newexchangegift.setDateExchange(exgift.getDateExchange());
-				newexchangegift.setObservations(exgift.getObservations());
-				newexchangegift.setDelivered(exgift.isDelivered());
-				newexchangegift.setAgency(exgift.getAgency());
-				newexchangegift.setGift(exgift.getGift());
-				newexchangegift=repository.save(newexchangegift);
-				return exgift;
-			}else {
+		if (exgift.getId() != null && exgift.getId() > 0) {
+			Optional<ExchangeGift> e = repository.findById(exgift.getId());
+
+			if (e.isPresent()) { // update
+				ExchangeGift newExchange = e.get();
 				
-				exgift=repository.save(exgift);
+				newExchange.setId(exgift.getId());
+				newExchange.setDateExchange(exgift.getDateExchange());
+				newExchange.setObservations(exgift.getObservations());
+				newExchange.setDelivered(exgift.isDelivered());
+				newExchange.setAgency(exgift.getAgency());
+				newExchange.setGift(exgift.getGift());
+				
+				newExchange=repository.save(newExchange);
+				return newExchange;
+			
+			} else { // insert
+				exgift.setId(null);
+				exgift = repository.save(exgift);
 				return exgift;
 			}
-			
+
 		}
-		return exgift;
+		
+		else {
+			exgift=repository.save(exgift);
+			return exgift;
+		}
 	}
 	/***
 	 * Método que recibe un regalo intercambiado y la elimina de la BBDD. Lanza una

@@ -63,7 +63,7 @@ public class CarRepairService {
 	 * @throws ServiceException
 	 */
 	public List<CarRepair> getAllPaged(int element,int paged) throws ServiceException{
-		if(element>0&&paged>0) {
+		if(element>0&&paged>-1) {
 			
 			return repository.getAllPaged(element, paged);
 			
@@ -115,6 +115,9 @@ public class CarRepairService {
 				Optional<CarRepair> result = repository.findById(carRepair.getId());
 				
 				if (result.isPresent()) {// si lo encuentra en la base de datos
+					
+					System.out.println("entro?");
+					
 					CarRepair newCarRepair = result.get();
 					newCarRepair.setId(carRepair.getId());// id
 					newCarRepair.setOperation(carRepair.getOperation());// operacion
@@ -129,6 +132,8 @@ public class CarRepairService {
 					newCarRepair.setAsigPoints(carRepair.getAsigPoints());// puntos
 					newCarRepair.setRepaired(carRepair.isRepaired());// reparado
 					newCarRepair.setMyAgency(carRepair.getMyAgency());// agencia
+					
+					newCarRepair=repository.save(newCarRepair);
 					
 					return newCarRepair;
 					
@@ -162,9 +167,9 @@ public class CarRepairService {
 	public List<CarRepair> getByCarPlatePaged(String carPlate, int element, int paged) throws ServiceException {
 		if (carPlate != null) {
 			if (!carPlate.equals("")) {
-				if (element > 0 && paged > 0) {
+				if (element > 0 && paged > -1) {
 					
-					return repository.getByCarPlatePaged(carPlate, element, paged);
+					return repository.getByCarPlatePaged(carPlate.toLowerCase(), element, paged);
 					
 				} else {
 					throw new ServiceException("la paginación no es correcta");
@@ -185,10 +190,10 @@ public class CarRepairService {
 	 * @return List<CarRepair>
 	 * @throws ServiceException
 	 */
-	public List<CarRepair> getByOperationPaged(String operation, int element, int paged) throws ServiceException{
+	public List<CarRepair> getByOperationPaged(Long operation, int element, int paged) throws ServiceException{
 		if (operation != null) {
 			if (!operation.equals("")) {
-				if (element > 0 && paged > 0) {
+				if (element > 0 && paged  > -1) {
 					
 					return repository.getByIdOperationPaged(operation, element, paged);
 				
@@ -213,9 +218,9 @@ public class CarRepairService {
 	public List<CarRepair> getByClientNamePaged(String name,int nElement,int paged) throws ServiceException{
 		if (name != null) {
 			if (!name.equals("")) {
-				if (nElement > 1 && paged > 1) {
+				if (nElement > 1 && paged  > -1) {
 					
-					return repository.getByClientNamePaged(name, nElement, paged);
+					return repository.getByClientNamePaged(name.toLowerCase(), nElement, paged);
 					
 				} else {
 					throw new ServiceException("la paginación no es correcta");
@@ -240,7 +245,7 @@ public class CarRepairService {
 	public List<CarRepair> getByDateOrderPaged(LocalDateTime ini,LocalDateTime end, int nELement, int paged) throws ServiceException{
 		if (ini != null&&end!=null) {
 			if (ini.equals("")&&end.equals("")) {
-				if (nELement > 0 && paged > 0) {
+				if (nELement > 0 && paged  > -1) {
 					
 					return repository.getByDateOrderPaged(ini,end, nELement, paged);
 					
@@ -265,8 +270,9 @@ public class CarRepairService {
 	 * @throws ServiceException
 	 */
 	public List<CarRepair> getByPointsPaged(int min, int max, int nElement,int paged) throws ServiceException{
-		if (min >0&&max>0) {			
-				if (nElement > 0 && paged > 0) {
+		System.out.println(min+" "+max);
+		if (min >=0&&max>=0) {			
+				if (nElement > 0 && paged  > -1) {
 					
 					return repository.getByPointsPaged(min,max, nElement, paged);
 					
@@ -287,7 +293,7 @@ public class CarRepairService {
 	 * @throws ServiceException
 	 */
 	public List<CarRepair> getByStatePaged(boolean repaired,int nElement, int paged) throws ServiceException{
-		if(nElement>0&&paged>0) {
+		if(nElement>0&&paged > -1) {
 			
 			return repository.getByStatePaged(repaired, nElement, paged);
 			

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,10 +14,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
+import project.models.Agency;
 import project.models.CarRepair;
 import project.services.CarRepairService;
 
@@ -53,9 +58,9 @@ public class CarRepairController {
 	 * @return ResponseEntity<List<CarRepair>>
 	 * @throws Exception 
 	 */
-	@GetMapping("/elements{elements}/page/{page}")
+	@GetMapping("/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getAllPaged(@PathVariable(
-			"elements")int element,@PathVariable("paged")int page) {
+			"elements")int element,@PathVariable("page")int page) {
 		List<CarRepair> result=new ArrayList<CarRepair>();
 		
 		try {
@@ -81,9 +86,9 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
-	@GetMapping("/operation/{operation}/elements{elements}/page/{page}")
+	@GetMapping("/operation/{operation}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByOperationPaged(
-			@PathVariable("operation")String operation,@PathVariable("elements") int elements,@PathVariable("page")int page){
+			@PathVariable("operation")Long operation,@PathVariable("elements") int elements,@PathVariable("page")int page){
 		
 		List<CarRepair> result=new ArrayList<CarRepair>();
 		
@@ -108,7 +113,7 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
-	@GetMapping("/carPlate/{carPlate}/elements{elements}/page/{page}")
+	@GetMapping("/carPlate/{carPlate}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByCarPlate(
 			@PathVariable("carPlate")String carPlate,@PathVariable("elements")int element,@PathVariable("page")int page){
 		
@@ -130,15 +135,15 @@ public class CarRepairController {
 	}
 	
 	/**
-	 * Método que devuelve una lista de reparaciones según el nombre del cliente
+	 * Método que devuelve una lista de reparaciones según el 	nombre del cliente
 	 * @param clientName
 	 * @param element
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
-	@GetMapping("/clientName/{clientName}/elements{elements}/page/{page}")
+	@GetMapping("/clientName/{clientName}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByClientName(
-			@PathVariable("cleintName")String clientName,@PathVariable("elements")int element,@PathVariable("page")int page){
+			@PathVariable("clientName")String clientName,@PathVariable("elements")int element,@PathVariable("page")int page){
 	
 		List<CarRepair> result=new ArrayList<CarRepair>();
 		
@@ -193,7 +198,7 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
-	@GetMapping("/min/{min}/max/{max}/elements{elements}/page/{page}")
+	@GetMapping("/min/{min}/max/{max}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByPointsPaged(
 			@PathVariable("min")int min,@PathVariable("max")int max,
 			@PathVariable("elements")int element,@PathVariable("page")int page){
@@ -220,7 +225,7 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
-	@GetMapping("/repaired/{t-f}/elements{elements}/page/{page}")
+	@GetMapping("/repaired/{t-f}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByStatedPaged(
 			@PathVariable("t-f")boolean repaired,@PathVariable("elements")int element,@PathVariable("page")int page){
 
@@ -245,7 +250,7 @@ public class CarRepairController {
 	 * @return ResponseEntity<CarRepair>
 	 */
 	@PostMapping()
-	public ResponseEntity<CarRepair> createOrUpdateCarRepair(CarRepair carRepair) {
+	public ResponseEntity<CarRepair> createOrUpdateCarRepair(@Valid @RequestBody CarRepair carRepair) {
 			
 		CarRepair result=new CarRepair();
 		
@@ -267,34 +272,14 @@ public class CarRepairController {
 	 * @return ResponseEntity<CarRepair>
 	 */
 	@DeleteMapping()
-	public ResponseEntity<CarRepair> delete(CarRepair carRepair){
-		
-		if(carRepair!=null) {
-			
-			CarRepair result=service.getById(carRepair.getId());
-			
-			try {
-				if(service.delete(result)) {
-					
-					return new ResponseEntity<CarRepair>(result,new HttpHeaders(),HttpStatus.OK);
-					
-				}else {
-					
-					return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
-					
-				}
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-				return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			
-		}else {
-			return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
+	public HttpStatus delete(@Valid @RequestBody CarRepair c) throws RecordNotFoundException {
+		try {
+			service.delete(c);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
+		return HttpStatus.OK;
 	}
 
 }

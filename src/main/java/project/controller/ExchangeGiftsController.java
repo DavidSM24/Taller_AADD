@@ -32,7 +32,7 @@ public class ExchangeGiftsController {
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
 	@GetMapping
-	public ResponseEntity<List<ExchangeGift>> getAllUsers(){
+	public ResponseEntity<List<ExchangeGift>> getAll(){
 		List<ExchangeGift> all=service.getAll();
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
@@ -44,7 +44,7 @@ public class ExchangeGiftsController {
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
 	@GetMapping("/element/{element}/page/{page}")
-	public ResponseEntity<List<ExchangeGift>> getAllUsersPaged(@PathVariable("element") int element, @PathVariable("page") int page){
+	public ResponseEntity<List<ExchangeGift>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
 		List<ExchangeGift> all=service.getAllPaged(element, page);
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
@@ -57,7 +57,7 @@ public class ExchangeGiftsController {
 	 * @param boolean con el parametro deliverd para filtrar.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
-	@GetMapping("/delivered/{delivered}/element/{element}/paged/{paged}")
+	@GetMapping("/delivered/{delivered}/element/{element}/paged/{page}")
 	public ResponseEntity<List<ExchangeGift>> getByDelivered(@PathVariable("delivered")Boolean isdelivered, @PathVariable("element") int element, @PathVariable("page") int page){
 		List<ExchangeGift> all=service.getByDeliveredPaged(isdelivered,element, page);
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
@@ -71,7 +71,7 @@ public class ExchangeGiftsController {
 	 * @param id_agency agencia por la que se filtrar.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
-	@GetMapping("/id_agency/{id_agency}/element/{element}/paged/{paged}")
+	@GetMapping("/id_agency/{id_agency}/element/{element}/paged/{page}")
 	public ResponseEntity<List<ExchangeGift>> getByAgency(@PathVariable("id_agency")int agency,@PathVariable("element") int element, @PathVariable("page") int page){
 		List<ExchangeGift> all=service.getByAgencyPaged(agency,element,page);
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
@@ -110,7 +110,7 @@ public class ExchangeGiftsController {
 	 * @throws RecordNotFoundException
 	 */
 	@DeleteMapping()
-	public HttpStatus deleteUserById(@Valid @RequestBody ExchangeGift ex) throws RecordNotFoundException{
+	public HttpStatus delete(@Valid @RequestBody ExchangeGift ex) throws RecordNotFoundException{
 		service.delete(ex);
 		return HttpStatus.OK;
 	}

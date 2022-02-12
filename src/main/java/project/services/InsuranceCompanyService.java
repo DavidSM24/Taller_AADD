@@ -154,7 +154,7 @@ public class InsuranceCompanyService {
 			if(nElements>0) {
 				if(page>0) {
 					if (!name.equals("")) {
-						List<InsuranceCompany> insuranceCompany = repository.getByNamePaged(name, nElements,
+						List<InsuranceCompany> insuranceCompany = repository.getByNamePaged(name.toLowerCase(), nElements,
 								(page - 1) * nElements);
 						if (insuranceCompany != null) {
 							if (insuranceCompany.size() > 0) {
@@ -195,7 +195,7 @@ public class InsuranceCompanyService {
 	public List<InsuranceCompany> getByCIAName(String name) throws ServiceException {
 		if (name != null) {
 			if (name.equals("")) {
-				List<InsuranceCompany> insuranceCompany = repository.getByCIAName(name);
+				List<InsuranceCompany> insuranceCompany = repository.getByCIAName(name.toLowerCase());
 				if (insuranceCompany != null) {
 					if (insuranceCompany.size() > 0) {
 						return insuranceCompany;
