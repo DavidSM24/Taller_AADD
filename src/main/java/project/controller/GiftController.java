@@ -111,6 +111,8 @@ public class GiftController {
 	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestBody Gift g) 
 			throws RecordNotFoundException {
 		
+		System.out.println(g);
+		
 		Gift gg=service.createOrUpdate(g);
 		return new ResponseEntity<Gift>(gg,new HttpHeaders(),HttpStatus.OK);
 	}
@@ -125,6 +127,9 @@ public class GiftController {
 	 */
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody Gift g) throws RecordNotFoundException {
+		
+		System.out.println(g);
+
 		service.delete(g);
 		return HttpStatus.OK;
 	}

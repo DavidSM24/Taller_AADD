@@ -16,9 +16,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 @Entity
 @Table(name = "carRepair")
@@ -48,6 +55,8 @@ public class CarRepair implements Serializable{
 	@Column(name = "clienteName", length = 50)
 	protected String clienteName;
 
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@Column(name = "dateeOrder")
 	protected LocalDateTime dateOrder;
 
