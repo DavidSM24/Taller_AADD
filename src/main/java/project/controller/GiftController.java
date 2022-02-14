@@ -128,8 +128,6 @@ public class GiftController {
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody Gift g) throws RecordNotFoundException {
 		
-		System.out.println(g);
-
 		service.delete(g);
 		return HttpStatus.OK;
 	}
