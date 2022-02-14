@@ -66,6 +66,8 @@ public class CarRepair implements Serializable{
 	@Column(name = "amount", length = 3)
 	protected float amount;
 
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@Column(name = "dateRepair")
 	protected LocalDateTime dateRepair;
 
