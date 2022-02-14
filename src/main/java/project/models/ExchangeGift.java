@@ -14,7 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name = "exchangeGift")
@@ -27,6 +29,8 @@ public class ExchangeGift implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	protected Long id;
+	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name = "dateExchange")
 	protected LocalDate dateExchange;
 	@Column(name = "observations", length = 300)

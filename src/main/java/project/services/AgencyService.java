@@ -98,7 +98,7 @@ public class AgencyService {
 	public Agency createOrUpdate(Agency agency) throws RecordNotFoundException {
 		if (agency.getId() != null && agency.getId() > 0) {
 			Optional<Agency> a = repository.findById(agency.getId());
-
+			
 			if (a.isPresent()) { // update
 				Agency newAgency = a.get();
 				
