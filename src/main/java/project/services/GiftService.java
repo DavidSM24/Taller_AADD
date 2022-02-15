@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.Gift;
 import project.repositories.GiftRepository;
 
@@ -31,9 +32,16 @@ public class GiftService {
 	 * @param element nº de elementos a buscar
 	 * @param page pagina por la que se comienza la paginación.
 	 * @return lista de regalos paginada.
+	 * @throws ServiceException 
 	 */
-	public List<Gift> getAllPaged(int element, int page) {
-		return repository.getAllPaged(element, page);
+	public List<Gift> getAllPaged(int element, int page) throws ServiceException {
+		if(element>0&&page>-1) {
+			
+			return repository.getAllPaged(element, page);
+
+		}else {
+			throw new ServiceException("El número de elementos pedido no es válido");
+		}
 	}
 	
 	/***
@@ -46,12 +54,22 @@ public class GiftService {
 	 * @throws RecordNotFoundException
 	 */
 	public Gift getById(Long id) throws RecordNotFoundException {
-		Optional<Gift> result = repository.findById(id);
-		if (result.isPresent()) {
-			return result.get();
-		} else {
-			throw new RecordNotFoundException("El regalo no existe", id);
+		if(id!=null) {
+			
+			Optional<Gift> result = repository.findById(id);
+			
+			if (result.isPresent()) {
+				
+				return result.get();
+				
+			} else {
+				throw new RecordNotFoundException("El regalo no existe", id);
+			}
+			
+		}else {
+			throw new RecordNotFoundException("La id introducida no es válida");
 		}
+		
 	}
 
 	/**
@@ -62,9 +80,21 @@ public class GiftService {
 	 * @param element nº de elementos a buscar
 	 * @param page pagina por la que comienza la paginación de la lista.
 	 * @return lista de regalos filtrada por nombre y paginada.
+	 * @throws ServiceException 
 	 */
-	public List<Gift> getByNamePaged(String name, int element, int page) {
-		return repository.getByNamePaged(name, element, page);
+	public List<Gift> getByNamePaged(String name, int element, int page) throws ServiceException {
+		if(name!=null&&!name.equals("")) {
+			if(element>0&&page>0) {
+				
+				return repository.getByNamePaged(name, element, page);
+
+			}else {
+				throw new ServiceException("El número de elementos pedido no es válido");
+			}
+			
+		}else {
+			throw new ServiceException("El nombre introducido no es válido");
+		}
 	}
 	
 	/**
@@ -74,9 +104,16 @@ public class GiftService {
 	 * @param avaliable disponibilidad para filtrar la búsqueda.
 	 * @param page página para empezar la paginación en la búsqueda.
 	 * @return lista de regalos paginada y filtrada por nombre
+	 * @throws ServiceException 
 	 */
-	public List<Gift> getByAvaliablePaged(boolean avaliable, int element, int page) {
-		return repository.getByAvaliablePaged(avaliable, element, page);
+	public List<Gift> getByAvaliablePaged(boolean avaliable, int element, int page) throws ServiceException {
+		if(element>0&&page>0) {
+			
+			return repository.getByAvaliablePaged(avaliable, element, page);
+			
+		}else {
+			throw new ServiceException("El número de elementos pedido no es válido");
+		}
 	}
 	
 	/***
@@ -125,14 +162,33 @@ public class GiftService {
 	 * 
 	 * @param: Gift El regalo a eliminar.
 	 * @throws RecordNotFoundException
+	 * @throws ServiceException 
 	 */
-	public void delete(Gift Gift) throws RecordNotFoundException{
-		Optional<Gift> optional=repository.findById(Gift.getId());
-		if(optional.isPresent()) {
-			repository.deleteById(Gift.getId());
-		}
-		else {
-			throw new RecordNotFoundException("El regalo no existe", Gift.getId());
-		}
+	public void delete(Gift gift) throws RecordNotFoundException, ServiceException{
+		if(gift!=null) {
+			if(gift.getId()!=null) {
+				if(gift.getId()>0) {
+					Optional<Gift> optional=repository.findById(gift.getId());
+					
+					if(optional.isPresent()) {
+						
+						repository.deleteById(gift.getId());
+					}
+					else {
+						throw new RecordNotFoundException("El regalo no existe", gift.getId());
+					}
+					
+				}else {
+					throw new ServiceException("El id introducido es nulo");
+				}
+				
+			}else {
+				throw new ServiceException("El regalo introducido es nulo");
+			}
+					
+				}else {
+					throw new RecordNotFoundException("El id introducido es invalido",gift.getId());
+				}
+				
 	}
 }
