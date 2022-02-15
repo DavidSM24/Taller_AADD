@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.ExchangeGift;
 import project.services.ExchangeGiftService;
 
@@ -37,6 +38,8 @@ public class ExchangeGiftsController {
 	public ResponseEntity<List<ExchangeGift>> getAll(){
 		List<ExchangeGift> all=service.getAll();
 		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+		
+	
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginados dependiendo de si la consulta se
@@ -47,8 +50,18 @@ public class ExchangeGiftsController {
 	 */
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<ExchangeGift>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
-		List<ExchangeGift> all=service.getAllPaged(element, page);
-		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+		List<ExchangeGift> all;
+		try {
+			all = service.getAllPaged(element, page);
+			
+			return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<ExchangeGift>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
@@ -61,8 +74,17 @@ public class ExchangeGiftsController {
 	 */
 	@GetMapping("/delivered/{delivered}/element/{element}/paged/{page}")
 	public ResponseEntity<List<ExchangeGift>> getByDelivered(@PathVariable("delivered")Boolean isdelivered, @PathVariable("element") int element, @PathVariable("page") int page){
-		List<ExchangeGift> all=service.getByDeliveredPaged(isdelivered,element, page);
-		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+		List<ExchangeGift> all;
+		try {
+			all = service.getByDeliveredPaged(isdelivered,element, page);
+			
+			return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<ExchangeGift>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
@@ -75,8 +97,18 @@ public class ExchangeGiftsController {
 	 */
 	@GetMapping("/id_agency/{id_agency}/element/{element}/paged/{page}")
 	public ResponseEntity<List<ExchangeGift>> getByAgency(@PathVariable("id_agency")int agency,@PathVariable("element") int element, @PathVariable("page") int page){
-		List<ExchangeGift> all=service.getByAgencyPaged(agency,element,page);
-		return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+		List<ExchangeGift> all;
+		try {
+			all = service.getByAgencyPaged(agency,element,page);
+
+			return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+	
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+			return new ResponseEntity<List<ExchangeGift>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -100,8 +132,19 @@ public class ExchangeGiftsController {
 	 */
 	@PostMapping()
 	public ResponseEntity<ExchangeGift> createorUpdateUser(@Valid @RequestBody ExchangeGift ex){
-		ExchangeGift gift=service.createorupdate(ex);
-		return new ResponseEntity<ExchangeGift>(gift,new HttpHeaders(),HttpStatus.OK);
+		ExchangeGift gift;
+		try {
+			gift = service.createorupdate(ex);
+			
+			return new ResponseEntity<ExchangeGift>(gift,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<ExchangeGift>(HttpStatus.BAD_REQUEST);
+			
+		}
 	}
 	/**
 	 * Recibe un regalo intercambiado y devuelve una respuesta HTTP en función de si ha podido eliminarla
@@ -113,7 +156,26 @@ public class ExchangeGiftsController {
 	 */
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody ExchangeGift ex) throws RecordNotFoundException{
-		service.delete(ex);
-		return HttpStatus.OK;
+		try {
+			if(service.delete(ex)) {
+				
+				return HttpStatus.OK;
+			}else {
+				 
+				return HttpStatus.NOT_FOUND;
+			}
+			
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+		}
 	}
 }

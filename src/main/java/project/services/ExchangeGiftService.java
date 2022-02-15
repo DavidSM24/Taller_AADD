@@ -1,6 +1,5 @@
 package project.services;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,97 +20,102 @@ public class ExchangeGiftService {
 	 */
 	@Autowired
 	ExchangeGiftRepository repository;
+
 	/**
 	 * Método que devuelve todos los regalos intercambiado.
 	 * 
 	 * @return lista de los regalos intercambiado
 	 */
-	public List<ExchangeGift> getAll(){
+	public List<ExchangeGift> getAll() {
 		return repository.findAll();
 	}
+
 	/***
-	 * Método para conseguir un regalo intercambiado a partir de su id. Recibe un Long.
-	 * Posibilidad de dar una excepción NotFound.
+	 * Método para conseguir un regalo intercambiado a partir de su id. Recibe un
+	 * Long. Posibilidad de dar una excepción NotFound.
 	 *
 	 * @param id
 	 * @return el regalo intercambiado con ese id
 	 * @throws RecordNotFoundException
 	 */
-	public ExchangeGift getbyId(Long id){
-		if(id!=null) {
-			if(id>-1) {
-				
-				Optional<ExchangeGift> result=repository.findById(id);
-				
-				if(result.isPresent()) {
-					
+	public ExchangeGift getbyId(Long id) {
+		if (id != null) {
+			if (id > -1) {
+
+				Optional<ExchangeGift> result = repository.findById(id);
+
+				if (result.isPresent()) {
+
 					return result.get();
-					
-				}else {
-					throw new RecordNotFoundException("ExchangeGift no existe",id);
+
+				} else {
+					throw new RecordNotFoundException("ExchangeGift no existe", id);
 				}
-				
-			}else {
+
+			} else {
 				throw new RecordNotFoundException("El id introducido no es valido");
 			}
-		}else {
-			throw new RecordNotFoundException("El id introducido es nulo",id);
+		} else {
+			throw new RecordNotFoundException("El id introducido es nulo", id);
 		}
-		
+
 	}
+
 	/***
-	 * Método para insertar o actualizar un regalo intercambiado dependiendo de si existe 
-	 * un registro con este id en la BBDD. Lanza una excepción si no se
+	 * Método para insertar o actualizar un regalo intercambiado dependiendo de si
+	 * existe un registro con este id en la BBDD. Lanza una excepción si no se
 	 * encuentra al regalo intercambiado en la BBDD.
 	 * 
 	 * @param Agency: El regalo intercambiado a actualizar/insertar.
 	 * @return Devuelve el regalo intercambiado con el id generado.
-	 * @throws ServiceException 
+	 * @throws ServiceException
 	 * @throws RecordNotFoundException
 	 */
 	public ExchangeGift createorupdate(ExchangeGift exgift) throws ServiceException {
-		
-		if(exgift!=null) {
-			if(exgift.getDateExchange()!=null&&
-				exgift.getAgency()!=null&&
-				exgift.getGift()!=null) {
-				
-			}else {
+
+		if (exgift != null) {
+			if (exgift.getDateExchange() != null && exgift.getAgency() != null && exgift.getGift() != null) {
+				if (exgift.getId() != null && exgift.getId() > 0) {
+					
+					Optional<ExchangeGift> e = repository.findById(exgift.getId());
+
+					if (e.isPresent()) { // update
+						ExchangeGift newExchange = e.get();
+
+						newExchange.setId(exgift.getId());
+						newExchange.setDateExchange(exgift.getDateExchange());
+						newExchange.setObservations(exgift.getObservations());
+						newExchange.setDelivered(exgift.isDelivered());
+						newExchange.setAgency(exgift.getAgency());
+						newExchange.setGift(exgift.getGift());
+						newExchange = repository.save(newExchange);
+						
+						return newExchange;
+
+					} else { // insert
+						exgift.setId(null);
+						exgift = repository.save(exgift);
+						
+						return exgift;
+					}
+
+				}
+
+				else {
+					exgift = repository.save(exgift);
+					
+					return exgift;
+				}
+
+			} else {
 				throw new ServiceException("Algo ha fallado, buscate la vida");
 			}
-		}else {
+		} else {
 			throw new ServiceException("El pedido es nulo");
 		}
-		
-		if (exgift.getId() != null && exgift.getId() > 0) {
-			Optional<ExchangeGift> e = repository.findById(exgift.getId());
 
-			if (e.isPresent()) { // update
-				ExchangeGift newExchange = e.get();
-				
-				newExchange.setId(exgift.getId());
-				newExchange.setDateExchange(exgift.getDateExchange());
-				newExchange.setObservations(exgift.getObservations());
-				newExchange.setDelivered(exgift.isDelivered());
-				newExchange.setAgency(exgift.getAgency());
-				newExchange.setGift(exgift.getGift());
-				
-				newExchange=repository.save(newExchange);
-				return newExchange;
-			
-			} else { // insert
-				exgift.setId(null);
-				exgift = repository.save(exgift);
-				return exgift;
-			}
-
-		}
-		
-		else {
-			exgift=repository.save(exgift);
-			return exgift;
-		}
 	}
+
 	/***
 	 * Método que recibe un regalo intercambiado y la elimina de la BBDD. Lanza una
 	 * excepción si no se encuentra el regalo intercambiado en la BBDD.
@@ -119,54 +123,98 @@ public class ExchangeGiftService {
 	 * @param Agency: El regalo intercambiado a eliminar.
 	 * @return Devuelve true si el regalo intercambiado se ha borrado False si no.
 	 * @throws RecordNotFoundException
+	 * @throws ServiceException 
 	 */
-	public boolean delete(ExchangeGift gift) throws RecordNotFoundException{
-		boolean result=false;
-		Optional<ExchangeGift> optional=repository.findById(gift.getId());
-		if(optional.isPresent()) {
-			repository.deleteById(gift.getId());
-			result=true;
+	public boolean delete(ExchangeGift gift) throws RecordNotFoundException, ServiceException {
+		
+		boolean result = false;
+		
+		if(gift!=null) {
+			if(gift.getId()!=null&&gift.getId()>-1) {
+				
+				Optional<ExchangeGift> optional = repository.findById(gift.getId());
+				
+				if (optional.isPresent()) {
+					repository.deleteById(gift.getId());
+					result = true;
+				} else {
+					result = false;
+					throw new RecordNotFoundException("El regalo intercambiado no existe", gift.getId());
+				}
+				
+			}else {
+				throw new RecordNotFoundException("El id introducido no es válido",gift.getId());
+			}
+		}else {
+			throw new ServiceException("El pedido introducido es nulo");
 		}
-		else {
-			result=false;
-			throw new RecordNotFoundException("El regalo intercambiado no existe", gift.getId());
-			
-		}
+				
 		return result;
 	}
+
 	/**
-	 * Devuelve una lista de regalos intercambiados paginada en función de la página que se está buscando.
+	 * Devuelve una lista de regalos intercambiados paginada en función de la página
+	 * que se está buscando.
 	 * 
 	 * @param element nº de elementos a buscar
-	 * @param page nº de página a partir del cual buscar.
+	 * @param page    nº de página a partir del cual buscar.
 	 * @return Una lista de regalos intercambiados intercambiados.
+	 * @throws ServiceException 
 	 */
-	public List<ExchangeGift> getAllPaged(int element, int page){
-		return repository.getAllPaged(element, page);
+	public List<ExchangeGift> getAllPaged(int element, int page) throws ServiceException {
+		if(element>-1&&page>-1) {
+			
+			return repository.getAllPaged(element, page);
+			
+		}else {
+			throw new ServiceException("El número de elementos introducido no es correcto");
+		}
 	}
+
 	/**
-	 *  Devuelve todos los regalos intercambiados que coincidan con el parámetro isDelivered paginadas,
-	 *  pudiendo ser los que estén o no enviados en función de lo que se reciba.
+	 * Devuelve todos los regalos intercambiados que coincidan con el parámetro
+	 * isDelivered paginadas, pudiendo ser los que estén o no enviados en función de
+	 * lo que se reciba.
 	 * 
 	 * @param isdelivered boolean con el parámetro para filtrar.
-	 * @param element nº de elementos a buscar
-	 * @param page pagina por la que se empieza a paginar
-	 * @return Lista de regalos intercambiados paginados y flitrados por isDelivered.
+	 * @param element     nº de elementos a buscar
+	 * @param page        pagina por la que se empieza a paginar
+	 * @return Lista de regalos intercambiados paginados y flitrados por
+	 *         isDelivered.
+	 * @throws ServiceException 
 	 */
-	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int element, int page){
-		return repository.getByDeliveredPaged(isdelivered, element, page);
+	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int element, int page) throws ServiceException {
+		if(element>-1&&page>-1) {
+			
+			return repository.getByDeliveredPaged(isdelivered, element, page);
+			
+		}else {
+			throw new ServiceException("El número de elementos introducido no es correcto");
+		}
 	}
+
 	/**
-	 * Devuelve una lista paginada de regalos intercambiados cuyo id de agencia contenga el
-	 * parametro agency.
+	 * Devuelve una lista paginada de regalos intercambiados cuyo id de agencia
+	 * contenga el parametro agency.
 	 * 
-	 * @param agency el id de la agencia.
+	 * @param agency  el id de la agencia.
 	 * @param element nº de elementos a buscar
-	 * @param page comienzo de la paginación.
+	 * @param page    comienzo de la paginación.
 	 * @return La lista paginada y filtrada de regalos intercambiados.
+	 * @throws ServiceException 
 	 */
-	public List<ExchangeGift> getByAgencyPaged(int agency, int element, int page){
-		
-		return repository.getByAgencyPaged(agency, element, page);
+	public List<ExchangeGift> getByAgencyPaged(int agency, int element, int page) throws ServiceException {
+		if(agency>-1) {
+			if(element>-1&&page>-1) {
+				
+				return repository.getByAgencyPaged(agency, element, page);
+				
+			}else {
+				throw new ServiceException("El número de elementos introducido no es correcto");
+			}
+			
+		}else {
+			throw new ServiceException("El id de la agencia es incorrecto");
+		}
 	}
 }
