@@ -110,49 +110,59 @@ public class CarRepairService {
 	 */
 	public CarRepair createOrUpdateCarRepair(CarRepair carRepair) throws ServiceException {
 		if (carRepair != null) {
-			if (carRepair.getId() != null && carRepair.getId() > 0) {// si tiene id y es mayor de 0
-				
-				Optional<CarRepair> result = repository.findById(carRepair.getId());
-				
-				if (result.isPresent()) {// si lo encuentra en la base de datos
+			if(carRepair.getAmount()>-1&& carRepair.getAsigPoints()>-1&&
+					(carRepair.getBrandCar()!=null&&(carRepair.getCarPlate().length()>4&&carRepair.getCarPlate().length()<11))&&
+					(carRepair.getClienteName()!=null&&carRepair.getClienteName().equals(""))&&
+					(carRepair.getDateOrder()!=null)&&
+					(carRepair.getModel()!=null&&carRepair.getModel().equals(""))&&
+					carRepair.getMyAgency()!=null) {
+				if (carRepair.getId() != null && carRepair.getId() > 0) {// si tiene id y es mayor de 0
 					
-					System.out.println("entro?");
+					Optional<CarRepair> result = repository.findById(carRepair.getId());
 					
-					CarRepair newCarRepair = result.get();
-					newCarRepair.setId(carRepair.getId());// id
-					newCarRepair.setOperation(carRepair.getOperation());// operacion
-					newCarRepair.setCarPlate(carRepair.getCarPlate());// matricula
-					newCarRepair.setModel(carRepair.getModel());// modelo
-					newCarRepair.setBrandCar(carRepair.getBrandCar());// marca
-					newCarRepair.setClienteName(carRepair.getClienteName());// nombre del cliente
-					newCarRepair.setDateOrder(carRepair.getDateOrder());// fecha de alta
-					newCarRepair.setNor(carRepair.getNor());// número de orden de registro
-					newCarRepair.setAmount(carRepair.getAmount());// coste
-					newCarRepair.setDateRepair(carRepair.getDateRepair());// fecha de reparación
-					newCarRepair.setAsigPoints(carRepair.getAsigPoints());// puntos
-					newCarRepair.setRepaired(carRepair.isRepaired());// reparado
-					newCarRepair.setMyAgency(carRepair.getMyAgency());// agencia
-					
-					newCarRepair=repository.save(newCarRepair);
-					
-					return newCarRepair;
-					
-				} else {// Si no esta en la base de datos
-					carRepair.setId(null);
+					if (result.isPresent()) {// si lo encuentra en la base de datos
+						
+						System.out.println("entro?");
+						
+						CarRepair newCarRepair = result.get();
+						newCarRepair.setId(carRepair.getId());// id
+						newCarRepair.setOperation(carRepair.getOperation());// operacion
+						newCarRepair.setCarPlate(carRepair.getCarPlate());// matricula
+						newCarRepair.setModel(carRepair.getModel());// modelo
+						newCarRepair.setBrandCar(carRepair.getBrandCar());// marca
+						newCarRepair.setClienteName(carRepair.getClienteName());// nombre del cliente
+						newCarRepair.setDateOrder(carRepair.getDateOrder());// fecha de alta
+						newCarRepair.setNor(carRepair.getNor());// número de orden de registro
+						newCarRepair.setAmount(carRepair.getAmount());// coste
+						newCarRepair.setDateRepair(carRepair.getDateRepair());// fecha de reparación
+						newCarRepair.setAsigPoints(carRepair.getAsigPoints());// puntos
+						newCarRepair.setRepaired(carRepair.isRepaired());// reparado
+						newCarRepair.setMyAgency(carRepair.getMyAgency());// agencia
+						
+						newCarRepair=repository.save(newCarRepair);
+						
+						return newCarRepair;
+						
+					} else {// Si no esta en la base de datos
+						carRepair.setId(null);
+						carRepair = repository.save(carRepair);
+						
+						return carRepair;
+						
+					}
+				} else {// en caso de que el id sea nulo o menor de 1
 					carRepair = repository.save(carRepair);
 					
 					return carRepair;
 					
 				}
-			} else {// en caso de que el id sea nulo o menor de 1
-				carRepair = repository.save(carRepair);
-				
-				return carRepair;
-				
+			} else {
+				throw new ServiceException("La reparación introducida no es valida");
 			}
-		} else {
-			throw new ServiceException("La reparación introducida no es valida");
-		}
+				
+			}else {
+				throw new ServiceException("Algo a fallado buscate la vida");
+			}
 	}
 
 	/**

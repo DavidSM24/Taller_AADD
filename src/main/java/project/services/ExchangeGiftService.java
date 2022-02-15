@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.Agency;
 import project.models.ExchangeGift;
 import project.repositories.ExchangeGiftRepository;
@@ -37,11 +38,24 @@ public class ExchangeGiftService {
 	 * @throws RecordNotFoundException
 	 */
 	public ExchangeGift getbyId(Long id){
-		Optional<ExchangeGift> result=repository.findById(id);
-		if(result.isPresent()) {
-			return result.get();
+		if(id!=null) {
+			if(id>-1) {
+				
+				Optional<ExchangeGift> result=repository.findById(id);
+				
+				if(result.isPresent()) {
+					
+					return result.get();
+					
+				}else {
+					throw new RecordNotFoundException("ExchangeGift no existe",id);
+				}
+				
+			}else {
+				throw new RecordNotFoundException("El id introducido no es valido");
+			}
 		}else {
-			throw new RecordNotFoundException("ExchangeGift no existe",id);
+			throw new RecordNotFoundException("El id introducido es nulo",id);
 		}
 		
 	}
@@ -52,9 +66,22 @@ public class ExchangeGiftService {
 	 * 
 	 * @param Agency: El regalo intercambiado a actualizar/insertar.
 	 * @return Devuelve el regalo intercambiado con el id generado.
+	 * @throws ServiceException 
 	 * @throws RecordNotFoundException
 	 */
-	public ExchangeGift createorupdate(ExchangeGift exgift) {
+	public ExchangeGift createorupdate(ExchangeGift exgift) throws ServiceException {
+		
+		if(exgift!=null) {
+			if(exgift.getDateExchange()!=null&&
+				exgift.getAgency()!=null&&
+				exgift.getGift()!=null) {
+				
+			}else {
+				throw new ServiceException("Algo ha fallado, buscate la vida");
+			}
+		}else {
+			throw new ServiceException("El pedido es nulo");
+		}
 		
 		if (exgift.getId() != null && exgift.getId() > 0) {
 			Optional<ExchangeGift> e = repository.findById(exgift.getId());
