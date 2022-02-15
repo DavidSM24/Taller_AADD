@@ -74,7 +74,7 @@ public class CarRepairController {
 			
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 		} finally {
 			
 		}
@@ -103,7 +103,7 @@ public class CarRepairController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -130,7 +130,7 @@ public class CarRepairController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 			
 		}
 		
@@ -158,7 +158,7 @@ public class CarRepairController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -187,7 +187,7 @@ public class CarRepairController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -216,7 +216,7 @@ public class CarRepairController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -242,7 +242,7 @@ public class CarRepairController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<List<CarRepair>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
 		
 		}
 	}
@@ -258,13 +258,14 @@ public class CarRepairController {
 		
 		try {
 			result=service.createOrUpdateCarRepair(carRepair);
+			
 			return new ResponseEntity<CarRepair>(result,new HttpHeaders(),HttpStatus.OK);
 			
 			
 		} catch (ServiceException e) {
 			e.printStackTrace();
 
-			return new ResponseEntity<CarRepair>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<CarRepair>(HttpStatus.BAD_REQUEST);
 		
 		}
 	}
@@ -274,12 +275,15 @@ public class CarRepairController {
 	 * @return ResponseEntity<CarRepair>
 	 */
 	@DeleteMapping()
-	public HttpStatus delete(@Valid @RequestBody CarRepair c) throws RecordNotFoundException {
+	public HttpStatus delete(@Valid @RequestBody CarRepair c) {
 		try {
 			service.delete(c);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+					
 		}
 		return HttpStatus.OK;
 	}
