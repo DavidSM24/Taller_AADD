@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.Agency;
 import project.services.AgencyService;
 
@@ -87,8 +88,15 @@ public class AgencyController {
 			@PathVariable("page") int page)
 					throws RecordNotFoundException{
 		
-		List<Agency> result=service.getByUsernamePaged(username,element,page);
-		return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
+		List<Agency> result;
+		try {
+			result = service.getByUsernamePaged(username,element,page);
+			return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<List<Agency>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -108,8 +116,15 @@ public class AgencyController {
 			@PathVariable("page") int page)
 					throws RecordNotFoundException {
 		
-		List<Agency> result=service.getByActivePaged(active,element,page);
-		return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
+		List<Agency> result;
+		try {
+			result = service.getByActivePaged(active,element,page);
+			return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<List<Agency>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -123,8 +138,19 @@ public class AgencyController {
 	public ResponseEntity<Agency> createOrUpdate(@Valid @RequestBody Agency a) 
 			throws RecordNotFoundException {
 		
-		Agency ag=service.createOrUpdate(a);
-		return new ResponseEntity<Agency>(ag,new HttpHeaders(),HttpStatus.OK);
+		Agency ag;
+		try {
+			ag = service.createOrUpdate(a);
+			return new ResponseEntity<Agency>(ag,new HttpHeaders(),HttpStatus.OK);
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<Agency>(HttpStatus.BAD_REQUEST);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<Agency>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -137,7 +163,17 @@ public class AgencyController {
 	 */
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody Agency a) throws RecordNotFoundException {
-		service.delete(a);
-		return HttpStatus.OK;
+		try {
+			service.delete(a);
+			return HttpStatus.OK;
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return HttpStatus.BAD_REQUEST;
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return HttpStatus.BAD_REQUEST;
+		}
 	}
 }
