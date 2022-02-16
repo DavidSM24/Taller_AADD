@@ -49,9 +49,17 @@ public class CarRepairController {
 	 */
 	@GetMapping("/id/{id}")
 	public ResponseEntity<CarRepair> getById(@PathVariable("id")Long id){
-		CarRepair result=service.getById(id);
+		try {
+			CarRepair result=service.getById(id);
+			
+			return new ResponseEntity<CarRepair>(result,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+			
+			return new ResponseEntity<CarRepair>(HttpStatus.BAD_REQUEST);
 		
-		return new ResponseEntity<CarRepair>(result,new HttpHeaders(),HttpStatus.OK);
+		}
 	}
 	/**
 	 * Método que devuelve toda la lista de reparaciones paginada

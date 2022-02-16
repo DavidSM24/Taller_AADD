@@ -120,8 +120,16 @@ public class ExchangeGiftsController {
 	 */
 	@GetMapping("id/{id}")
 	public ResponseEntity<ExchangeGift> getByID(@PathVariable("id")Long id){
-		ExchangeGift gift=service.getbyId(id);
-		return new ResponseEntity<ExchangeGift>(gift,new HttpHeaders(),HttpStatus.OK);
+		try {
+			ExchangeGift gift=service.getbyId(id);
+			
+			return new ResponseEntity<ExchangeGift>(gift,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+			
+			return new ResponseEntity<ExchangeGift>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Recibe un regalo intercambiado. Crea o updatea un regalo intercambiado.
@@ -162,7 +170,7 @@ public class ExchangeGiftsController {
 				return HttpStatus.OK;
 			}else {
 				 
-				return HttpStatus.NOT_FOUND;
+				return HttpStatus.BAD_REQUEST;
 			}
 			
 		} catch (RecordNotFoundException e) {

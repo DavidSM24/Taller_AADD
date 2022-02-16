@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.Gift;
 import project.services.GiftService;
 
@@ -51,8 +52,20 @@ public class GiftController {
 	 */
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<Gift>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
-		List<Gift> paged=service.getAllPaged(element, page);
-		return new ResponseEntity<List<Gift>>(paged,new HttpHeaders(),HttpStatus.OK);
+		List<Gift> paged;
+		
+		try {
+			
+			paged = service.getAllPaged(element, page);
+			
+			return new ResponseEntity<List<Gift>>(paged,new HttpHeaders(),HttpStatus.OK);
+		
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<Gift>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -63,11 +76,19 @@ public class GiftController {
 	 * @throws RecordNotFoundException
 	 */
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Gift> getById(@PathVariable("id") Long id)
-			throws RecordNotFoundException{
+	public ResponseEntity<Gift> getById(@PathVariable("id") Long id){
+		try {
+			
+			Gift result=service.getById(id);
+			
+			return new ResponseEntity<Gift>(result,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+			
+			return new ResponseEntity<Gift>(HttpStatus.BAD_REQUEST);
 		
-		Gift result=service.getById(id);
-		return new ResponseEntity<Gift>(result,new HttpHeaders(),HttpStatus.OK);
+		}
 	}
 	
 	/**
@@ -81,8 +102,20 @@ public class GiftController {
 	 */
 	@GetMapping("/name/{name}/element/{element}/page/{page}")
 	public ResponseEntity<List<Gift>> getByNamePaged(@PathVariable("name")String name, @PathVariable("element") int element, @PathVariable("page") int page){
-		List<Gift> result=service.getByNamePaged(name,element,page);
-		return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
+		List<Gift> result;
+		try {
+			
+			result = service.getByNamePaged(name,element,page);
+			
+			return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<Gift>>(HttpStatus.BAD_REQUEST);		
+			
+		}
 	}
 	
 	/**
@@ -96,8 +129,20 @@ public class GiftController {
 	 */
 	@GetMapping("/available/{available}/element/{element}/page/{page}")
 	public ResponseEntity<List<Gift>> getByAvaliablePaged(@PathVariable("available")boolean avaliable, @PathVariable("element") int element, @PathVariable("page") int page) {
-		List<Gift> result=service.getByAvaliablePaged(avaliable,element, page);
-		return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
+		
+		List<Gift> result;
+		
+		try {
+			
+			result = service.getByAvaliablePaged(avaliable,element, page);
+			
+			return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<Gift>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -108,13 +153,25 @@ public class GiftController {
 	 * @throws RecordNotFoundException
 	 */
 	@PostMapping()
-	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestBody Gift g) 
-			throws RecordNotFoundException {
+	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestBody Gift g) {
+			
+		Gift gg;
 		
-		System.out.println(g);
-		
-		Gift gg=service.createOrUpdate(g);
-		return new ResponseEntity<Gift>(gg,new HttpHeaders(),HttpStatus.OK);
+		try {
+			gg = service.createOrUpdate(g);
+			
+			return new ResponseEntity<Gift>(gg,new HttpHeaders(),HttpStatus.OK);
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<Gift>(HttpStatus.BAD_REQUEST);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<Gift>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -128,7 +185,20 @@ public class GiftController {
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody Gift g) throws RecordNotFoundException {
 		
-		service.delete(g);
-		return HttpStatus.OK;
+		try {
+			service.delete(g);
+			
+			return HttpStatus.OK;
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+		}
 	}
 }

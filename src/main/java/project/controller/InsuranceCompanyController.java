@@ -36,20 +36,19 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException 
 	 */
 	@GetMapping("/CIA_Name/{CIA_Name}")
-	public ResponseEntity<List<InsuranceCompany>> getByCIAName(@PathVariable("CIA_NAME") String name) throws ServiceException {
-		if(name!=null) {
-			if(!name.equals("")) {
-				List<InsuranceCompany> result=service.getByCIAName(name);
-				return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
-				
-				
-			}else {
-				throw new ServiceException("El nombre introduccido esta vacio");
-			}
-		}else {
-			throw new ServiceException("El nombre introducido es nulo");
-		}
+	public ResponseEntity<List<InsuranceCompany>> getByCIAName(@PathVariable("CIA_NAME") String name){
 		
+				List<InsuranceCompany> result;
+				try {
+					result = service.getByCIAName(name);
+					
+					return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
+				} catch (ServiceException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					
+					return new ResponseEntity<List<InsuranceCompany>>(HttpStatus.BAD_REQUEST);
+				}
 	}
 	
 	/**
@@ -61,9 +60,18 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException 
 	 */
 	@GetMapping("/CIA_Name/{CIA_Name}/elements/{elements}/page/{page}")
-	public ResponseEntity<List<InsuranceCompany>> getByNamePaged(@PathVariable("CIA_Name")String name,@PathVariable("elements")int elements,@PathVariable("page")int page) throws ServiceException{
-		List<InsuranceCompany> result=service.getByNamePaged(name, elements, page);
-		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
+	public ResponseEntity<List<InsuranceCompany>> getByNamePaged(@PathVariable("CIA_Name")String name,@PathVariable("elements")int elements,@PathVariable("page")int page){
+		List<InsuranceCompany> result;
+		try {
+			result = service.getByNamePaged(name, elements, page);
+			
+			return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<InsuranceCompany>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Método que duvuelve la compañia que tenga ese id
@@ -72,9 +80,18 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException
 	 */
 	@GetMapping("/id/{id}")
-	public ResponseEntity<InsuranceCompany> getByID(@PathVariable("id")Long id) throws ServiceException {
-		InsuranceCompany result=service.getInsuranceCompanyById(id);
-		return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
+	public ResponseEntity<InsuranceCompany> getByID(@PathVariable("id")Long id){
+		InsuranceCompany result;
+		try {
+			result = service.getInsuranceCompanyById(id);
+			
+			return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<InsuranceCompany>(HttpStatus.BAD_REQUEST);
+		}
 		
 	}
 	/*
@@ -82,9 +99,18 @@ public class InsuranceCompanyController {
 	 * @Return ResponseEntity<InsuranceCompany>
 	 */
 	@PostMapping()
-	public ResponseEntity<InsuranceCompany> creatoOrUpdateIsuranceCompany(@Valid @RequestBody InsuranceCompany isuranceCompany) throws ServiceException {
-		InsuranceCompany result=service.createOrUpadateInsuranceCompany(isuranceCompany);
-		return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
+	public ResponseEntity<InsuranceCompany> creatoOrUpdateIsuranceCompany(@Valid @RequestBody InsuranceCompany isuranceCompany){
+		InsuranceCompany result;
+		try {
+			result = service.createOrUpadateInsuranceCompany(isuranceCompany);
+			
+			return new ResponseEntity<InsuranceCompany>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<InsuranceCompany>(HttpStatus.BAD_REQUEST);
+		}
 		
 	}
 	/**
@@ -94,9 +120,22 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException
 	 */
 	@DeleteMapping()
-	public HttpStatus deleteInsuranceCompany(@Valid @RequestBody InsuranceCompany insurance) throws ServiceException {
-		service.deleteInsuranceCompany(insurance);
-		return HttpStatus.OK;
+	public HttpStatus deleteInsuranceCompany(@Valid @RequestBody InsuranceCompany insurance){
+		try {
+			if(service.deleteInsuranceCompany(insurance)) {
+				
+				return HttpStatus.OK;
+				
+			}else {
+				
+				return HttpStatus.BAD_REQUEST;
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+		}
 		
 	}
 	/**
@@ -106,7 +145,9 @@ public class InsuranceCompanyController {
 
 	@GetMapping()
 	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompany(){
+		
 		List<InsuranceCompany> result=service.getAll();
+		
 		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
 		
 	}
@@ -118,9 +159,22 @@ public class InsuranceCompanyController {
 	 * @throws ServiceException
 	 */
 	@GetMapping("/elements/{elements}/page/{page}")
-	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompanyPaged(@PathVariable("elements")int elements,@PathVariable("page")int page) throws ServiceException{
-		List<InsuranceCompany> result=service.getAllPaged(elements, page);
-		return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
+	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompanyPaged(@PathVariable("elements")int elements,@PathVariable("page")int page){
+		
+		List<InsuranceCompany> result;
+		
+		try {
+			result = service.getAllPaged(elements, page);
+			
+			return new ResponseEntity<List<InsuranceCompany>>(result,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<InsuranceCompany>>(HttpStatus.BAD_REQUEST);
+			
+		}
 		
 		
 	}
