@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.User;
 import project.services.UserService;
 
@@ -49,8 +50,18 @@ public class UserController {
 	 */
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<User>> getAllUsersPaged(@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getAllPaged(element,page);
-		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+		List<User> all;
+		
+		try {
+			all = service.getAllPaged(element,page);
+			
+			return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -64,8 +75,18 @@ public class UserController {
 	 */
 	@GetMapping("/administrator/{administrator}/element/{element}/page/{page}")
 	public ResponseEntity<List<User>> getByAdministratorPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
-		List<User> all=service.getByAdministratorPaged(administrator,element, page);
-		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+		List<User> all;
+		try {
+			all = service.getByAdministratorPaged(administrator,element, page);
+			
+			
+			return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por id.
@@ -75,9 +96,16 @@ public class UserController {
 	 * @throws RecordNotFoundException
 	 */
 	@GetMapping("/id/{id}")
-	public ResponseEntity<User> getUserByID(@PathVariable("id")Long id) throws RecordNotFoundException{
-		User user=service.getbyId(id);
-		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+	public ResponseEntity<User> getUserByID(@PathVariable("id")Long id){
+		try {
+			User user=service.getbyId(id);
+			
+			return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (RecordNotFoundException e) {
+			
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por nombre.
@@ -88,8 +116,17 @@ public class UserController {
 	 */
 	@GetMapping("/name/{name}")
 	public ResponseEntity<User> getUserByName(@PathVariable("name")String name) throws RecordNotFoundException{
-		User user=service.getByName(name.toLowerCase());
-		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+		User user;
+		try {
+			user = service.getByName(name.toLowerCase());
+			
+			return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por codigo.
@@ -100,8 +137,17 @@ public class UserController {
 	 */
 	@GetMapping("/code/{code}")
 	public ResponseEntity<User> getUserByName(@PathVariable("code")int code) throws RecordNotFoundException{
-		User user=service.getByCode(code);
-		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+		User user;
+		try {
+			user = service.getByCode(code);
+			
+			return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/**
 	 * Recibe un usuario. Crea o updatea un usuario.
@@ -112,11 +158,24 @@ public class UserController {
 	 */
 	@PostMapping
 	public ResponseEntity<User> createorUpdateUser(@Valid @RequestBody User u) throws RecordNotFoundException{
-		System.out.println(u.getName());
-		User user=service.createorupdate(u);
+		User user;
+		try {
+			user = service.createorupdate(u);
+			
+			return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		}
 		
 		
-		return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
 	 * Recibe un usuario y devuelve una respuesta HTTP en función de si ha podido eliminarla
@@ -128,7 +187,23 @@ public class UserController {
 	 */
 	@DeleteMapping
 	public HttpStatus deleteUserById(@Valid @RequestBody User u) throws RecordNotFoundException {
-		service.delete(u);
-		return HttpStatus.OK;
+		try {
+			if(service.delete(u)) {
+				return HttpStatus.OK;
+				
+			}else {
+				return HttpStatus.BAD_REQUEST;
+			}
+		} catch (RecordNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return HttpStatus.BAD_REQUEST;
+		}
 	}
 }

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.rowset.serial.SerialException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.exception.RecordNotFoundException;
+import project.exception.ServiceException;
 import project.models.Agency;
 import project.models.User;
 import project.repositories.UserRepository;
@@ -38,11 +41,21 @@ public class UserService {
 	 * @throws RecordNotFoundException
 	 */
 	public User getbyId(Long id) throws RecordNotFoundException {
-		Optional<User> result = repository.findById(id);
-		if (result.isPresent()) {
-			return result.get();
+		if (id != null) {
+			if (id > 0) {
+				Optional<User> result = repository.findById(id);
+				if (result.isPresent()) {
+					return result.get();
+				} else {
+					throw new RecordNotFoundException("User no existe", id);
+				}
+
+			} else {
+				throw new RecordNotFoundException("El rango del id introducido no es valido", id);
+			}
+
 		} else {
-			throw new RecordNotFoundException("User no existe", id);
+			throw new RecordNotFoundException("El id es nulo", id);
 		}
 
 	}
@@ -55,35 +68,48 @@ public class UserService {
 	 * @param Agency: El usuario a actualizar/insertar.
 	 * @return Devuelve el usuario con el id generado.
 	 * @throws RecordNotFoundException
+	 * @throws SerialException
+	 * @throws ServiceException
 	 */
-	public User createorupdate(User user) throws RecordNotFoundException {
-		if (user.getId() != null && user.getId() > 0) {
-			Optional<User> u = repository.findById(user.getId());
+	public User createorupdate(User user) throws RecordNotFoundException, ServiceException {
+		if (user != null) {
+			if (user.getCode() > 0 && user.getEmail() != null && user.getName() != null && user.getPassword() != null) {
+				if (user.getId() != null && user.getId() > 0) {
+					Optional<User> u = repository.findById(user.getId());
 
-			if (u.isPresent()) { // update
-				User newUser = u.get();
-				
-				newUser.setId(user.getId());
-				newUser.setCode(user.getCode());
-				newUser.setPassword(user.getPassword());
-				newUser.setAdministrator(user.isAdministrator());
-				newUser.setEmail(user.getEmail());
-				newUser.setName(user.getName());
-				
-				newUser=repository.save(newUser);
-				return newUser;
-			
-			} else { // insert
-				user.setId(null);
-				user = repository.save(user);
-				return user;
+					if (u.isPresent()) { // update
+						User newUser = u.get();
+
+						newUser.setId(user.getId());
+						newUser.setCode(user.getCode());
+						newUser.setPassword(user.getPassword());
+						newUser.setAdministrator(user.isAdministrator());
+						newUser.setEmail(user.getEmail());
+						newUser.setName(user.getName());
+						
+						newUser = repository.save(newUser);
+						
+						return newUser;
+
+					} else { // insert
+						user.setId(null);
+						user = repository.save(user);
+						return user;
+					}
+
+				}
+
+				else {
+					user = repository.save(user);
+					return user;
+				}
+
+			} else {
+				throw new ServiceException("Algo es nulo, intetalo otra vez");
 			}
 
-		}
-		
-		else {
-			user=repository.save(user);
-			return user;
+		} else {
+			throw new ServiceException("El usuario es nulo");
 		}
 	}
 
@@ -94,16 +120,33 @@ public class UserService {
 	 * @param Agency: El Usuario a eliminar.
 	 * @return Devuelve true si el usuario se ha borrado False si no.
 	 * @throws RecordNotFoundException
+	 * @throws ServiceException 
 	 */
-	public boolean delete(User user) throws RecordNotFoundException {
+	public boolean delete(User user) throws RecordNotFoundException, ServiceException {
 		boolean result = false;
-		Optional<User> optional = repository.findById(user.getId());
-		if (optional.isPresent()) {
-			repository.deleteById(user.getId());
-			result = true;
-		} else {
+		if(user!=null) {
+			if(user.getId()!=null) {
+				if(user.getId()>0) {
+					Optional<User> optional = repository.findById(user.getId());
+					if (optional.isPresent()) {
+						repository.deleteById(user.getId());
+						result = true;
+					} else {
+						result = false;
+						throw new RecordNotFoundException("El usuario no existe", user.getId());
+					}
+					
+				}else {
+					result = false;
+					throw new RecordNotFoundException("El rango del id no es válido",user.getId());
+				}
+			}else {
+				result = false;
+				throw new RecordNotFoundException("El id es nulo",user.getId());
+			}
+		}else {
 			result = false;
-			throw new RecordNotFoundException("El usuario no existe", user.getId());
+			throw new ServiceException("Usuario es nulo");
 		}
 		return result;
 	}
@@ -115,9 +158,15 @@ public class UserService {
 	 * @param element nº de elementos a buscar
 	 * @param page    nº de página a partir del cual buscar.
 	 * @return Una lista de usuarios intercambiados.
+	 * @throws ServiceException 
 	 */
-	public List<User> getAllPaged(int element, int page) {
-		return repository.getAllPaged(element, page);
+	public List<User> getAllPaged(int element, int page) throws ServiceException {
+		if(element>0&&page>0) {
+			
+			return repository.getAllPaged(element, page);
+		}else {
+			throw new ServiceException("El rango de páginas es invalido");
+		}
 	}
 
 	/**
@@ -125,9 +174,15 @@ public class UserService {
 	 * 
 	 * @param code codigo del usuario a recivir
 	 * @return Usuario encontrado.
+	 * @throws ServiceException 
 	 */
-	public User getByCode(int code) {
-		return repository.getByCode(code);
+	public User getByCode(int code) throws ServiceException {
+		if(code>0) {
+			
+			return repository.getByCode(code);
+		}else {
+			throw new ServiceException("Codigo introducido inválido");
+		}
 	}
 
 	/**
@@ -135,10 +190,20 @@ public class UserService {
 	 * 
 	 * @param name nombre del usuario a recivir
 	 * @return Usuario encontrado.
+	 * @throws ServiceException 
 	 */
-	public User getByName(String name) {
-		System.out.println(repository.getByName(name.toLowerCase()));
-		return repository.getByName(name.toLowerCase());
+	public User getByName(String name) throws ServiceException {
+		if(name!=null) {
+			if(!name.equals("")) {
+				
+				return repository.getByName(name.toLowerCase());
+				
+			}else {
+				throw new ServiceException("El nombre esta vacio");
+			}
+		}else {
+			throw new ServiceException("El nombre es nulo");
+		}
 	}
 
 	/**
@@ -149,8 +214,15 @@ public class UserService {
 	 * @param element       nº de elementos a buscar
 	 * @param page          nº de página a partir del cual buscar.
 	 * @return Una lista de usuarios intercambiados.
+	 * @throws ServiceException 
 	 */
-	public List<User> getByAdministratorPaged(Boolean administrator, int element, int page) {
-		return repository.getAllAdminPaged(administrator, element, page);
+	public List<User> getByAdministratorPaged(Boolean administrator, int element, int page) throws ServiceException {
+		if(element>0&&page>0) {
+			
+			return repository.getAllAdminPaged(administrator, element, page);
+		}else {
+			throw new ServiceException("El rango introducido no es válido");
+		}
+		
 	}
 }

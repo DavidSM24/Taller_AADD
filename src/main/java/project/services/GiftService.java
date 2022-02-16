@@ -124,35 +124,41 @@ public class GiftService {
 	 * @param Gift: El regalo a actualizar/insertar.
 	 * @return Devuelve el regalo con el id generado.
 	 * @throws RecordNotFoundException
+	 * @throws ServiceException 
 	 */
-	public Gift createOrUpdate(Gift Gift) throws RecordNotFoundException {
-		if (Gift.getId() != null && Gift.getId() > 0) {
-			Optional<Gift> a = repository.findById(Gift.getId());
+	public Gift createOrUpdate(Gift gift) throws RecordNotFoundException, ServiceException {
+		if(gift!=null) {
+			
+		}else {
+			throw new ServiceException("El regalo introducido es nulo");
+		}
+		if (gift.getId() != null && gift.getId() > 0) {
+			Optional<Gift> a = repository.findById(gift.getId());
 
 			if (a.isPresent()) { // update
 				Gift newGift = a.get();
 				
-				newGift.setId(Gift.getId());
-				newGift.setName(Gift.getName());
-				newGift.setPoints(Gift.getPoints());
-				newGift.setAvailable(Gift.isAvailable());
-				newGift.setPicture(Gift.getPicture());
-				newGift.setExchangeGifts(Gift.getExchangeGifts());
+				newGift.setId(gift.getId());
+				newGift.setName(gift.getName());
+				newGift.setPoints(gift.getPoints());
+				newGift.setAvailable(gift.isAvailable());
+				newGift.setPicture(gift.getPicture());
+				newGift.setExchangeGifts(gift.getExchangeGifts());
 							
 				newGift=repository.save(newGift);
 				return newGift;
 			
 			} else { // insert
-				Gift.setId(null);
-				Gift = repository.save(Gift);
-				return Gift;
+				gift.setId(null);
+				gift = repository.save(gift);
+				return gift;
 			}
 
 		}
 		
 		else {
-			Gift=repository.save(Gift);
-			return Gift;
+			gift=repository.save(gift);
+			return gift;
 		}
 	}
 
@@ -186,9 +192,9 @@ public class GiftService {
 				throw new ServiceException("El regalo introducido es nulo");
 			}
 					
-				}else {
-					throw new RecordNotFoundException("El id introducido es invalido",gift.getId());
-				}
+			}else {
+				throw new RecordNotFoundException("El id introducido es invalido",gift.getId());
+			}
 				
 	}
 }
