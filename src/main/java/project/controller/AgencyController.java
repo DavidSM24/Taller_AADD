@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Agency;
@@ -36,6 +39,13 @@ public class AgencyController {
 	 * 
 	 * @return la respuesta HTTP con la lista de agencias.
 	 */
+	@ApiOperation(value = "Return all Agencies", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping
 	public ResponseEntity<List<Agency>> getAll(){
 		List<Agency> all=service.getAll();
@@ -50,6 +60,13 @@ public class AgencyController {
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de agencias paginadas.
 	 */
+	@ApiOperation(value = "Return all Agencies Paged", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<Agency>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
 		List<Agency> paged=service.getAllPaged(element,page);
@@ -63,6 +80,13 @@ public class AgencyController {
 	 * @return respuesta con la agencia encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return a Agencie by ID", notes="Returns an Agency ")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencie"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Agency> getById(@PathVariable("id") Long id)
 			throws RecordNotFoundException{
@@ -81,6 +105,13 @@ public class AgencyController {
 	 * @return respuesta con lista de agencias paginada y filtrada por username.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return all Agencies Paged By her Username", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/username/{username}/element/{element}/page/{page}")
 	public ResponseEntity<List<Agency>> getByUsernamePaged(
 			@PathVariable("username") String username,
@@ -109,6 +140,13 @@ public class AgencyController {
 	 * @return respuesta con lista de agencias paginada y filtrada por active.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return all Agencies Paged depending if they are active", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/active/{active}/element/{element}/page/{page}")
 	public ResponseEntity<List<Agency>> getByActivePaged(
 			@PathVariable("active") boolean active,
@@ -134,6 +172,13 @@ public class AgencyController {
 	 * @return respuesta con la nota actualida o insertada con su id correspondiente.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Create or Update a new Agency", notes="Return a Agencie")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@PostMapping()
 	public ResponseEntity<Agency> createOrUpdate(@Valid @RequestBody Agency a) 
 			throws RecordNotFoundException {
@@ -161,6 +206,13 @@ public class AgencyController {
 	 * @return respuesta http sobre el status de la petición.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return all Agencies Paged By her Username", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to delete"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody Agency a) throws RecordNotFoundException {
 		try {
