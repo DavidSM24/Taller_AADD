@@ -206,7 +206,7 @@ public class AgencyController {
 	 * @return respuesta http sobre el status de la petición.
 	 * @throws RecordNotFoundException
 	 */
-	@ApiOperation(value = "Return all Agencies Paged By her Username", notes="Return a Agencies List")
+	@ApiOperation(value = "Delete a Agency")
 	@ApiResponses(value = {
 			@ApiResponse(code=200,message="Successful Operation"),
 			@ApiResponse(code=400,message="Bad Request"),

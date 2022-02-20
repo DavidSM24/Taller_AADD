@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Agency;
@@ -36,6 +39,13 @@ public class CarRepairController {
 	 * Método que devuelve todas las reparaciones de la base de datos
 	 * @return
 	 */
+	@ApiOperation(value = "Return all CarRepairs", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping()
 	public ResponseEntity<List<CarRepair>> getAll(){
 		List<CarRepair> result=service.getAll();
@@ -47,6 +57,13 @@ public class CarRepairController {
 	 * @param id
 	 * @return ResponseEntity<CarRepair>
 	 */
+	@ApiOperation(value = "Return a CarRepair By ID", notes="Return a CarRepair")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepair"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/id/{id}")
 	public ResponseEntity<CarRepair> getById(@PathVariable("id")Long id){
 		try {
@@ -68,6 +85,13 @@ public class CarRepairController {
 	 * @return ResponseEntity<List<CarRepair>>
 	 * @throws Exception 
 	 */
+	@ApiOperation(value = "Return all CarRepairs Paged", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getAllPaged(@PathVariable(
 			"elements")int element,@PathVariable("page")int page) {
@@ -96,6 +120,13 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
+	@ApiOperation(value = "Return all CarRepairs Paged By Operation", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/operation/{operation}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByOperationPaged(
 			@PathVariable("operation")Long operation,@PathVariable("elements") int elements,@PathVariable("page")int page){
@@ -123,6 +154,13 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
+	@ApiOperation(value = "Return all CarRepairs Paged by CarPlate", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/carPlate/{carPlate}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByCarPlate(
 			@PathVariable("carPlate")String carPlate,@PathVariable("elements")int element,@PathVariable("page")int page){
@@ -151,6 +189,13 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
+	@ApiOperation(value = "Return all CarRepairs Paged by clientname", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/clientName/{clientName}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByClientName(
 			@PathVariable("clientName")String clientName,@PathVariable("elements")int element,@PathVariable("page")int page){
@@ -179,6 +224,13 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
+	@ApiOperation(value = "Return all CarRepairs Paged by dateOrder", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/ini/{ini}/end{end}/elements{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByDateOrderPaged(
 			@PathVariable("ini")LocalDateTime ini,@PathVariable("end")LocalDateTime end,
@@ -208,6 +260,13 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
+	@ApiOperation(value = "Return all CarRepairs Paged by points", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/min/{min}/max/{max}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByPointsPaged(
 			@PathVariable("min")int min,@PathVariable("max")int max,
@@ -235,6 +294,13 @@ public class CarRepairController {
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
 	 */
+	@ApiOperation(value = "Return all CarRepairs paged by her state", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/repaired/{t-f}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByStatedPaged(
 			@PathVariable("t-f")boolean repaired,@PathVariable("elements")int element,@PathVariable("page")int page){
@@ -259,6 +325,13 @@ public class CarRepairController {
 	 * @param carRepair
 	 * @return ResponseEntity<CarRepair>
 	 */
+	@ApiOperation(value = "Create or Update a new CarRepair", notes="Return a CarRepair")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@PostMapping()
 	public ResponseEntity<CarRepair> createOrUpdateCarRepair(@Valid @RequestBody CarRepair carRepair) {
 			
@@ -282,6 +355,13 @@ public class CarRepairController {
 	 * @param carRepair
 	 * @return ResponseEntity<CarRepair>
 	 */
+	@ApiOperation(value = "Delete a CarRepair")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to delete"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody CarRepair c) {
 		try {
