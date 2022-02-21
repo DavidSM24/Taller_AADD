@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import project.exception.ServiceException;
 import project.models.InsuranceCompany;
 import project.services.InsuranceCompanyService;
@@ -35,6 +38,13 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<List<InsuranceCompany>> todas compañias de seguros con ese nombre
 	 * @throws ServiceException 
 	 */
+	@ApiOperation(value = "Return all InsuranceCompanies filtered by CIA NAME", notes="Return a InsuranceCompanies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get InsuranceCompanies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/CIA_Name/{CIA_Name}")
 	public ResponseEntity<List<InsuranceCompany>> getByCIAName(@PathVariable("CIA_NAME") String name){
 		
@@ -59,6 +69,13 @@ public class InsuranceCompanyController {
 	 * @return List<InsuranceCompany> Grupo reducido de compañias de seguros con ese nombre y dentro de una posición determinada
 	 * @throws ServiceException 
 	 */
+	@ApiOperation(value = "Return all InsuranceCompanies paged filtered by CIA NAME", notes="Return a InsuranceCompanies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get InsuranceCompanies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/CIA_Name/{CIA_Name}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<InsuranceCompany>> getByNamePaged(@PathVariable("CIA_Name")String name,@PathVariable("elements")int elements,@PathVariable("page")int page){
 		List<InsuranceCompany> result;
@@ -79,6 +96,13 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<InsuranceCompany>
 	 * @throws ServiceException
 	 */
+	@ApiOperation(value = "Return a InsuranceCompany filtered by ID", notes="Return a InsuranceCompany")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get InsuranceCompany"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/id/{id}")
 	public ResponseEntity<InsuranceCompany> getByID(@PathVariable("id")Long id){
 		InsuranceCompany result;
@@ -98,6 +122,13 @@ public class InsuranceCompanyController {
 	 * Método que guarda o actualiza la compañia de seguros en la base de datos
 	 * @Return ResponseEntity<InsuranceCompany>
 	 */
+	@ApiOperation(value = "Create or Update a new InsuranceCompany", notes="Return a InsuranceCompany")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@PostMapping()
 	public ResponseEntity<InsuranceCompany> creatoOrUpdateIsuranceCompany(@Valid @RequestBody InsuranceCompany isuranceCompany){
 		InsuranceCompany result;
@@ -119,6 +150,13 @@ public class InsuranceCompanyController {
 	 * @return HttpStatus
 	 * @throws ServiceException
 	 */
+	@ApiOperation(value = "Delete a InsuranceCompany")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to delete"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@DeleteMapping()
 	public HttpStatus deleteInsuranceCompany(@Valid @RequestBody InsuranceCompany insurance){
 		try {
@@ -142,7 +180,13 @@ public class InsuranceCompanyController {
 	 * Método que devuelva todas las compañias de seguros de la base de datos
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 */
-
+	@ApiOperation(value = "Return all InsuranceCompanies", notes="Return a InsuranceCompanies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get InsuranceCompanies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping()
 	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompany(){
 		
@@ -158,6 +202,13 @@ public class InsuranceCompanyController {
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 * @throws ServiceException
 	 */
+	@ApiOperation(value = "Return all InsuranceCompanies Paged", notes="Return a InsuranceCompanies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get InsuranceCompanies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/elements/{elements}/page/{page}")
 	public ResponseEntity<List<InsuranceCompany>> getAllInsuranceCompanyPaged(@PathVariable("elements")int elements,@PathVariable("page")int page){
 		

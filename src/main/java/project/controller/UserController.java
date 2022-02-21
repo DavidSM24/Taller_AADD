@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.User;
@@ -35,6 +38,13 @@ public class UserController {
 	 * 
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
+	@ApiOperation(value = "Return all Users", notes="Return a Users List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Users"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> all=service.getall();
@@ -48,6 +58,13 @@ public class UserController {
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
+	@ApiOperation(value = "Return all Users Paged", notes="Return a Users List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Users"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<User>> getAllUsersPaged(@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
 		List<User> all;
@@ -73,6 +90,13 @@ public class UserController {
 	 * @param administrator booleano para identificar si es admnistrador o no.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
+	@ApiOperation(value = "Return all Users Paged filtered if they are administrator", notes="Return a Users List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Users"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/administrator/{administrator}/element/{element}/page/{page}")
 	public ResponseEntity<List<User>> getByAdministratorPaged(@PathVariable("administrator")Boolean administrator,@PathVariable("element") int element,@PathVariable("page")int page) throws RecordNotFoundException{
 		List<User> all;
@@ -95,6 +119,13 @@ public class UserController {
 	 * @return respuesta con el usuario encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return a User filtered by ID", notes="Return a User")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get User"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> getUserByID(@PathVariable("id")Long id){
 		try {
@@ -114,6 +145,13 @@ public class UserController {
 	 * @return respuesta con el usuario encontrada con ese nombre.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return a User filtered by Name", notes="Return a User")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get User"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/name/{name}")
 	public ResponseEntity<User> getUserByName(@PathVariable("name")String name) throws RecordNotFoundException{
 		User user;
@@ -135,6 +173,13 @@ public class UserController {
 	 * @return respuesta con el usuario encontrada con ese nombre.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return a User filtered by Code", notes="Return a User")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get User"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/code/{code}")
 	public ResponseEntity<User> getUserByName(@PathVariable("code")int code) throws RecordNotFoundException{
 		User user;
@@ -156,6 +201,13 @@ public class UserController {
 	 * @return respuesta con el usuario actualido o insertado con su id correspondiente.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Create or Update a new User", notes="Return a User")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@PostMapping
 	public ResponseEntity<User> createorUpdateUser(@Valid @RequestBody User u) throws RecordNotFoundException{
 		User user;
@@ -185,6 +237,13 @@ public class UserController {
 	 * @return respuesta http sobre el status de la petición.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Delete a User")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to delete"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@DeleteMapping
 	public HttpStatus deleteUserById(@Valid @RequestBody User u) throws RecordNotFoundException {
 		try {
