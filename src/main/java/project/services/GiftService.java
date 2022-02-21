@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Gift;
+import project.repositories.CloudinaryRepository;
 import project.repositories.GiftRepository;
 
 @Service
@@ -126,7 +128,7 @@ public class GiftService {
 	 * @throws RecordNotFoundException
 	 * @throws ServiceException 
 	 */
-	public Gift createOrUpdate(Gift gift) throws RecordNotFoundException, ServiceException {
+	public Gift createOrUpdate(Gift gift, MultipartFile file) throws RecordNotFoundException, ServiceException {
 		if(gift!=null) {
 			
 		}else {
@@ -134,15 +136,17 @@ public class GiftService {
 		}
 		if (gift.getId() != null && gift.getId() > 0) {
 			Optional<Gift> a = repository.findById(gift.getId());
-
+			
 			if (a.isPresent()) { // update
 				Gift newGift = a.get();
+				
+				CloudinaryRepository.delete(newGift.getPicture()); //elimina la anterior foto.
 				
 				newGift.setId(gift.getId());
 				newGift.setName(gift.getName());
 				newGift.setPoints(gift.getPoints());
 				newGift.setAvailable(gift.isAvailable());
-				newGift.setPicture(gift.getPicture());
+				newGift.setPicture(CloudinaryRepository.upload(file, newGift)); //crea una nueva.
 				newGift.setExchangeGifts(gift.getExchangeGifts());
 							
 				newGift=repository.save(newGift);
@@ -150,13 +154,16 @@ public class GiftService {
 			
 			} else { // insert
 				gift.setId(null);
+				gift.setPicture(CloudinaryRepository.upload(file, gift));
 				gift = repository.save(gift);
+				
 				return gift;
 			}
 
 		}
 		
 		else {
+			gift.setPicture(CloudinaryRepository.upload(file, gift));
 			gift=repository.save(gift);
 			return gift;
 		}
@@ -177,7 +184,7 @@ public class GiftService {
 					Optional<Gift> optional=repository.findById(gift.getId());
 					
 					if(optional.isPresent()) {
-						
+						CloudinaryRepository.delete(gift.getPicture());
 						repository.deleteById(gift.getId());
 					}
 					else {

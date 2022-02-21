@@ -1,12 +1,20 @@
 package project.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.JpaSort.Path;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +23,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,9 +35,11 @@ import io.swagger.annotations.ApiResponses;
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Gift;
+import project.repositories.CloudinaryRepository;
 import project.services.GiftService;
+import springfox.documentation.spring.web.paths.Paths;
 
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/gifts")
 public class GiftController {
@@ -198,13 +212,15 @@ public class GiftController {
 			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
 			@ApiResponse(code=500,message="Internal Error"),
 	})
+	
 	@PostMapping()
-	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestBody Gift g) {
-			
+	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestPart("g") Gift g, @RequestPart("file") MultipartFile file) {
+		
 		Gift gg;
 		
 		try {
-			gg = service.createOrUpdate(g);
+			
+			gg = service.createOrUpdate(g,file);
 			
 			return new ResponseEntity<Gift>(gg,new HttpHeaders(),HttpStatus.OK);
 		} catch (RecordNotFoundException e) {
@@ -239,6 +255,8 @@ public class GiftController {
 	public HttpStatus delete(@Valid @RequestBody Gift g) throws RecordNotFoundException {
 		
 		try {
+			
+			g=service.getById(g.getId());
 			service.delete(g);
 			
 			return HttpStatus.OK;
@@ -253,5 +271,12 @@ public class GiftController {
 			
 			return HttpStatus.BAD_REQUEST;
 		}
+	}
+	
+	@PostMapping("/prueba")
+	public String prueba(
+			@RequestParam("file") MultipartFile file) {
+
+		return file.getOriginalFilename();
 	}
 }
