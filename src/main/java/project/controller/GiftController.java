@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Gift;
@@ -36,6 +39,13 @@ public class GiftController {
 	 * 
 	 * @return la respuesta HTTP con la lista de regalos.
 	 */
+	@ApiOperation(value = "Return all Gifts", notes="Return a Gifts List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Gifts"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping
 	public ResponseEntity<List<Gift>> getAll(){
 		List<Gift> all=service.getAll();
@@ -50,6 +60,13 @@ public class GiftController {
 	 * @param page el nº de pagina por el que empieza la paginación.
 	 * @return la respuesta HTTP con la lista de regalos paginada.
 	 */
+	@ApiOperation(value = "Return all Gifts Paged", notes="Return a Gifts List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Gifts"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<Gift>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
 		List<Gift> paged;
@@ -75,6 +92,13 @@ public class GiftController {
 	 * @return respuesta con el regalo encontrado con ese id.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Return a Gift By ID", notes="Return a Gift")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Gift"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Gift> getById(@PathVariable("id") Long id){
 		try {
@@ -100,6 +124,13 @@ public class GiftController {
 	 * @param page página para empezar la paginación en la búsqueda.
 	 * @return lista de regalos paginada y filtrada por nombre
 	 */
+	@ApiOperation(value = "Return Gifts Paged filter by name", notes="Return a Gifts List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Gifts"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/name/{name}/element/{element}/page/{page}")
 	public ResponseEntity<List<Gift>> getByNamePaged(@PathVariable("name")String name, @PathVariable("element") int element, @PathVariable("page") int page){
 		List<Gift> result;
@@ -127,6 +158,13 @@ public class GiftController {
 	 * @param page página para empezar la paginación en la búsqueda.
 	 * @return lista de regalos paginada y filtrada por nombre
 	 */
+	@ApiOperation(value = "Return Gifts Paged depending if they are available", notes="Return a Gifts List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Gifts"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@GetMapping("/available/{available}/element/{element}/page/{page}")
 	public ResponseEntity<List<Gift>> getByAvaliablePaged(@PathVariable("available")boolean avaliable, @PathVariable("element") int element, @PathVariable("page") int page) {
 		
@@ -152,6 +190,14 @@ public class GiftController {
 	 * @return respuesta con el regalo actualido o insertado con su id correspondiente.
 	 * @throws RecordNotFoundException
 	 */
+	
+	@ApiOperation(value = "Create or Update a new Gift", notes="Return a Gift")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@PostMapping()
 	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestBody Gift g) {
 			
@@ -182,6 +228,13 @@ public class GiftController {
 	 * @return respuesta http sobre el status de la petición.
 	 * @throws RecordNotFoundException
 	 */
+	@ApiOperation(value = "Delete a Gift")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, It was not possible to delete"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody Gift g) throws RecordNotFoundException {
 		
