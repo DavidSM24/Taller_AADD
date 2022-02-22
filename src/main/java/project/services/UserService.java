@@ -6,17 +6,24 @@ import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Agency;
+import project.models.InsuranceCompany;
 import project.models.User;
 import project.repositories.UserRepository;
 
 @Service
 public class UserService {
+	// log4j2
+	private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+	
+	
 	/**
 	 * Repositorio de Usuarios asociado a este servicio.
 	 */
@@ -29,6 +36,8 @@ public class UserService {
 	 * @return lista de usuarios
 	 */
 	public List<User> getall() {
+		logger.info("Petición realizada correctamente");
+		
 		return repository.findAll();
 	}
 
@@ -45,16 +54,24 @@ public class UserService {
 			if (id > 0) {
 				Optional<User> result = repository.findById(id);
 				if (result.isPresent()) {
+					logger.info("Petición realizada correctamente");
+					
 					return result.get();
 				} else {
+					logger.error("El usario con la id "+id+" no existe");
+					
 					throw new RecordNotFoundException("User no existe", id);
 				}
 
 			} else {
+				logger.error("El id es menor de 0");
+				
 				throw new RecordNotFoundException("El rango del id introducido no es valido", id);
 			}
 
 		} else {
+			logger.error("El id es nulo");
+			
 			throw new RecordNotFoundException("El id es nulo", id);
 		}
 
@@ -88,12 +105,15 @@ public class UserService {
 						newUser.setName(user.getName());
 						
 						newUser = repository.save(newUser);
+						logger.info("Petición realizada correctamente");
 						
 						return newUser;
 
 					} else { // insert
 						user.setId(null);
 						user = repository.save(user);
+						logger.info("Petición realizada correctamente");
+						
 						return user;
 					}
 
@@ -101,14 +121,20 @@ public class UserService {
 
 				else {
 					user = repository.save(user);
+					logger.info("Petición realizada correctamente");
+					
 					return user;
 				}
 
 			} else {
+				logger.error("Alguno de los atributos introducidos es nulo");
+				
 				throw new ServiceException("Algo es nulo, intetalo otra vez");
 			}
 
 		} else {
+			logger.error("El usuario es nulo");
+			
 			throw new ServiceException("El usuario es nulo");
 		}
 	}
@@ -133,21 +159,31 @@ public class UserService {
 						result = true;
 					} else {
 						result = false;
+						logger.error("El usuario con la id "+user.getId()+" no existe en esta base de datos");
+						
 						throw new RecordNotFoundException("El usuario no existe", user.getId());
 					}
 					
 				}else {
 					result = false;
+					logger.error("El rango de la id no es válido");
+					
 					throw new RecordNotFoundException("El rango del id no es válido",user.getId());
 				}
 			}else {
 				result = false;
+				logger.error("El id es nulo");
+				
 				throw new RecordNotFoundException("El id es nulo",user.getId());
 			}
 		}else {
 			result = false;
+			logger.error("EL usuario es nulo");
+			
 			throw new ServiceException("Usuario es nulo");
 		}
+		logger.info("Petición realizada correctamente");
+		
 		return result;
 	}
 
@@ -161,10 +197,13 @@ public class UserService {
 	 * @throws ServiceException 
 	 */
 	public List<User> getAllPaged(int element, int page) throws ServiceException {
-		if(element>0&&page>0) {
+		if(element>0&&page>-1) {
+			logger.info("Petición realizada correctamente");
 			
 			return repository.getAllPaged(element, page);
 		}else {
+			logger.error("El rango de páginas no es válido");
+			
 			throw new ServiceException("El rango de páginas es invalido");
 		}
 	}
@@ -178,9 +217,12 @@ public class UserService {
 	 */
 	public User getByCode(int code) throws ServiceException {
 		if(code>0) {
+			logger.info("Petición realizada correctamente");
 			
 			return repository.getByCode(code);
 		}else {
+			logger.error("El código introducido no es válido");
+			
 			throw new ServiceException("Codigo introducido inválido");
 		}
 	}
@@ -195,13 +237,18 @@ public class UserService {
 	public User getByName(String name) throws ServiceException {
 		if(name!=null) {
 			if(!name.equals("")) {
+				logger.info("Petición realizada correctamente");
 				
 				return repository.getByName(name.toLowerCase());
 				
 			}else {
+				logger.error("El nombre esta vacio");
+				
 				throw new ServiceException("El nombre esta vacio");
 			}
 		}else {
+			logger.error("El nombre es nulo");
+			
 			throw new ServiceException("El nombre es nulo");
 		}
 	}
@@ -217,10 +264,13 @@ public class UserService {
 	 * @throws ServiceException 
 	 */
 	public List<User> getByAdministratorPaged(Boolean administrator, int element, int page) throws ServiceException {
-		if(element>0&&page>0) {
+		if(element>0&&page>-1) {
+			logger.info("Petición realizada correctamente");
 			
 			return repository.getAllAdminPaged(administrator, element, page);
 		}else {
+			logger.error("El rango introducido no es válido");
+			
 			throw new ServiceException("El rango introducido no es válido");
 		}
 		
