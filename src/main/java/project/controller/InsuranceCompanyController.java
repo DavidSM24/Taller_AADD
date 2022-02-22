@@ -25,7 +25,7 @@ import project.exception.ServiceException;
 import project.models.InsuranceCompany;
 import project.services.InsuranceCompanyService;
 
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/insuranceCompany")
 public class InsuranceCompanyController {
@@ -33,9 +33,9 @@ public class InsuranceCompanyController {
 	InsuranceCompanyService service;
 		
 	/**
-	 * Método que devuelve una lista de compañias de seguros con ese nombre
-	 * @param name nombre de la compañia de seguros
-	 * @return ResponseEntity<List<InsuranceCompany>> todas compañias de seguros con ese nombre
+	 * Mï¿½todo que devuelve una lista de compaï¿½ias de seguros con ese nombre
+	 * @param name nombre de la compaï¿½ia de seguros
+	 * @return ResponseEntity<List<InsuranceCompany>> todas compaï¿½ias de seguros con ese nombre
 	 * @throws ServiceException 
 	 */
 	@ApiOperation(value = "Return all InsuranceCompanies filtered by CIA NAME", notes="Return a InsuranceCompanies List")
@@ -66,7 +66,7 @@ public class InsuranceCompanyController {
 	 * @param name
 	 * @param elements
 	 * @param page
-	 * @return List<InsuranceCompany> Grupo reducido de compañias de seguros con ese nombre y dentro de una posición determinada
+	 * @return List<InsuranceCompany> Grupo reducido de compaï¿½ias de seguros con ese nombre y dentro de una posiciï¿½n determinada
 	 * @throws ServiceException 
 	 */
 	@ApiOperation(value = "Return all InsuranceCompanies paged filtered by CIA NAME", notes="Return a InsuranceCompanies List")
@@ -91,8 +91,8 @@ public class InsuranceCompanyController {
 		}
 	}
 	/**
-	 * Método que duvuelve la compañia que tenga ese id
-	 * @param id id de la compañia que se quiera obtener
+	 * Mï¿½todo que duvuelve la compaï¿½ia que tenga ese id
+	 * @param id id de la compaï¿½ia que se quiera obtener
 	 * @return ResponseEntity<InsuranceCompany>
 	 * @throws ServiceException
 	 */
@@ -119,7 +119,7 @@ public class InsuranceCompanyController {
 		
 	}
 	/*
-	 * Método que guarda o actualiza la compañia de seguros en la base de datos
+	 * Mï¿½todo que guarda o actualiza la compaï¿½ia de seguros en la base de datos
 	 * @Return ResponseEntity<InsuranceCompany>
 	 */
 	@ApiOperation(value = "Create or Update a new InsuranceCompany", notes="Return a InsuranceCompany")
@@ -145,8 +145,8 @@ public class InsuranceCompanyController {
 		
 	}
 	/**
-	 * Método que borra una compañia de seguros a partir del id
-	 * @param id id de la compañia de seguros que se quiera borrar
+	 * Mï¿½todo que borra una compaï¿½ia de seguros a partir del id
+	 * @param id id de la compaï¿½ia de seguros que se quiera borrar
 	 * @return HttpStatus
 	 * @throws ServiceException
 	 */
@@ -177,7 +177,7 @@ public class InsuranceCompanyController {
 		
 	}
 	/**
-	 * Método que devuelva todas las compañias de seguros de la base de datos
+	 * Mï¿½todo que devuelva todas las compaï¿½ias de seguros de la base de datos
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 */
 	@ApiOperation(value = "Return all InsuranceCompanies", notes="Return a InsuranceCompanies List")
@@ -196,9 +196,9 @@ public class InsuranceCompanyController {
 		
 	}
 	/**
-	 * Método que devuelve las compañias de seguro puginadas
-	 * @param elements número de elementos que se quiera devolver
-	 * @param page Número que establece a partir de que elemento se inicia a contar
+	 * Mï¿½todo que devuelve las compaï¿½ias de seguro puginadas
+	 * @param elements nï¿½mero de elementos que se quiera devolver
+	 * @param page Nï¿½mero que establece a partir de que elemento se inicia a contar
 	 * @return ResponseEntity<List<InsuranceCompany>>
 	 * @throws ServiceException
 	 */

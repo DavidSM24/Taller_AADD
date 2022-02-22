@@ -25,7 +25,7 @@ import project.exception.ServiceException;
 import project.models.Agency;
 import project.services.AgencyService;
 
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/agencies")
 public class AgencyController {
@@ -56,8 +56,8 @@ public class AgencyController {
 	 * Devuelve una respuesta HTTP con una lista de agencias paginadas dependiendo de si la
 	 * consulta se ha realizado correctamente o no.
 	 * 
-	 * @param element nº de elementos a buscar.
-	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page el nï¿½ de pagina por el que empieza la paginaciï¿½n.
 	 * @return la respuesta HTTP con la lista de agencias paginadas.
 	 */
 	@ApiOperation(value = "Return all Agencies Paged", notes="Return a Agencies List")
@@ -76,7 +76,7 @@ public class AgencyController {
 	/**
 	 * Devuelve una respuesta HTTP con una agencia filtrada por id.
 	 * 
-	 * @param id la id por la que se filtrará la agencia.
+	 * @param id la id por la que se filtrarï¿½ la agencia.
 	 * @return respuesta con la agencia encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
@@ -100,8 +100,8 @@ public class AgencyController {
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param username nombre por el que filtrar.
-	 * @param element nº de elementos a buscar.
-	 * @param page paginar para empezar la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page paginar para empezar la paginaciï¿½n.
 	 * @return respuesta con lista de agencias paginada y filtrada por username.
 	 * @throws RecordNotFoundException
 	 */
@@ -135,8 +135,8 @@ public class AgencyController {
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param active boolean con el parametro active para filtrar.
-	 * @param element nº de elementos a buscar.
-	 * @param page pagina por la cual empieza la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page pagina por la cual empieza la paginaciï¿½n.
 	 * @return respuesta con lista de agencias paginada y filtrada por active.
 	 * @throws RecordNotFoundException
 	 */
@@ -199,11 +199,11 @@ public class AgencyController {
 	}
 	
 	/**
-	 * Recibe una agencia y devuelve una respuesta HTTP en función de si ha podido eliminarla
+	 * Recibe una agencia y devuelve una respuesta HTTP en funciï¿½n de si ha podido eliminarla
 	 * correctamente.
 	 * 
 	 * @param a agencia a eliminar recibida en el cuerpo.
-	 * @return respuesta http sobre el status de la petición.
+	 * @return respuesta http sobre el status de la peticiï¿½n.
 	 * @throws RecordNotFoundException
 	 */
 	@ApiOperation(value = "Delete a Agency")

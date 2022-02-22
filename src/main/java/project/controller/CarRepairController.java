@@ -28,7 +28,7 @@ import project.models.Agency;
 import project.models.CarRepair;
 import project.services.CarRepairService;
 
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/carRepairs")
 public class CarRepairController {
@@ -36,7 +36,7 @@ public class CarRepairController {
 	CarRepairService service;
 	
 	/**
-	 * Método que devuelve todas las reparaciones de la base de datos
+	 * Mï¿½todo que devuelve todas las reparaciones de la base de datos
 	 * @return
 	 */
 	@ApiOperation(value = "Return all CarRepairs", notes="Return a CarRepairs List")
@@ -53,7 +53,7 @@ public class CarRepairController {
 		return new ResponseEntity<List<CarRepair>>(result,new HttpHeaders(),HttpStatus.OK);
 	}
 	/**
-	 * Método que devuelve una reparación según el id pasado
+	 * Mï¿½todo que devuelve una reparaciï¿½n segï¿½n el id pasado
 	 * @param id
 	 * @return ResponseEntity<CarRepair>
 	 */
@@ -79,7 +79,7 @@ public class CarRepairController {
 		}
 	}
 	/**
-	 * Método que devuelve toda la lista de reparaciones paginada
+	 * Mï¿½todo que devuelve toda la lista de reparaciones paginada
 	 * @param element
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
@@ -114,7 +114,7 @@ public class CarRepairController {
 	}
 	
 	/**
-	 * Método que devuelve una lista de reparaciones en función del código de operación
+	 * Mï¿½todo que devuelve una lista de reparaciones en funciï¿½n del cï¿½digo de operaciï¿½n
 	 * @param operation
 	 * @param elements
 	 * @param page
@@ -148,7 +148,7 @@ public class CarRepairController {
 	}
 	
 	/**
-	 * Método que devuelve una lista de reparaciones en función de la matrícula del coche
+	 * Mï¿½todo que devuelve una lista de reparaciones en funciï¿½n de la matrï¿½cula del coche
 	 * @param carPlate
 	 * @param element
 	 * @param page
@@ -183,7 +183,7 @@ public class CarRepairController {
 	}
 	
 	/**
-	 * Método que devuelve una lista de reparaciones según el 	nombre del cliente
+	 * Mï¿½todo que devuelve una lista de reparaciones segï¿½n el 	nombre del cliente
 	 * @param clientName
 	 * @param element
 	 * @param page
@@ -217,9 +217,9 @@ public class CarRepairController {
 	}
 	
 	/**
-	 * Método que devuelve una lista de reparaciones que se encuentren dentro de una fecha
-	 * @param ini fecha de más antigua entre las que se encuetre la reparación deseada
-	 * @param end fecha más reciente entre las que se encuentre la reparación deseada
+	 * Mï¿½todo que devuelve una lista de reparaciones que se encuentren dentro de una fecha
+	 * @param ini fecha de mï¿½s antigua entre las que se encuetre la reparaciï¿½n deseada
+	 * @param end fecha mï¿½s reciente entre las que se encuentre la reparaciï¿½n deseada
 	 * @param element
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
@@ -253,9 +253,9 @@ public class CarRepairController {
 	}
 	
 	/**
-	 * Método que devuelve una lista de reparaciones que se encuentre entre los puntos especificados
-	 * @param min Número mínimo de puntos que tenga la reparación
-	 * @param max Número máximo de puntos que tenga la reparación
+	 * Mï¿½todo que devuelve una lista de reparaciones que se encuentre entre los puntos especificados
+	 * @param min Nï¿½mero mï¿½nimo de puntos que tenga la reparaciï¿½n
+	 * @param max Nï¿½mero mï¿½ximo de puntos que tenga la reparaciï¿½n
 	 * @param element
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
@@ -288,8 +288,8 @@ public class CarRepairController {
 		}
 	}
 	/**
-	 * Método que devuelve las reparaciones en función de si esta 
-	 * @param repaired boleano que especifica si se busca un reparación terminada o no
+	 * Mï¿½todo que devuelve las reparaciones en funciï¿½n de si esta 
+	 * @param repaired boleano que especifica si se busca un reparaciï¿½n terminada o no
 	 * @param element
 	 * @param page
 	 * @return ResponseEntity<List<CarRepair>>
@@ -321,7 +321,7 @@ public class CarRepairController {
 		}
 	}
 	/**
-	 * Método que guarda o actualiza una reparación en la base de datos
+	 * Mï¿½todo que guarda o actualiza una reparaciï¿½n en la base de datos
 	 * @param carRepair
 	 * @return ResponseEntity<CarRepair>
 	 */
@@ -351,7 +351,7 @@ public class CarRepairController {
 		}
 	}
 	/**
-	 * Método que borra una reparación de la base de datos
+	 * Mï¿½todo que borra una reparaciï¿½n de la base de datos
 	 * @param carRepair
 	 * @return ResponseEntity<CarRepair>
 	 */

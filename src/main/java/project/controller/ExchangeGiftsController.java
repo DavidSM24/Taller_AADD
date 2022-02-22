@@ -25,7 +25,7 @@ import project.exception.ServiceException;
 import project.models.ExchangeGift;
 import project.services.ExchangeGiftService;
 
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/exchangeGifts")
 public class ExchangeGiftsController {
@@ -55,7 +55,7 @@ public class ExchangeGiftsController {
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginados dependiendo de si la consulta se
 	 * ha realizado correctamente o no.
 	 * 
-	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param page el nï¿½ de pagina por el que empieza la paginaciï¿½n.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
 	@ApiOperation(value = "Return all ExchangesGifts Paged", notes="Return a ExchangesGifts List")
@@ -84,8 +84,8 @@ public class ExchangeGiftsController {
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
-	 * @param element nº de elementos a buscar.
-	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page el nï¿½ de pagina por el que empieza la paginaciï¿½n.
 	 * @param boolean con el parametro deliverd para filtrar.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
@@ -114,8 +114,8 @@ public class ExchangeGiftsController {
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
-	 * @param element nº de elementos a buscar.
-	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page el nï¿½ de pagina por el que empieza la paginaciï¿½n.
 	 * @param id_agency agencia por la que se filtrar.
 	 * @return la respuesta HTTP con la lista de regalos intercambiados.
 	 */
@@ -145,7 +145,7 @@ public class ExchangeGiftsController {
 	/**
 	 * Devuelve una respuesta HTTP con un regalo intercambiado filtrada por id.
 	 * 
-	 * @param id la id por la que se filtrará del regalos intercambiados.
+	 * @param id la id por la que se filtrarï¿½ del regalos intercambiados.
 	 * @return respuesta con el regalos intercambiados encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
@@ -200,11 +200,11 @@ public class ExchangeGiftsController {
 		}
 	}
 	/**
-	 * Recibe un regalo intercambiado y devuelve una respuesta HTTP en función de si ha podido eliminarla
+	 * Recibe un regalo intercambiado y devuelve una respuesta HTTP en funciï¿½n de si ha podido eliminarla
 	 * correctamente.
 	 * 
 	 * @param a regalo intercambiado a eliminar recibida en el cuerpo.
-	 * @return respuesta http sobre el status de la petición.
+	 * @return respuesta http sobre el status de la peticiï¿½n.
 	 * @throws RecordNotFoundException
 	 */
 	@ApiOperation(value = "Delete a ExchangeGift")

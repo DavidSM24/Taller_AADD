@@ -25,7 +25,7 @@ import project.exception.ServiceException;
 import project.models.User;
 import project.services.UserService;
 
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -54,8 +54,8 @@ public class UserController {
 	 * Devuelve una respuesta HTTP con una lista de usuarios paginados dependiendo de si la consulta se
 	 * ha realizado correctamente o no.
 	 * 
-	 * @param element nº de elementos a buscar.
-	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page el nï¿½ de pagina por el que empieza la paginaciï¿½n.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
 	@ApiOperation(value = "Return all Users Paged", notes="Return a Users List")
@@ -85,8 +85,8 @@ public class UserController {
 	 * Devuelve una respuesta HTTP con una lista de usuarios paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
-	 * @param element nº de elementos a buscar.
-	 * @param page el nº de pagina por el que empieza la paginación.
+	 * @param element nï¿½ de elementos a buscar.
+	 * @param page el nï¿½ de pagina por el que empieza la paginaciï¿½n.
 	 * @param administrator booleano para identificar si es admnistrador o no.
 	 * @return la respuesta HTTP con la lista de usuarios.
 	 */
@@ -115,7 +115,7 @@ public class UserController {
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por id.
 	 * 
-	 * @param id la id por la que se filtrará el usuario.
+	 * @param id la id por la que se filtrarï¿½ el usuario.
 	 * @return respuesta con el usuario encontrada con ese id.
 	 * @throws RecordNotFoundException
 	 */
@@ -141,7 +141,7 @@ public class UserController {
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por nombre.
 	 * 
-	 * @param name el nombre por el que se filtrará el usuario.
+	 * @param name el nombre por el que se filtrarï¿½ el usuario.
 	 * @return respuesta con el usuario encontrada con ese nombre.
 	 * @throws RecordNotFoundException
 	 */
@@ -169,7 +169,7 @@ public class UserController {
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por codigo.
 	 * 
-	 * @param code el codigo por el que se filtrará el usuario.
+	 * @param code el codigo por el que se filtrarï¿½ el usuario.
 	 * @return respuesta con el usuario encontrada con ese nombre.
 	 * @throws RecordNotFoundException
 	 */
@@ -230,11 +230,11 @@ public class UserController {
 		
 	}
 	/**
-	 * Recibe un usuario y devuelve una respuesta HTTP en función de si ha podido eliminarla
+	 * Recibe un usuario y devuelve una respuesta HTTP en funciï¿½n de si ha podido eliminarla
 	 * correctamente.
 	 * 
 	 * @param usuario a eliminar recibida en el cuerpo.
-	 * @return respuesta http sobre el status de la petición.
+	 * @return respuesta http sobre el status de la peticiï¿½n.
 	 * @throws RecordNotFoundException
 	 */
 	@ApiOperation(value = "Delete a User")
