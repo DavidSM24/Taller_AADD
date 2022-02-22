@@ -147,10 +147,8 @@ public class CarRepairService {
 					Optional<CarRepair> result = repository.findById(carRepair.getId());
 					
 					if (result.isPresent()) {// si lo encuentra en la base de datos
-						
-						
-						
 						CarRepair newCarRepair = result.get();
+						
 						newCarRepair.setId(carRepair.getId());// id
 						newCarRepair.setOperation(carRepair.getOperation());// operacion
 						newCarRepair.setCarPlate(carRepair.getCarPlate());// matricula
