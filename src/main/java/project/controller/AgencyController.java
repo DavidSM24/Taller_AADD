@@ -69,8 +69,15 @@ public class AgencyController {
 	})
 	@GetMapping("/element/{element}/page/{page}")
 	public ResponseEntity<List<Agency>> getAllPaged(@PathVariable("element") int element, @PathVariable("page") int page){
-		List<Agency> paged=service.getAllPaged(element,page);
-		return new ResponseEntity<List<Agency>>(paged,new HttpHeaders(),HttpStatus.OK);
+		List<Agency> paged;
+		try {
+			paged = service.getAllPaged(element,page);
+			return new ResponseEntity<List<Agency>>(paged,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<List<Agency>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,11 @@ import project.repositories.ExchangeGiftRepository;
 
 @Service
 public class ExchangeGiftService {
+	
+	//log4j2
+		private static final Logger logger=LoggerFactory.getLogger(ExchangeGift.class);
 	/**
-	 * Repositorio de el regalo intercambiado asociado a este servicio.
+	 * Repositorio del regalo intercambiado asociado a este servicio.
 	 */
 	@Autowired
 	ExchangeGiftRepository repository;
@@ -27,6 +32,8 @@ public class ExchangeGiftService {
 	 * @return lista de los regalos intercambiado
 	 */
 	public List<ExchangeGift> getAll() {
+		logger.info("Petición realizada correctamente");
+		
 		return repository.findAll();
 	}
 
@@ -45,17 +52,24 @@ public class ExchangeGiftService {
 				Optional<ExchangeGift> result = repository.findById(id);
 
 				if (result.isPresent()) {
-
+					logger.info("Petición realizada correctamente");
+					
 					return result.get();
 
 				} else {
+					logger.error("No se encuentra el ExchangeGift con el id "+id+" En la base de datos");
+					
 					throw new RecordNotFoundException("ExchangeGift no existe", id);
 				}
 
 			} else {
+				logger.error("El id introducido es menor a -1");
+				
 				throw new RecordNotFoundException("El id introducido no es valido");
 			}
 		} else {
+			logger.error("El id introducido es nulo");
+			
 			throw new RecordNotFoundException("El id introducido es nulo", id);
 		}
 
@@ -88,13 +102,16 @@ public class ExchangeGiftService {
 						newExchange.setDelivered(exgift.isDelivered());
 						newExchange.setAgency(exgift.getAgency());
 						newExchange.setGift(exgift.getGift());
+						
 						newExchange = repository.save(newExchange);
+						logger.info("Petición realizada correctamente");
 						
 						return newExchange;
 
 					} else { // insert
 						exgift.setId(null);
 						exgift = repository.save(exgift);
+						logger.info("Petición realizada correctamente");
 						
 						return exgift;
 					}
@@ -103,14 +120,19 @@ public class ExchangeGiftService {
 
 				else {
 					exgift = repository.save(exgift);
+					logger.info("Petición realizada correctamente");
 					
 					return exgift;
 				}
 
 			} else {
+				logger.error("Los atributos introducidos no están dentro de las características pedidas");
+				
 				throw new ServiceException("Algo ha fallado, buscate la vida");
 			}
 		} else {
+			logger.error("El pedido es nulo");
+			
 			throw new ServiceException("El pedido es nulo");
 		}
 
@@ -139,16 +161,25 @@ public class ExchangeGiftService {
 					result = true;
 				} else {
 					result = false;
+					logger.error("El ExchangeGift introducido no esta registrado en la base de datos");
+					
 					throw new RecordNotFoundException("El regalo intercambiado no existe", gift.getId());
 				}
 				
 			}else {
+				result = false;
+				logger.error("El id "+gift.getId()+" No se encuentra en la base de datos");
+				
 				throw new RecordNotFoundException("El id introducido no es válido",gift.getId());
 			}
 		}else {
+			result = false;
+			logger.error("EL pedido introducido es nulo");
+			
 			throw new ServiceException("El pedido introducido es nulo");
 		}
-				
+		logger.info("Petición realizada correctamente");
+		
 		return result;
 	}
 
@@ -162,11 +193,14 @@ public class ExchangeGiftService {
 	 * @throws ServiceException 
 	 */
 	public List<ExchangeGift> getAllPaged(int element, int page) throws ServiceException {
-		if(element>-1&&page>-1) {
+		if(element>0&&page>-1) {
+			logger.info("Petición realizada correctamente");
 			
 			return repository.getAllPaged(element, page);
 			
 		}else {
+			logger.error("El número de elementos introducidos no es correcto");
+			
 			throw new ServiceException("El número de elementos introducido no es correcto");
 		}
 	}
@@ -184,11 +218,14 @@ public class ExchangeGiftService {
 	 * @throws ServiceException 
 	 */
 	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int element, int page) throws ServiceException {
-		if(element>-1&&page>-1) {
+		if(element>0&&page>-1) {
+			logger.info("Petición realizada correctamente");
 			
 			return repository.getByDeliveredPaged(isdelivered, element, page);
 			
 		}else {
+			logger.error("El número de elementos introducido no es correcto");
+			
 			throw new ServiceException("El número de elementos introducido no es correcto");
 		}
 	}
@@ -205,15 +242,20 @@ public class ExchangeGiftService {
 	 */
 	public List<ExchangeGift> getByAgencyPaged(int agency, int element, int page) throws ServiceException {
 		if(agency>-1) {
-			if(element>-1&&page>-1) {
+			if(element>0&&page>-1) {
+				logger.info("Petición realizada correctamente");
 				
 				return repository.getByAgencyPaged(agency, element, page);
 				
 			}else {
+				logger.error("El número de elementos introducido no es correcto");
+				
 				throw new ServiceException("El número de elementos introducido no es correcto");
 			}
 			
 		}else {
+			logger.error("El id de la agencia es incorrecto");
+			
 			throw new ServiceException("El id de la agencia es incorrecto");
 		}
 	}

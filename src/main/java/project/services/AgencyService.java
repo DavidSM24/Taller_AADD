@@ -31,6 +31,8 @@ public class AgencyService {
 	 * @return lista de agencias
 	 */
 	public List<Agency> getAll() {
+		logger.info("Petición realizada correctamente");
+		
 		return repository.findAll();
 	}
 
@@ -41,10 +43,21 @@ public class AgencyService {
 	 * @param element nº de elementos a buscar
 	 * @param page    nº de página a partir del cual buscar.
 	 * @return Una lista de agencias.
+	 * @throws ServiceException 
 	 */
-	public List<Agency> getAllPaged(int element, int page) {
+	public List<Agency> getAllPaged(int element, int page) throws ServiceException {
+		
+		if(element>0&&page>-1) {
+			logger.info("Petición realizada correctamente");
+			
+			return repository.getAllPaged(element, page);
+		}else {
+			logger.error("La páginación no es correcta");
+			
+			throw new ServiceException("La paginación no es correcta.");
+			
+		}
 
-		return repository.getAllPaged(element, page);
 	}
 
 	/***
@@ -62,7 +75,7 @@ public class AgencyService {
 				Optional<Agency> result = repository.findById(id);
 
 				if (result.isPresent()) {
-					logger.info("Onbenido con éxito");
+					logger.info("Petición realizada correctamente");
 					return result.get();
 
 				} else {
@@ -94,19 +107,26 @@ public class AgencyService {
 	public List<Agency> getByUsernamePaged(String userName, int element, int page) throws ServiceException {
 		if (userName != null) {
 			if (!userName.equals("")) {
-				if (element > 0 && page > 0) {
-
+				if (element > 0 && page > -1) {
+					logger.info("Petición realizada correctamente");
+					
 					return repository.getByUsernamePaged(userName.toLowerCase(), element, page);
 
 				} else {
+					logger.error("La páginación no es válida");
+					
 					throw new ServiceException("Los números introducidos para el paginádo no son válidos");
 				}
 
 			} else {
+				logger.error("El nombre de usuario no es valido");
+				
 				throw new ServiceException("El nombre del usuario no es valido");
 			}
 
 		} else {
+			logger.error("El nombre de usuario es nulo");
+			
 			throw new ServiceException("El nomnbre del usuario es nulo");
 		}
 
@@ -124,11 +144,14 @@ public class AgencyService {
 	 * @throws ServiceException
 	 */
 	public List<Agency> getByActivePaged(boolean active, int element, int page) throws ServiceException {
-		if (element > 0 && page > 0) {
-
+		if (element > 0 && page > -1) {
+			logger.info("Petición realizada correctamente");
+			
 			return repository.getByActivePaged(active, element, page);
 
 		} else {
+			logger.error("Los números de la páginación son incorrectos");
+			
 			throw new ServiceException("Los números introducidos para el paginado no son válidos");
 		}
 	}
@@ -181,56 +204,87 @@ public class AgencyService {
 																newAgency.setMyExchangesGifts(
 																		agency.getMyExchangesGifts());
 																newAgency.setMyUser(agency.getMyUser());
-
+																
 																newAgency = repository.save(newAgency);
+																
+																logger.info("Actualización realizada Correctamente");
+																
 																return newAgency;
 
 															} else { // insert
 																agency.setId(null);
 																agency = repository.save(agency);
+																logger.info("Guardado realizado correctamente");
+																
 																return agency;
 															}
 
 														} else {
 															agency = repository.save(agency);
+															logger.info("Guardado realizado correctamente");
+															
 															return agency;
 														}
 
 													} else {//lista de regalos
+														logger.error("La lista de regalos es nula");
+														
 														throw new ServiceException("La lista de regalos es nula");
 													}
 												} else {//lista de reparacioones
+													logger.error("La lista de reparaciones es nula");
+													
 													throw new ServiceException("La lista de reparaciones es nula");
 												}
 											} else {//compañia de seguros
+												logger.error("La compañia de seguros es nula");
+												
 												throw new ServiceException("La compañia de seguros es nula");
 											}
 										} else {//usuario
+											logger.error("EL usuario es nulo");
+											
 											throw new ServiceException("El usuario es nulo");
 										}
 									} else {//código postal
+										logger.error("El código postal introducido no es válido");
+										
 										throw new ServiceException("El código postal introducido no es válido");
 									}
 								} else {//total
+									logger.error("El total no es válido");
+									
 									throw new ServiceException("El total no es válido");
 								}
 							}else {//telefono
+								logger.error("El teléfono introducido no es válido");
+								
 								throw new ServiceException("El teléfono introducido no es válido");
 							}
 						} else {//puntos gastados
+							logger.error("Los puntos gastados no son válidos");
+							
 							throw new ServiceException("Los puntos gastados no son válidos");
 						}
 					} else {//puntos
+						logger.error("los puntos introducidos no son válidos");
+						
 						throw new ServiceException("Los puntos introducidos no son válidos");
 					}
 				} else {//locaclización
+					logger.error("La locaclización no es correcta");
+					
 					throw new ServiceException("La localización no es correcta");
 				}
 
 			} else {//direccion
+				logger.error("La dirección introducida no es correcta");
+				
 				throw new ServiceException("La dirección introducida no es correcta");
 			}
 		} else {//agencia
+			logger.error("La agencia introducida no es válida");
+			
 			throw new ServiceException("La agencia introducida no es válida");
 		}
 
@@ -251,12 +305,17 @@ public class AgencyService {
 			Optional<Agency> optional = repository.findById(agency.getId());
 			
 			if (optional.isPresent()) {
+				logger.info("Petición realizada correctamente");
 				repository.deleteById(agency.getId());
 			} else {
+				logger.error("La agencia con el id "+agency.getId()+" no existe ");
+				
 				throw new RecordNotFoundException("La agencia no existe", agency.getId());
 			}
 			
 		}else {
+			logger.error("la agencia introducida es nula");
+			
 			throw new ServiceException("La agencia introducida es nula");
 		}
 	}
