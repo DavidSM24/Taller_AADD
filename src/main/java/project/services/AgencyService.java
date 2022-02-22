@@ -1,9 +1,11 @@
 package project.services;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import project.repositories.AgencyRepository;
 @Service
 public class AgencyService {
 
+	//Log4j2
+	private static final Logger logger=LoggerFactory.getLogger(AgencyService.class);
 	/**
 	 * Repositorio de agencias asociado a este servicio.
 	 */
@@ -58,17 +62,20 @@ public class AgencyService {
 				Optional<Agency> result = repository.findById(id);
 
 				if (result.isPresent()) {
-
+					logger.info("Onbenido con éxito");
 					return result.get();
 
 				} else {
+					logger.error("La agencia buscada no existe, en getById");
 					throw new RecordNotFoundException("La agencia no existe", id);
 				}
 			} else {
+				logger.error("El id "+id+" no es válido");
 				throw new RecordNotFoundException("El id introducido no es valido", id);
 			}
 
 		} else {
+			logger.error("El id introducido es nulo");
 			throw new RecordNotFoundException("El id introducido es nulo");
 		}
 
