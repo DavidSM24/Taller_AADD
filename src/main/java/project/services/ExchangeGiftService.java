@@ -13,6 +13,7 @@ import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
 import project.models.Agency;
 import project.models.ExchangeGift;
+import project.models.Gift;
 import project.repositories.ExchangeGiftRepository;
 
 @Service
@@ -27,6 +28,8 @@ public class ExchangeGiftService {
 	ExchangeGiftRepository repository;
 	@Autowired
 	AgencyService agencyService;
+	@Autowired
+	GiftService giftService;
 
 	/**
 	 * M�todo que devuelve todos los regalos intercambiado.
@@ -108,19 +111,27 @@ public class ExchangeGiftService {
 						newExchange = repository.save(newExchange);
 						logger.info("Petici�n realizada correctamente");
 						
+						
+						
 						return newExchange;
 
 					} else { // insert
 						exgift.setId(null);
+						
+						restPoints(exgift.getAgency(), exgift.getGift());
+						
 						exgift = repository.save(exgift);
 						logger.info("Petici�n realizada correctamente");
-						
+							
 						return exgift;
 					}
 
 				}
 
 				else {
+					
+					restPoints(exgift.getAgency(), exgift.getGift());
+					
 					exgift = repository.save(exgift);
 					logger.info("Petici�n realizada correctamente");
 					
@@ -262,21 +273,29 @@ public class ExchangeGiftService {
 		}
 	}
 	
-	public boolean restPoints(Agency agency,long points) throws ServiceException {
+	/**
+	 * Resta puntos a una agencia al canjear un regalo.
+	 * 
+	 * @param agency La agencia a la que se le restarán los puntos.
+	 * @param points Número de puntos a restar.
+	 * @return booleano con el resultado de la operación.
+	 * @throws ServiceException
+	 */
+	public boolean restPoints(Agency agency,Gift gift) throws ServiceException {
 		if(agency!=null) {
-			if(agency.getId()!=null&&agency.getId()>0) {
-				if(points>0) {
-					agency.setPoints(agency.getPoints()-points);
+			if(agency.getId()!=null&&agency.getId()>0
+					&&gift!=null&&gift.getId()>0) {
 					
-					agencyService.createOrUpdate(agency);
+					Agency newAgency=agencyService.getById(agency.getId());
+					Gift newGift=giftService.getById(gift.getId());
+					
+					newAgency.setPoints(newAgency.getPoints()-newGift.getPoints());
+					
+					agencyService.createOrUpdate(newAgency);
 					
 					return true;
 					
-				}else {
-					logger.error("Los puntos introducidos son menores que 0");
-					
-					throw new ServiceException("Los puntos introducidos son menores que 0");
-				}
+
 			}else {
 				logger.error("El id introducido no es v�lido");
 				

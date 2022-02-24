@@ -33,14 +33,14 @@ public class CarRepairService {
 	AgencyService agencyService;
 
 	/**
-	 * Método que devuelve una lista con todas las reparaciones de la base de datos
+	 * Mï¿½todo que devuelve una lista con todas las reparaciones de la base de datos
 	 * 
 	 * @return List<CarRepair>
 	 */
 	public List<CarRepair> getAll() {
 		
 		
-		logger.info("Petición realizada correctamente");
+		logger.info("Peticiï¿½n realizada correctamente");
 		return repository.findAll();
 		
 	}
@@ -55,7 +55,7 @@ public class CarRepairService {
 				if(aux.isPresent()) {
 					repository.deleteById(carRepair.getId());
 					result=true;
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return result;
 					
@@ -65,20 +65,20 @@ public class CarRepairService {
 					throw new RecordNotFoundException("El id introducido no se encuentra en la base de datos",carRepair.getId());
 				}
 			}else {
-				logger.error("El id introducido no es válido");
+				logger.error("El id introducido no es vï¿½lido");
 				
-				throw new RecordNotFoundException("El id introducido no es válido",carRepair.getId());
+				throw new RecordNotFoundException("El id introducido no es vï¿½lido",carRepair.getId());
 			}
 		}else {
-			logger.error("La reparación introducida es nula");
+			logger.error("La reparaciï¿½n introducida es nula");
 			
-			throw new ServiceException("La reparación introducida es nula");
+			throw new ServiceException("La reparaciï¿½n introducida es nula");
 			
 		}
 	}
 	
 	/**
-	 * Método que devuelve todas las reparaciones paginadas
+	 * Mï¿½todo que devuelve todas las reparaciones paginadas
 	 * @param element
 	 * @param paged
 	 * @return
@@ -86,21 +86,21 @@ public class CarRepairService {
 	 */
 	public List<CarRepair> getAllPaged(int element,int paged) throws ServiceException{
 		if(element>0&&paged>-1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getAllPaged(element, paged);
 			
 		}else {
-			logger.error("La paginación no es correcta");
+			logger.error("La paginaciï¿½n no es correcta");
 			
-			throw new ServiceException("La paginación no es correcta");
+			throw new ServiceException("La paginaciï¿½n no es correcta");
 		}
 	}
 
 	/**
-	 * Método que devuelve una reparación con el id correspondiente
+	 * Mï¿½todo que devuelve una reparaciï¿½n con el id correspondiente
 	 * 
-	 * @param id número de identificación de la base de datos
+	 * @param id nï¿½mero de identificaciï¿½n de la base de datos
 	 * @return CarRepair
 	 */
 	public CarRepair getById(Long id) {
@@ -110,20 +110,20 @@ public class CarRepairService {
 				Optional<CarRepair> result = repository.findById(id);
 				
 				if (result.isPresent()) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return result.get();
 					
 				} else {
-					logger.error("La reparación con el id "+id+" no de encuentra en la base de datos");
+					logger.error("La reparaciï¿½n con el id "+id+" no de encuentra en la base de datos");
 					
-					throw new RecordNotFoundException("El id introducido no es válido", id);
+					throw new RecordNotFoundException("El id introducido no es vï¿½lido", id);
 				}
 
 			} else {
-				logger.error("El id introducido no es válido");
+				logger.error("El id introducido no es vï¿½lido");
 				
-				throw new RecordNotFoundException("El id introducido inválido", id);
+				throw new RecordNotFoundException("El id introducido invï¿½lido", id);
 			}
 		} else {
 			logger.error("El id introducido es nulo");
@@ -134,7 +134,7 @@ public class CarRepairService {
 	}
 
 	/**
-	 * Método que guarda o actualiza las reparaciones en la base de datos
+	 * Mï¿½todo que guarda o actualiza las reparaciones en la base de datos
 	 * 
 	 * @param carRepair
 	 * @return CarRepair
@@ -144,9 +144,9 @@ public class CarRepairService {
 		if (carRepair != null) {
 			if(carRepair.getAmount()>-1&& carRepair.getAsigPoints()>-1&&
 					(carRepair.getBrandCar()!=null&&(carRepair.getCarPlate().length()>4&&carRepair.getCarPlate().length()<11))&&
-					(carRepair.getClienteName()!=null&&carRepair.getClienteName().equals(""))&&
+					(carRepair.getClienteName()!=null&&!carRepair.getClienteName().equals(""))&&
 					(carRepair.getDateOrder()!=null)&&
-					(carRepair.getModel()!=null&&carRepair.getModel().equals(""))&&
+					(carRepair.getModel()!=null&&!carRepair.getModel().equals(""))&&
 					carRepair.getMyAgency()!=null) {
 				if (carRepair.getId() != null && carRepair.getId() > 0) {// si tiene id y es mayor de 0
 					
@@ -168,48 +168,48 @@ public class CarRepairService {
 						newCarRepair.setBrandCar(carRepair.getBrandCar());// marca
 						newCarRepair.setClienteName(carRepair.getClienteName());// nombre del cliente
 						newCarRepair.setDateOrder(carRepair.getDateOrder());// fecha de alta
-						newCarRepair.setNor(carRepair.getNor());// número de orden de registro
+						newCarRepair.setNor(carRepair.getNor());// nï¿½mero de orden de registro
 						newCarRepair.setAmount(carRepair.getAmount());// coste
-						newCarRepair.setDateRepair(carRepair.getDateRepair());// fecha de reparación
+						newCarRepair.setDateRepair(carRepair.getDateRepair());// fecha de reparaciï¿½n
 						newCarRepair.setAsigPoints(carRepair.getAsigPoints());// puntos
 						newCarRepair.setRepaired(carRepair.isRepaired());// reparado
 						newCarRepair.setMyAgency(carRepair.getMyAgency());// agencia
 						
 						newCarRepair=repository.save(newCarRepair);
-						logger.info("Petición realizada correctamente");
+						logger.info("Peticiï¿½n realizada correctamente");
 						
 						return newCarRepair;
 						
 					} else {// Si no esta en la base de datos
 						carRepair.setId(null);
 						carRepair = repository.save(carRepair);
-						logger.info("Petición realizada correctamente");
+						logger.info("Peticiï¿½n realizada correctamente");
 						
 						return carRepair;
 						
 					}
 				} else {// en caso de que el id sea nulo o menor de 1
 					carRepair = repository.save(carRepair);
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return carRepair;
 					
 				}
 			} else {
-				logger.error("Los atributos de la reparación no son válidos");
+				logger.error("Los atributos de la reparaciï¿½n no son vï¿½lidos");
 				
 				throw new ServiceException("Algo a fallado buscate la vida");
 			}
 				
 			}else {
-				logger.error("La reparación introducida no es válida");
+				logger.error("La reparaciï¿½n introducida no es vï¿½lida");
 				
-				throw new ServiceException("La reparación introducida no es valida");
+				throw new ServiceException("La reparaciï¿½n introducida no es valida");
 			}
 	}
 
 	/**
-	 * Método que devuelve una lista de reparacipones busccando por matricula
+	 * Mï¿½todo que devuelve una lista de reparacipones busccando por matricula
 	 * 
 	 * @param carPlate
 	 * @param element
@@ -221,29 +221,29 @@ public class CarRepairService {
 		if (carPlate != null) {
 			if (!carPlate.equals("")) {
 				if (element > 0 && paged > -1) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return repository.getByCarPlatePaged(carPlate.toLowerCase(), element, paged);
 					
 				} else {
-					logger.error("La páginación no es correcta");
+					logger.error("La pï¿½ginaciï¿½n no es correcta");
 					
-					throw new ServiceException("la paginación no es correcta");
+					throw new ServiceException("la paginaciï¿½n no es correcta");
 				}
 			} else {
-				logger.error("La matrícula introducida no es válida");
+				logger.error("La matrï¿½cula introducida no es vï¿½lida");
 				
-				throw new ServiceException("La matrícula es invalida");
+				throw new ServiceException("La matrï¿½cula es invalida");
 			}
 		} else {
-			logger.error("La matrícula es nula");
+			logger.error("La matrï¿½cula es nula");
 			
 			throw new ServiceException("Matriucla es nulo");
 		}
 	}
 	
 	/**
-	 * Métodod que devuelve una lista de reparaciones buscando por la operación
+	 * Mï¿½todod que devuelve una lista de reparaciones buscando por la operaciï¿½n
 	 * @param operation
 	 * @param element
 	 * @param paged
@@ -254,28 +254,28 @@ public class CarRepairService {
 		if (operation != null) {
 			if (!operation.equals("")) {
 				if (element > 0 && paged  > -1) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return repository.getByIdOperationPaged(operation, element, paged);
 				
 				} else {
-					logger.error("La paginación no es correcta");
+					logger.error("La paginaciï¿½n no es correcta");
 					
-					throw new ServiceException("la paginación no es correcta");
+					throw new ServiceException("la paginaciï¿½n no es correcta");
 				}
 			} else {
-				logger.error("La operación introducida no es válida");
+				logger.error("La operaciï¿½n introducida no es vï¿½lida");
 				
-				throw new ServiceException("La operación introducida es invalida");
+				throw new ServiceException("La operaciï¿½n introducida es invalida");
 			}
 		} else {
-			logger.error("La operación introducida es nula");
+			logger.error("La operaciï¿½n introducida es nula");
 			
-			throw new ServiceException("La operación introducida es nula");
+			throw new ServiceException("La operaciï¿½n introducida es nula");
 		}
 	}
 	/**
-	 * Método que devuelve una lista de reparaciónes paginada según el cliente del coche
+	 * Mï¿½todo que devuelve una lista de reparaciï¿½nes paginada segï¿½n el cliente del coche
 	 * @param name
 	 * @param nElement
 	 * @param paged
@@ -286,17 +286,17 @@ public class CarRepairService {
 		if (name != null) {
 			if (!name.equals("")) {
 				if (nElement > 0 && paged  > -1) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return repository.getByClientNamePaged(name.toLowerCase(), nElement, paged);
 					
 				} else {
-					logger.error("La paginación no es correcta");
+					logger.error("La paginaciï¿½n no es correcta");
 					
-					throw new ServiceException("la paginación no es correcta");
+					throw new ServiceException("la paginaciï¿½n no es correcta");
 				}
 			} else {
-				logger.error("El nombre introducido no es válido");
+				logger.error("El nombre introducido no es vï¿½lido");
 				
 				throw new ServiceException("El nombre introducido es invalido");
 			}
@@ -308,7 +308,7 @@ public class CarRepairService {
 	}
 
 	/**
-	 * Método que devuelve todas las reparaciones paginadas según la fecha de entrada
+	 * Mï¿½todo que devuelve todas las reparaciones paginadas segï¿½n la fecha de entrada
 	 * @param ini
 	 * @param end
 	 * @param nELement
@@ -320,17 +320,17 @@ public class CarRepairService {
 		if (ini != null&&end!=null) {
 			if (ini.equals("")&&end.equals("")) {
 				if (nELement > 0 && paged  > -1) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return repository.getByDateOrderPaged(ini,end, nELement, paged);
 					
 				} else {
-					logger.error("La paginación no es correcta");
+					logger.error("La paginaciï¿½n no es correcta");
 					
-					throw new ServiceException("la paginación no es correcta");
+					throw new ServiceException("la paginaciï¿½n no es correcta");
 				}
 			} else {
-				logger.error("La fecha introducida no es válida");
+				logger.error("La fecha introducida no es vï¿½lida");
 				
 				throw new ServiceException("La fecha introducida  es invalida");
 			}
@@ -342,7 +342,7 @@ public class CarRepairService {
 	}
 
 	/**
-	 * Método que devuelve las reparaciones que esten entre los puntos aasignados
+	 * Mï¿½todo que devuelve las reparaciones que esten entre los puntos aasignados
 	 * @param min
 	 * @param max
 	 * @param nElement
@@ -354,24 +354,24 @@ public class CarRepairService {
 		System.out.println(min+" "+max);
 		if (min >=0&&max>=0) {			
 				if (nElement > 0 && paged  > -1) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return repository.getByPointsPaged(min,max, nElement, paged);
 					
 				} else {
-					logger.error("La paginación no es correcta");
+					logger.error("La paginaciï¿½n no es correcta");
 					
-					throw new ServiceException("la paginación no es correcta");
+					throw new ServiceException("la paginaciï¿½n no es correcta");
 				}
 		} else {
-			logger.error("La operación introducia es nula");
+			logger.error("La operaciï¿½n introducia es nula");
 			
-			throw new ServiceException("La operación introducida es nula");
+			throw new ServiceException("La operaciï¿½n introducida es nula");
 		}
 	}
 
 	/**
-	 * Método que devuelve las reparaciones en función de su estado
+	 * Mï¿½todo que devuelve las reparaciones en funciï¿½n de su estado
 	 * @param repaired
 	 * @param nElement
 	 * @param paged
@@ -380,29 +380,33 @@ public class CarRepairService {
 	 */
 	public List<CarRepair> getByStatePaged(boolean repaired,int nElement, int paged) throws ServiceException{
 		if(nElement>0&&paged > -1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getByStatePaged(repaired, nElement, paged);
 			
 		}else {
-			logger.error("La paginación no es correcta");
+			logger.error("La paginaciï¿½n no es correcta");
 			
-			throw new ServiceException("La paginación no es correcta");
+			throw new ServiceException("La paginaciï¿½n no es correcta");
 		}
 	}
 	
 	
 	/**
-	 * Método que suma los puntos cuando un coche se actualiza como reparado
+	 * Mï¿½todo que suma los puntos cuando un coche se actualiza como reparado
 	 * @throws ServiceException 
 	 */
 	public boolean sumPoints(Agency agency, long points) throws ServiceException {
 		if(agency!=null) {
 			if(agency.getId()!=null&&agency.getId()>0) {
 				if(points>0) {
-					agency.setPoints(agency.getPoints()+points);
 					
-					agencyService.createOrUpdate(agency);
+					Agency newAgency=agencyService.getById(agency.getId());
+					
+					newAgency.setPoints(newAgency.getPoints()+points);
+			
+					
+					agencyService.createOrUpdate(newAgency);
 					
 					return true;
 					
@@ -412,9 +416,9 @@ public class CarRepairService {
 					throw new ServiceException("Los puntos introducidos son menores que 0");
 				}
 			}else {
-				logger.error("El id introducido no es válido");
+				logger.error("El id introducido no es vï¿½lido");
 				
-				throw new RecordNotFoundException("El id introducido no es váliso", agency.getId());
+				throw new RecordNotFoundException("El id introducido no es vï¿½liso", agency.getId());
 			}
 			
 		}else {
