@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import project.exception.RecordNotFoundException;
 import project.exception.ServiceException;
+import project.models.Agency;
 import project.models.CarRepair;
+import project.repositories.AgencyRepository;
 import project.repositories.CarRepairRepository;
 
 @Service
@@ -21,10 +23,14 @@ public class CarRepairService {
 
 	//log4j2
 	private static final Logger logger=LoggerFactory.getLogger(CarRepairService.class);
+
+	
 	
 	//repositiorio asicia al servicio
 	@Autowired
 	CarRepairRepository repository;
+	@Autowired
+	AgencyService agencyService;
 
 	/**
 	 * Método que devuelve una lista con todas las reparaciones de la base de datos
@@ -148,6 +154,12 @@ public class CarRepairService {
 					
 					if (result.isPresent()) {// si lo encuentra en la base de datos
 						CarRepair newCarRepair = result.get();
+						
+						if(!newCarRepair.isRepaired()&&carRepair.isRepaired()) {
+							if(!sumPoints(carRepair.getMyAgency(),carRepair.getAsigPoints())) {
+								
+							}
+						}
 						
 						newCarRepair.setId(carRepair.getId());// id
 						newCarRepair.setOperation(carRepair.getOperation());// operacion
@@ -379,5 +391,37 @@ public class CarRepairService {
 		}
 	}
 	
-
+	
+	/**
+	 * Método que suma los puntos cuando un coche se actualiza como reparado
+	 * @throws ServiceException 
+	 */
+	public boolean sumPoints(Agency agency, long points) throws ServiceException {
+		if(agency!=null) {
+			if(agency.getId()!=null&&agency.getId()>0) {
+				if(points>0) {
+					agency.setPoints(agency.getPoints()+points);
+					
+					agencyService.createOrUpdate(agency);
+					
+					return true;
+					
+				}else {
+					logger.error("Los puntos introducidos son menores que 0");
+					
+					throw new ServiceException("Los puntos introducidos son menores que 0");
+				}
+			}else {
+				logger.error("El id introducido no es válido");
+				
+				throw new RecordNotFoundException("El id introducido no es váliso", agency.getId());
+			}
+			
+		}else {
+			logger.error("La agencia introducida es nula");
+			
+			throw new ServiceException("La agencia introducida es nula");
+		}
+	}
+	
 }
