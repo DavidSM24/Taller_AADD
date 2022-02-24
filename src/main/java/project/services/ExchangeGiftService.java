@@ -29,19 +29,19 @@ public class ExchangeGiftService {
 	AgencyService agencyService;
 
 	/**
-	 * Método que devuelve todos los regalos intercambiado.
+	 * Mï¿½todo que devuelve todos los regalos intercambiado.
 	 * 
 	 * @return lista de los regalos intercambiado
 	 */
 	public List<ExchangeGift> getAll() {
-		logger.info("Petición realizada correctamente");
+		logger.info("Peticiï¿½n realizada correctamente");
 		
 		return repository.findAll();
 	}
 
 	/***
-	 * Método para conseguir un regalo intercambiado a partir de su id. Recibe un
-	 * Long. Posibilidad de dar una excepción NotFound.
+	 * Mï¿½todo para conseguir un regalo intercambiado a partir de su id. Recibe un
+	 * Long. Posibilidad de dar una excepciï¿½n NotFound.
 	 *
 	 * @param id
 	 * @return el regalo intercambiado con ese id
@@ -54,7 +54,7 @@ public class ExchangeGiftService {
 				Optional<ExchangeGift> result = repository.findById(id);
 
 				if (result.isPresent()) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return result.get();
 
@@ -78,8 +78,8 @@ public class ExchangeGiftService {
 	}
 
 	/***
-	 * Método para insertar o actualizar un regalo intercambiado dependiendo de si
-	 * existe un registro con este id en la BBDD. Lanza una excepción si no se
+	 * Mï¿½todo para insertar o actualizar un regalo intercambiado dependiendo de si
+	 * existe un registro con este id en la BBDD. Lanza una excepciï¿½n si no se
 	 * encuentra al regalo intercambiado en la BBDD.
 	 * 
 	 * @param Agency: El regalo intercambiado a actualizar/insertar.
@@ -106,14 +106,14 @@ public class ExchangeGiftService {
 						newExchange.setGift(exgift.getGift());
 						
 						newExchange = repository.save(newExchange);
-						logger.info("Petición realizada correctamente");
+						logger.info("Peticiï¿½n realizada correctamente");
 						
 						return newExchange;
 
 					} else { // insert
 						exgift.setId(null);
 						exgift = repository.save(exgift);
-						logger.info("Petición realizada correctamente");
+						logger.info("Peticiï¿½n realizada correctamente");
 						
 						return exgift;
 					}
@@ -122,13 +122,13 @@ public class ExchangeGiftService {
 
 				else {
 					exgift = repository.save(exgift);
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return exgift;
 				}
 
 			} else {
-				logger.error("Los atributos introducidos no están dentro de las características pedidas");
+				logger.error("Los atributos introducidos no estï¿½n dentro de las caracterï¿½sticas pedidas");
 				
 				throw new ServiceException("Algo ha fallado, buscate la vida");
 			}
@@ -141,8 +141,8 @@ public class ExchangeGiftService {
 	}
 
 	/***
-	 * Método que recibe un regalo intercambiado y la elimina de la BBDD. Lanza una
-	 * excepción si no se encuentra el regalo intercambiado en la BBDD.
+	 * Mï¿½todo que recibe un regalo intercambiado y la elimina de la BBDD. Lanza una
+	 * excepciï¿½n si no se encuentra el regalo intercambiado en la BBDD.
 	 * 
 	 * @param Agency: El regalo intercambiado a eliminar.
 	 * @return Devuelve true si el regalo intercambiado se ha borrado False si no.
@@ -172,7 +172,7 @@ public class ExchangeGiftService {
 				result = false;
 				logger.error("El id "+gift.getId()+" No se encuentra en la base de datos");
 				
-				throw new RecordNotFoundException("El id introducido no es válido",gift.getId());
+				throw new RecordNotFoundException("El id introducido no es vï¿½lido",gift.getId());
 			}
 		}else {
 			result = false;
@@ -180,40 +180,40 @@ public class ExchangeGiftService {
 			
 			throw new ServiceException("El pedido introducido es nulo");
 		}
-		logger.info("Petición realizada correctamente");
+		logger.info("Peticiï¿½n realizada correctamente");
 		
 		return result;
 	}
 
 	/**
-	 * Devuelve una lista de regalos intercambiados paginada en función de la página
-	 * que se está buscando.
+	 * Devuelve una lista de regalos intercambiados paginada en funciï¿½n de la pï¿½gina
+	 * que se estï¿½ buscando.
 	 * 
-	 * @param element nº de elementos a buscar
-	 * @param page    nº de página a partir del cual buscar.
+	 * @param element nï¿½ de elementos a buscar
+	 * @param page    nï¿½ de pï¿½gina a partir del cual buscar.
 	 * @return Una lista de regalos intercambiados intercambiados.
 	 * @throws ServiceException 
 	 */
 	public List<ExchangeGift> getAllPaged(int element, int page) throws ServiceException {
 		if(element>0&&page>-1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getAllPaged(element, page);
 			
 		}else {
-			logger.error("El número de elementos introducidos no es correcto");
+			logger.error("El nï¿½mero de elementos introducidos no es correcto");
 			
-			throw new ServiceException("El número de elementos introducido no es correcto");
+			throw new ServiceException("El nï¿½mero de elementos introducido no es correcto");
 		}
 	}
 
 	/**
-	 * Devuelve todos los regalos intercambiados que coincidan con el parámetro
-	 * isDelivered paginadas, pudiendo ser los que estén o no enviados en función de
+	 * Devuelve todos los regalos intercambiados que coincidan con el parï¿½metro
+	 * isDelivered paginadas, pudiendo ser los que estï¿½n o no enviados en funciï¿½n de
 	 * lo que se reciba.
 	 * 
-	 * @param isdelivered boolean con el parámetro para filtrar.
-	 * @param element     nº de elementos a buscar
+	 * @param isdelivered boolean con el parï¿½metro para filtrar.
+	 * @param element     nï¿½ de elementos a buscar
 	 * @param page        pagina por la que se empieza a paginar
 	 * @return Lista de regalos intercambiados paginados y flitrados por
 	 *         isDelivered.
@@ -221,14 +221,14 @@ public class ExchangeGiftService {
 	 */
 	public List<ExchangeGift> getByDeliveredPaged(boolean isdelivered, int element, int page) throws ServiceException {
 		if(element>0&&page>-1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getByDeliveredPaged(isdelivered, element, page);
 			
 		}else {
-			logger.error("El número de elementos introducido no es correcto");
+			logger.error("El nï¿½mero de elementos introducido no es correcto");
 			
-			throw new ServiceException("El número de elementos introducido no es correcto");
+			throw new ServiceException("El nï¿½mero de elementos introducido no es correcto");
 		}
 	}
 
@@ -237,22 +237,22 @@ public class ExchangeGiftService {
 	 * contenga el parametro agency.
 	 * 
 	 * @param agency  el id de la agencia.
-	 * @param element nº de elementos a buscar
-	 * @param page    comienzo de la paginación.
+	 * @param element nï¿½ de elementos a buscar
+	 * @param page    comienzo de la paginaciï¿½n.
 	 * @return La lista paginada y filtrada de regalos intercambiados.
 	 * @throws ServiceException 
 	 */
 	public List<ExchangeGift> getByAgencyPaged(int agency, int element, int page) throws ServiceException {
 		if(agency>-1) {
 			if(element>0&&page>-1) {
-				logger.info("Petición realizada correctamente");
+				logger.info("Peticiï¿½n realizada correctamente");
 				
 				return repository.getByAgencyPaged(agency, element, page);
 				
 			}else {
-				logger.error("El número de elementos introducido no es correcto");
+				logger.error("El nï¿½mero de elementos introducido no es correcto");
 				
-				throw new ServiceException("El número de elementos introducido no es correcto");
+				throw new ServiceException("El nï¿½mero de elementos introducido no es correcto");
 			}
 			
 		}else {
@@ -262,11 +262,11 @@ public class ExchangeGiftService {
 		}
 	}
 	
-	public boolean sumPoints(Agency agency,long points) throws ServiceException {
+	public boolean restPoints(Agency agency,long points) throws ServiceException {
 		if(agency!=null) {
 			if(agency.getId()!=null&&agency.getId()>0) {
 				if(points>0) {
-					agency.setPoints(agency.getPoints()+points);
+					agency.setPoints(agency.getPoints()-points);
 					
 					agencyService.createOrUpdate(agency);
 					
@@ -278,9 +278,9 @@ public class ExchangeGiftService {
 					throw new ServiceException("Los puntos introducidos son menores que 0");
 				}
 			}else {
-				logger.error("El id introducido no es válido");
+				logger.error("El id introducido no es vï¿½lido");
 				
-				throw new RecordNotFoundException("El id introducido no es váliso", agency.getId());
+				throw new RecordNotFoundException("El id introducido no es vï¿½liso", agency.getId());
 			}
 			
 		}else {

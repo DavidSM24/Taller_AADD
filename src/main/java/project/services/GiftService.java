@@ -181,7 +181,7 @@ public class GiftService {
 					gift.setPicture(CloudinaryRepository.upload(file, gift));
 					gift = repository.save(gift);
 					logger.info("Petici�n realizada correctamente");
-
+					return gift;
 				}
 			} else {
 				gift.setPicture(CloudinaryRepository.upload(file, gift));
@@ -196,7 +196,6 @@ public class GiftService {
 			throw new ServiceException("El regalo introducido es nulo");
 			
 		}
-		return null;
 	}
 
 	/***
