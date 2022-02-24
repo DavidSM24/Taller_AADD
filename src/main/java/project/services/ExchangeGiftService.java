@@ -25,6 +25,8 @@ public class ExchangeGiftService {
 	 */
 	@Autowired
 	ExchangeGiftRepository repository;
+	@Autowired
+	AgencyService agencyService;
 
 	/**
 	 * Método que devuelve todos los regalos intercambiado.
@@ -257,6 +259,34 @@ public class ExchangeGiftService {
 			logger.error("El id de la agencia es incorrecto");
 			
 			throw new ServiceException("El id de la agencia es incorrecto");
+		}
+	}
+	
+	public boolean sumPoints(Agency agency,long points) throws ServiceException {
+		if(agency!=null) {
+			if(agency.getId()!=null&&agency.getId()>0) {
+				if(points>0) {
+					agency.setPoints(agency.getPoints()+points);
+					
+					agencyService.createOrUpdate(agency);
+					
+					return true;
+					
+				}else {
+					logger.error("Los puntos introducidos son menores que 0");
+					
+					throw new ServiceException("Los puntos introducidos son menores que 0");
+				}
+			}else {
+				logger.error("El id introducido no es válido");
+				
+				throw new RecordNotFoundException("El id introducido no es váliso", agency.getId());
+			}
+			
+		}else {
+			logger.error("La agencia introducida es nula");
+			
+			throw new ServiceException("La agencia introducida es nula");
 		}
 	}
 }
