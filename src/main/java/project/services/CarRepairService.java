@@ -159,6 +159,7 @@ public class CarRepairService {
 							if(!sumPoints(carRepair.getMyAgency(),carRepair.getAsigPoints())) {
 								
 							}
+							sumAmount(carRepair.getMyAgency(), carRepair.getAmount());
 						}
 						
 						newCarRepair.setId(carRepair.getId());// id
@@ -412,6 +413,42 @@ public class CarRepairService {
 					
 				}else {
 					logger.error("Los puntos introducidos son menores que 0");
+					
+					throw new ServiceException("Los puntos introducidos son menores que 0");
+				}
+			}else {
+				logger.error("El id introducido no es vï¿½lido");
+				
+				throw new RecordNotFoundException("El id introducido no es vï¿½liso", agency.getId());
+			}
+			
+		}else {
+			logger.error("La agencia introducida es nula");
+			
+			throw new ServiceException("La agencia introducida es nula");
+		}
+	}
+	
+	/**
+	 * Método que añade el coste de la reparación al total de la agencia
+	 * @throws ServiceException 
+	 */
+	public boolean sumAmount(Agency agency, float amount) throws ServiceException {
+		if(agency!=null) {
+			if(agency.getId()!=null&&agency.getId()>0) {
+				if(amount>0) {
+					
+					Agency newAgency=agencyService.getById(agency.getId());
+					
+					newAgency.setAmount(newAgency.getAmount()+amount);
+			
+					
+					agencyService.createOrUpdate(newAgency);
+					
+					return true;
+					
+				}else {
+					logger.error("Los montante introducidos son menores que 0");
 					
 					throw new ServiceException("Los puntos introducidos son menores que 0");
 				}
