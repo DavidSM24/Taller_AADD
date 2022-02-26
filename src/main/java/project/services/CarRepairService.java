@@ -405,7 +405,6 @@ public class CarRepairService {
 					Agency newAgency=agencyService.getById(agency.getId());
 					
 					newAgency.setPoints(newAgency.getPoints()+points);
-			
 					
 					agencyService.createOrUpdate(newAgency);
 					
@@ -430,7 +429,7 @@ public class CarRepairService {
 	}
 	
 	/**
-	 * Método que añade el coste de la reparación al total de la agencia
+	 * Mï¿½todo que aï¿½ade el coste de la reparaciï¿½n al total de la agencia
 	 * @throws ServiceException 
 	 */
 	public boolean sumAmount(Agency agency, float amount) throws ServiceException {
