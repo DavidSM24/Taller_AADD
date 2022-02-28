@@ -13,6 +13,13 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	@Query(value = "SELECT * FROM public.user LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<User> getAllPaged(@Param("element") int element,@Param("page") int page );
+	@Query(value = "SELECT u.* "
+			+ "FROM public.user AS u "
+			+ "WHERE u.id NOT IN (SELECT u2.id "
+			+ "FROM public.agency AS a "
+			+ "INNER JOIN public.user AS u2 ON u2.id=a.id_user "
+			+ "WHERE u2.administrator=false);",nativeQuery = true)
+	public List<User> getByAvailable();
 	@Query(value = "SELECT * FROM public.user WHERE code = :code",nativeQuery = true)
 	public User getByCode(@Param("code") int code );
 	@Query(value = "SELECT * FROM public.user WHERE LOWER(name) LIKE %:name%" ,nativeQuery = true)

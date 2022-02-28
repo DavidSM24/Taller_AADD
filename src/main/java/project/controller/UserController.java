@@ -194,6 +194,26 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	/**
+	 * Devuelve una respuesta HTTP con una lista de Usuarios disponibles dependiendo de si la consulta
+	 * para asignar a agencias, y de  si la consulta se ha realizado correctamente o no.
+	 * 
+	 * @return la respuesta HTTP con la lista de usuarios disponibles.
+	 */
+	@ApiOperation(value = "Return available Users", notes="Return a Users List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Users"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/available")
+	public ResponseEntity<List<User>> getByAvailable(){
+		List<User> all=service.getByAvailable();
+		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
+	}
+	
 	/**
 	 * Recibe un usuario. Crea o updatea un usuario.
 	 * 

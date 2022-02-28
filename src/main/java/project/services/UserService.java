@@ -31,19 +31,30 @@ public class UserService {
 	UserRepository repository;
 
 	/**
-	 * Método que devuelve todos los Usuarios.
+	 * Mï¿½todo que devuelve todos los Usuarios.
 	 * 
 	 * @return lista de usuarios
 	 */
 	public List<User> getall() {
-		logger.info("Petición realizada correctamente");
+		logger.info("Peticiï¿½n realizada correctamente");
 		
 		return repository.findAll();
 	}
+	
+	/**
+	 * Mï¿½todo que devuelve todos los Usuarios.
+	 * 
+	 * @return lista de usuarios
+	 */
+	public List<User> getByAvailable() {
+		logger.info("Peticiï¿½n realizada correctamente");
+		
+		return repository.getByAvailable();
+	}
 
 	/***
-	 * Método para conseguir un usuario a partir de su id. Recibe un Long.
-	 * Posibilidad de dar una excepción NotFound.
+	 * Mï¿½todo para conseguir un usuario a partir de su id. Recibe un Long.
+	 * Posibilidad de dar una excepciï¿½n NotFound.
 	 *
 	 * @param id
 	 * @return el usuario con ese id
@@ -54,7 +65,7 @@ public class UserService {
 			if (id > 0) {
 				Optional<User> result = repository.findById(id);
 				if (result.isPresent()) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return result.get();
 				} else {
@@ -78,8 +89,8 @@ public class UserService {
 	}
 
 	/***
-	 * Método para insertar o actualizar un usuario dependiendo de si existe un
-	 * registro con este id en la BBDD. Lanza una excepción si no se encuentra al
+	 * Mï¿½todo para insertar o actualizar un usuario dependiendo de si existe un
+	 * registro con este id en la BBDD. Lanza una excepciï¿½n si no se encuentra al
 	 * usuario en la BBDD.
 	 * 
 	 * @param Agency: El usuario a actualizar/insertar.
@@ -105,14 +116,14 @@ public class UserService {
 						newUser.setName(user.getName());
 						
 						newUser = repository.save(newUser);
-						logger.info("Petición realizada correctamente");
+						logger.info("Peticiï¿½n realizada correctamente");
 						
 						return newUser;
 
 					} else { // insert
 						user.setId(null);
 						user = repository.save(user);
-						logger.info("Petición realizada correctamente");
+						logger.info("Peticiï¿½n realizada correctamente");
 						
 						return user;
 					}
@@ -121,7 +132,7 @@ public class UserService {
 
 				else {
 					user = repository.save(user);
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return user;
 				}
@@ -140,7 +151,7 @@ public class UserService {
 	}
 
 	/***
-	 * Método que recibe un usuario y la elimina de la BBDD. Lanza una excepción si
+	 * Mï¿½todo que recibe un usuario y la elimina de la BBDD. Lanza una excepciï¿½n si
 	 * no se encuentra el usuario en la BBDD.
 	 * 
 	 * @param Agency: El Usuario a eliminar.
@@ -166,9 +177,9 @@ public class UserService {
 					
 				}else {
 					result = false;
-					logger.error("El rango de la id no es válido");
+					logger.error("El rango de la id no es vï¿½lido");
 					
-					throw new RecordNotFoundException("El rango del id no es válido",user.getId());
+					throw new RecordNotFoundException("El rango del id no es vï¿½lido",user.getId());
 				}
 			}else {
 				result = false;
@@ -182,29 +193,29 @@ public class UserService {
 			
 			throw new ServiceException("Usuario es nulo");
 		}
-		logger.info("Petición realizada correctamente");
+		logger.info("Peticiï¿½n realizada correctamente");
 		
 		return result;
 	}
 
 	/**
-	 * Devuelve una lista de usuarios paginada en función de la página que se está
+	 * Devuelve una lista de usuarios paginada en funciï¿½n de la pï¿½gina que se estï¿½
 	 * buscando.
 	 * 
-	 * @param element nº de elementos a buscar
-	 * @param page    nº de página a partir del cual buscar.
+	 * @param element nï¿½ de elementos a buscar
+	 * @param page    nï¿½ de pï¿½gina a partir del cual buscar.
 	 * @return Una lista de usuarios intercambiados.
 	 * @throws ServiceException 
 	 */
 	public List<User> getAllPaged(int element, int page) throws ServiceException {
 		if(element>0&&page>-1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getAllPaged(element, page);
 		}else {
-			logger.error("El rango de páginas no es válido");
+			logger.error("El rango de pï¿½ginas no es vï¿½lido");
 			
-			throw new ServiceException("El rango de páginas es invalido");
+			throw new ServiceException("El rango de pï¿½ginas es invalido");
 		}
 	}
 
@@ -217,13 +228,13 @@ public class UserService {
 	 */
 	public User getByCode(int code) throws ServiceException {
 		if(code>0) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getByCode(code);
 		}else {
-			logger.error("El código introducido no es válido");
+			logger.error("El cï¿½digo introducido no es vï¿½lido");
 			
-			throw new ServiceException("Codigo introducido inválido");
+			throw new ServiceException("Codigo introducido invï¿½lido");
 		}
 	}
 
@@ -237,7 +248,7 @@ public class UserService {
 	public User getByName(String name) throws ServiceException {
 		if(name!=null) {
 			if(!name.equals("")) {
-				logger.info("Petición realizada correctamente");
+				logger.info("Peticiï¿½n realizada correctamente");
 				
 				return repository.getByName(name.toLowerCase());
 				
@@ -254,24 +265,24 @@ public class UserService {
 	}
 
 	/**
-	 * Devuelve una lista de usuarios paginada en función de la página que se está
+	 * Devuelve una lista de usuarios paginada en funciï¿½n de la pï¿½gina que se estï¿½
 	 * buscando y si es administrador.
 	 * 
 	 * @param administrator booleano para identificar el rol del usuario
-	 * @param element       nº de elementos a buscar
-	 * @param page          nº de página a partir del cual buscar.
+	 * @param element       nï¿½ de elementos a buscar
+	 * @param page          nï¿½ de pï¿½gina a partir del cual buscar.
 	 * @return Una lista de usuarios intercambiados.
 	 * @throws ServiceException 
 	 */
 	public List<User> getByAdministratorPaged(Boolean administrator, int element, int page) throws ServiceException {
 		if(element>0&&page>-1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getAllAdminPaged(administrator, element, page);
 		}else {
-			logger.error("El rango introducido no es válido");
+			logger.error("El rango introducido no es vï¿½lido");
 			
-			throw new ServiceException("El rango introducido no es válido");
+			throw new ServiceException("El rango introducido no es vï¿½lido");
 		}
 		
 	}
