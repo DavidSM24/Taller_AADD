@@ -231,7 +231,7 @@ public class CarRepairController {
 			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
 			@ApiResponse(code=500,message="Internal Error"),
 	})
-	@GetMapping("/ini/{ini}/end{end}/elements{elements}/page/{page}")
+	@GetMapping("/ini/{ini}/end/{end}/elements/{elements}/page/{page}")
 	public ResponseEntity<List<CarRepair>> getByDateOrderPaged(
 			@PathVariable("ini")LocalDateTime ini,@PathVariable("end")LocalDateTime end,
 			@PathVariable("elements")int element,@PathVariable("page")int page){
