@@ -26,43 +26,43 @@ public class AgencyService {
 	AgencyRepository repository;
 
 	/**
-	 * Método que devuelve todas las agencias.
+	 * Mï¿½todo que devuelve todas las agencias.
 	 * 
 	 * @return lista de agencias
 	 */
 	public List<Agency> getAll() {
-		logger.info("Petición realizada correctamente");
+		logger.info("Peticiï¿½n realizada correctamente");
 		
 		return repository.findAll();
 	}
 
 	/**
-	 * Devuelve una lista de agencias paginada en función de la página que se está
+	 * Devuelve una lista de agencias paginada en funciï¿½n de la pï¿½gina que se estï¿½
 	 * buscando.
 	 * 
-	 * @param element nº de elementos a buscar
-	 * @param page    nº de página a partir del cual buscar.
+	 * @param element nï¿½ de elementos a buscar
+	 * @param page    nï¿½ de pï¿½gina a partir del cual buscar.
 	 * @return Una lista de agencias.
 	 * @throws ServiceException 
 	 */
 	public List<Agency> getAllPaged(int element, int page) throws ServiceException {
 		
 		if(element>0&&page>-1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getAllPaged(element, page);
 		}else {
-			logger.error("La páginación no es correcta");
+			logger.error("La pï¿½ginaciï¿½n no es correcta");
 			
-			throw new ServiceException("La paginación no es correcta.");
+			throw new ServiceException("La paginaciï¿½n no es correcta.");
 			
 		}
 
 	}
 
 	/***
-	 * Método para conseguir una agencia a partir de su id. Recibe un Long.
-	 * Posibilidad de dar una excepción NotFound.
+	 * Mï¿½todo para conseguir una agencia a partir de su id. Recibe un Long.
+	 * Posibilidad de dar una excepciï¿½n NotFound.
 	 *
 	 * @param id
 	 * @return la agencia con ese id
@@ -75,7 +75,7 @@ public class AgencyService {
 				Optional<Agency> result = repository.findById(id);
 
 				if (result.isPresent()) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					return result.get();
 
 				} else {
@@ -83,7 +83,7 @@ public class AgencyService {
 					throw new RecordNotFoundException("La agencia no existe", id);
 				}
 			} else {
-				logger.error("El id "+id+" no es válido");
+				logger.error("El id "+id+" no es vï¿½lido");
 				throw new RecordNotFoundException("El id introducido no es valido", id);
 			}
 
@@ -99,8 +99,8 @@ public class AgencyService {
 	 * parametro username.
 	 * 
 	 * @param username el nombre del usuario.
-	 * @param element  nº de elementos a buscar
-	 * @param page     comienzo de la paginación.
+	 * @param element  nï¿½ de elementos a buscar
+	 * @param page     comienzo de la paginaciï¿½n.
 	 * @return La lista paginada y filtrada de agencias.
 	 * @throws ServiceException
 	 */
@@ -108,14 +108,14 @@ public class AgencyService {
 		if (userName != null) {
 			if (!userName.equals("")) {
 				if (element > 0 && page > -1) {
-					logger.info("Petición realizada correctamente");
+					logger.info("Peticiï¿½n realizada correctamente");
 					
 					return repository.getByUsernamePaged(userName.toLowerCase(), element, page);
 
 				} else {
-					logger.error("La páginación no es válida");
+					logger.error("La pï¿½ginaciï¿½n no es vï¿½lida");
 					
-					throw new ServiceException("Los números introducidos para el paginádo no son válidos");
+					throw new ServiceException("Los nï¿½meros introducidos para el paginï¿½do no son vï¿½lidos");
 				}
 
 			} else {
@@ -133,32 +133,32 @@ public class AgencyService {
 	}
 
 	/**
-	 * Devuelve todas las agencias que coincidan con el parámetro isActive
-	 * paginadas, pudiendo ser las que estén o no activas en función de lo que se
+	 * Devuelve todas las agencias que coincidan con el parï¿½metro isActive
+	 * paginadas, pudiendo ser las que estï¿½n o no activas en funciï¿½n de lo que se
 	 * reciba.
 	 * 
-	 * @param active  boolean con el parámetro para filtrar por active/inactive
-	 * @param element nº de elementos a buscar
+	 * @param active  boolean con el parï¿½metro para filtrar por active/inactive
+	 * @param element nï¿½ de elementos a buscar
 	 * @param page    pagina por la que se empieza a paginar
 	 * @return Lista de agencias paginada y flitrada por isActive.
 	 * @throws ServiceException
 	 */
 	public List<Agency> getByActivePaged(boolean active, int element, int page) throws ServiceException {
 		if (element > 0 && page > -1) {
-			logger.info("Petición realizada correctamente");
+			logger.info("Peticiï¿½n realizada correctamente");
 			
 			return repository.getByActivePaged(active, element, page);
 
 		} else {
-			logger.error("Los números de la páginación son incorrectos");
+			logger.error("Los nï¿½meros de la pï¿½ginaciï¿½n son incorrectos");
 			
-			throw new ServiceException("Los números introducidos para el paginado no son válidos");
+			throw new ServiceException("Los nï¿½meros introducidos para el paginado no son vï¿½lidos");
 		}
 	}
 
 	/***
-	 * Método para insertar o actualizar una agencia dependiendo de si existe un
-	 * registro con este id en la BBDD. Lanza una excepción si no se encuentra la
+	 * Mï¿½todo para insertar o actualizar una agencia dependiendo de si existe un
+	 * registro con este id en la BBDD. Lanza una excepciï¿½n si no se encuentra la
 	 * agencia en la BBDD.
 	 * 
 	 * @param Agency: La agencia a actualizar/insertar.
@@ -176,7 +176,7 @@ public class AgencyService {
 					if (agency.getPoints() > -1) {
 						if (agency.getPointsRedeemed() > -1) {
 							if (agency.getPhoneNumber() != null) {
-								if (agency.getAmount() > 0) {
+								if (agency.getAmount() >-1) {
 									if (agency.getZipCode() != null && agency.getZipCode() > 0) {
 										if (agency.getMyUser() != null) {
 											if (agency.getMyInsuranceCompany() != null) {
@@ -207,7 +207,7 @@ public class AgencyService {
 																
 																newAgency = repository.save(newAgency);
 																
-																logger.info("Actualización realizada Correctamente");
+																logger.info("Actualizaciï¿½n realizada Correctamente");
 																
 																return newAgency;
 
@@ -236,62 +236,62 @@ public class AgencyService {
 													
 													throw new ServiceException("La lista de reparaciones es nula");
 												}
-											} else {//compañia de seguros
-												logger.error("La compañia de seguros es nula");
+											} else {//compaï¿½ia de seguros
+												logger.error("La compaï¿½ia de seguros es nula");
 												
-												throw new ServiceException("La compañia de seguros es nula");
+												throw new ServiceException("La compaï¿½ia de seguros es nula");
 											}
 										} else {//usuario
 											logger.error("EL usuario es nulo");
 											
 											throw new ServiceException("El usuario es nulo");
 										}
-									} else {//código postal
-										logger.error("El código postal introducido no es válido");
+									} else {//cï¿½digo postal
+										logger.error("El cï¿½digo postal introducido no es vï¿½lido");
 										
-										throw new ServiceException("El código postal introducido no es válido");
+										throw new ServiceException("El cï¿½digo postal introducido no es vï¿½lido");
 									}
 								} else {//total
-									logger.error("El total no es válido");
+									logger.error("El total no es vï¿½lido");
 									
-									throw new ServiceException("El total no es válido");
+									throw new ServiceException("El total no es vï¿½lido");
 								}
 							}else {//telefono
-								logger.error("El teléfono introducido no es válido");
+								logger.error("El telï¿½fono introducido no es vï¿½lido");
 								
-								throw new ServiceException("El teléfono introducido no es válido");
+								throw new ServiceException("El telï¿½fono introducido no es vï¿½lido");
 							}
 						} else {//puntos gastados
-							logger.error("Los puntos gastados no son válidos");
+							logger.error("Los puntos gastados no son vï¿½lidos");
 							
-							throw new ServiceException("Los puntos gastados no son válidos");
+							throw new ServiceException("Los puntos gastados no son vï¿½lidos");
 						}
 					} else {//puntos
-						logger.error("los puntos introducidos no son válidos");
+						logger.error("los puntos introducidos no son vï¿½lidos");
 						
-						throw new ServiceException("Los puntos introducidos no son válidos");
+						throw new ServiceException("Los puntos introducidos no son vï¿½lidos");
 					}
-				} else {//locaclización
-					logger.error("La locaclización no es correcta");
+				} else {//locaclizaciï¿½n
+					logger.error("La locaclizaciï¿½n no es correcta");
 					
-					throw new ServiceException("La localización no es correcta");
+					throw new ServiceException("La localizaciï¿½n no es correcta");
 				}
 
 			} else {//direccion
-				logger.error("La dirección introducida no es correcta");
+				logger.error("La direcciï¿½n introducida no es correcta");
 				
-				throw new ServiceException("La dirección introducida no es correcta");
+				throw new ServiceException("La direcciï¿½n introducida no es correcta");
 			}
 		} else {//agencia
-			logger.error("La agencia introducida no es válida");
+			logger.error("La agencia introducida no es vï¿½lida");
 			
-			throw new ServiceException("La agencia introducida no es válida");
+			throw new ServiceException("La agencia introducida no es vï¿½lida");
 		}
 
 	}
 
 	/***
-	 * Método que recibe una agencia y la elimina de la BBDD. Lanza una excepción si
+	 * Mï¿½todo que recibe una agencia y la elimina de la BBDD. Lanza una excepciï¿½n si
 	 * no se encuentra la agencia en la BBDD.
 	 * 
 	 * @param Agency: La agencia a eliminar.
@@ -305,7 +305,7 @@ public class AgencyService {
 			Optional<Agency> optional = repository.findById(agency.getId());
 			
 			if (optional.isPresent()) {
-				logger.info("Petición realizada correctamente");
+				logger.info("Peticiï¿½n realizada correctamente");
 				repository.deleteById(agency.getId());
 			} else {
 				logger.error("La agencia con el id "+agency.getId()+" no existe ");
