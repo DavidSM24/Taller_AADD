@@ -173,6 +173,9 @@ public class AgencyService {
 		if (agency != null) {
 			if (agency.getAddress() != null && !agency.getAddress().equals("")) {
 				if (agency.getLocation() != null && !agency.getLocation().equals("")) {
+					
+					System.out.println(agency.getPoints());
+					
 					if (agency.getPoints() > -1) {
 						if (agency.getPointsRedeemed() > -1) {
 							if (agency.getPhoneNumber() != null) {

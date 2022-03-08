@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ import project.exception.ServiceException;
 import project.models.ExchangeGift;
 import project.services.ExchangeGiftService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*",methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/exchangeGifts")
 public class ExchangeGiftsController {
@@ -183,6 +184,8 @@ public class ExchangeGiftsController {
 			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
 			@ApiResponse(code=500,message="Internal Error"),
 	})
+	
+	@CrossOrigin(origins = "*")
 	@PostMapping()
 	public ResponseEntity<ExchangeGift> createorUpdateUser(@Valid @RequestBody ExchangeGift ex){
 		ExchangeGift gift;
@@ -214,6 +217,8 @@ public class ExchangeGiftsController {
 			@ApiResponse(code=404,message="ERROR, It was not possible to delete"),
 			@ApiResponse(code=500,message="Internal Error"),
 	})
+	
+	@CrossOrigin(origins = "*")
 	@DeleteMapping()
 	public HttpStatus delete(@Valid @RequestBody ExchangeGift ex) throws RecordNotFoundException{
 		try {
