@@ -26,7 +26,7 @@ import project.exception.ServiceException;
 import project.models.ExchangeGift;
 import project.services.ExchangeGiftService;
 
-@CrossOrigin(origins = "*",methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+//@CrossOrigin(origins = "*",methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/exchangeGifts")
 public class ExchangeGiftsController {
@@ -185,7 +185,7 @@ public class ExchangeGiftsController {
 			@ApiResponse(code=500,message="Internal Error"),
 	})
 	
-	@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PostMapping()
 	public ResponseEntity<ExchangeGift> createorUpdateUser(@Valid @RequestBody ExchangeGift ex){
 		ExchangeGift gift;
