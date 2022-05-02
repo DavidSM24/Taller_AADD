@@ -39,8 +39,9 @@ public interface CarRepairRepository extends JpaRepository<CarRepair, Long> {
 	@Query(value = "SELECT * FROM car_repair WHERE repaired =:repaired LIMIT :element OFFSET :paged", nativeQuery = true)
 	public List<CarRepair> getByStatePaged(@Param("repaired") boolean repaired, @Param("element") int nElement,
 			@Param("paged") int paged);
+	
 	@Query(value = "SELECT * FROM car_repair WHERE id_agency=:id_agency LIMIT :element OFFSET :paged", nativeQuery = true)
-	public List<CarRepair> getByAgency(@Param("id_agency") int id_agency, @Param("element") int nElement,
+	public List<CarRepair> getByAgencyPaged(@Param("id_agency") int id_agency, @Param("element") int nElement,
 			@Param("paged") int paged);
 	
 

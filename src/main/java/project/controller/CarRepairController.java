@@ -320,6 +320,31 @@ public class CarRepairController {
 		
 		}
 	}
+	@ApiOperation(value = "Return all CarRepairs paged by her agency", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/agency/{id_agency}/elements/{elements}/page/{page}")
+	public ResponseEntity<List<CarRepair>> getByAgencyPaged(@PathVariable("id_agency") int id_agency,@PathVariable("elements")int element,@PathVariable("page")int page){
+
+		List<CarRepair> result=new ArrayList<CarRepair>();
+		
+		try {
+			result=service.getByAgencyPaged(id_agency, element, page);
+			
+			return new ResponseEntity<List<CarRepair>>(result,new HttpHeaders(),HttpStatus.OK);
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
+		
+		}
+	}
 	/**
 	 * M�todo que guarda o actualiza una reparaci�n en la base de datos
 	 * @param carRepair
