@@ -97,6 +97,28 @@ public class AgencyService {
 	/**
 	 * Devuelve una lista paginada de agencias cuyo nombre de usuario contenga el
 	 * parametro username.
+	 *
+	 * @param usercode el nombre del usuario.
+	 * @param element  n� de elementos a buscar
+	 * @param page     comienzo de la paginaci�n.
+	 * @return La lista paginada y filtrada de agencias.
+	 */
+	public List<Agency> getByUsercodePaged(int usercode, int element, int page) throws ServiceException {
+		if (element > 0 && page > -1) {
+			logger.info("Petici�n realizada correctamente");
+
+			return repository.getByUsercodePaged(usercode, element, page);
+
+		} else {
+			logger.error("La p�ginaci�n no es v�lida");
+
+			throw new ServiceException("Los n�meros introducidos para el pagin�do no son v�lidos");
+		}
+	}
+
+	/**
+	 * Devuelve una lista paginada de agencias cuyo nombre de usuario contenga el
+	 * parametro username.
 	 * 
 	 * @param username el nombre del usuario.
 	 * @param element  n� de elementos a buscar

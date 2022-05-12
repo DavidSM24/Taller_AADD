@@ -14,7 +14,13 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	
 	@Query(value = "SELECT * FROM agency LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<Agency>getAllPaged(@Param("element") int element,@Param("page") int page );
-	
+
+	@Query(value = "SELECT a.* FROM agency AS a "
+			+ "INNER JOIN public.user AS u ON a.id_user=u.id "
+			+ "WHERE usercode = :usercode "
+			+ "LIMIT 1",nativeQuery = true)
+	public List<Agency>getByUsercodePaged(@Param("usercode")int usercode, @Param("element") int element,@Param("page") int page);
+
 	@Query(value = "SELECT a.* FROM agency AS a "
 			+ "INNER JOIN public.user AS u ON a.id_user=u.id "
 			+ "WHERE LOWER(u.name) LIKE %:username% "

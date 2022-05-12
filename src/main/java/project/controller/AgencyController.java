@@ -101,7 +101,42 @@ public class AgencyController {
 		Agency result=service.getById(id);
 		return new ResponseEntity<Agency>(result,new HttpHeaders(),HttpStatus.OK);
 	}
-	
+
+	/**
+	 * Devuelve una respuesta HTTP con una lista de agencias paginadas y filtradas por username
+	 * dependiendo de si la consulta se ha realizado correctamente o no.
+	 *
+	 * @param username nombre por el que filtrar.
+	 * @param element n� de elementos a buscar.
+	 * @param page paginar para empezar la paginaci�n.
+	 * @return respuesta con lista de agencias paginada y filtrada por username.
+	 * @throws RecordNotFoundException
+	 */
+	@ApiOperation(value = "Return all Agencies Paged By her Usercode", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/usercode/{usercode}/element/{element}/page/{page}")
+	public ResponseEntity<List<Agency>> getByUserCodePaded(
+			@PathVariable("usercode") int usercode,
+			@PathVariable("element") int element,
+			@PathVariable("page") int page)
+			throws RecordNotFoundException{
+
+		List<Agency> result;
+		try {
+			result = service.getByUsercodePaged(usercode,element,page);
+			return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<List<Agency>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	/**
 	 * Devuelve una respuesta HTTP con una lista de agencias paginadas y filtradas por username 
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
