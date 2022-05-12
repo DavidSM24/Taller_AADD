@@ -94,33 +94,45 @@ public class AgencyService {
 
 	}
 
-	/**
-	 * Devuelve una lista paginada de agencias cuyo nombre de usuario contenga el
-	 * parametro username.
+	/***
 	 *
-	 * @param usercode el nombre del usuario.
-	 * @param element  n� de elementos a buscar
-	 * @param page     comienzo de la paginaci�n.
-	 * @return La lista paginada y filtrada de agencias.
+	 * Posibilidad de dar una excepci�n NotFound.
+	 *
+	 * @param usercode
+	 * @return la agencia con ese usercode
+	 * @throws RecordNotFoundException
 	 */
-	public List<Agency> getByUsercodePaged(int usercode, int element, int page) throws ServiceException {
-		if (element > 0 && page > -1) {
-			logger.info("Petici�n realizada correctamente");
+	public Agency getByUsercode(Long usercode) throws RecordNotFoundException {
+		if (usercode != null) {
+			if (usercode > 0) {
 
-			return repository.getByUsercodePaged(usercode, element, page);
+				Optional<Agency> result = Optional.ofNullable(repository.getByUserCode(usercode));
+
+				if (result.isPresent()) {
+					logger.info("Petici�n realizada correctamente");
+					return result.get();
+
+				} else {
+					logger.error("La agencia buscada no existe, en getByUsercode");
+					throw new RecordNotFoundException("La agencia no existe", usercode);
+				}
+			} else {
+				logger.error("El id "+usercode+" no es v�lido");
+				throw new RecordNotFoundException("El usercode introducido no es valido", usercode);
+			}
 
 		} else {
-			logger.error("La p�ginaci�n no es v�lida");
-
-			throw new ServiceException("Los n�meros introducidos para el pagin�do no son v�lidos");
+			logger.error("El usercode introducido es nulo");
+			throw new RecordNotFoundException("El usercode introducido es nulo");
 		}
+
 	}
 
 	/**
 	 * Devuelve una lista paginada de agencias cuyo nombre de usuario contenga el
 	 * parametro username.
 	 * 
-	 * @param username el nombre del usuario.
+	 * @param userName el nombre del usuario.
 	 * @param element  n� de elementos a buscar
 	 * @param page     comienzo de la paginaci�n.
 	 * @return La lista paginada y filtrada de agencias.
