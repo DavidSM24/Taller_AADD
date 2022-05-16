@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 			+ "INNER JOIN public.user AS u2 ON u2.id=a.id_user "
 			+ "WHERE u2.administrator=false);",nativeQuery = true)
 	public List<User> getByAvailable();
-	@Query(value = "SELECT * FROM public.user WHERE code = :code",nativeQuery = true)
+	@Query(value = "SELECT * FROM public.user WHERE code = :code LIMIT 1",nativeQuery = true)
 	public User getByCode(@Param("code") int code );
 	@Query(value = "SELECT * FROM public.user WHERE LOWER(name) LIKE %:name%" ,nativeQuery = true)
 	public User getByName(@Param("name") String name );
