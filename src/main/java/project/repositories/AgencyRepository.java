@@ -17,7 +17,7 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 
 	@Query(value = "SELECT a.* FROM agency AS a "
 			+ "INNER JOIN public.user AS u ON a.id_user=u.id "
-			+ "WHERE usercode = :usercode "
+			+ "WHERE code = :usercode "
 			+ "LIMIT 1",nativeQuery = true)
 	public Agency getByUserCode(@Param("usercode")Long usercode);
 
