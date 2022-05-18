@@ -128,7 +128,7 @@ public class ExchangeGiftsController {
 			@ApiResponse(code=500,message="Internal Error"),
 	})
 	@GetMapping("/date/{date}")
-	public ResponseEntity<List<ExchangeGift>> getByDateExchange(@PathVariable("page") String date){
+	public ResponseEntity<List<ExchangeGift>> getByDateExchange(@PathVariable("date") String date){
 		List<ExchangeGift> all;
 		try {
 			all = service.getByDate(date);
