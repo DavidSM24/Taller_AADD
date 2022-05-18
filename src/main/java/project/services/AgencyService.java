@@ -167,6 +167,32 @@ public class AgencyService {
 	}
 
 	/**
+	 * Devuelve una lista paginada de agencias filtrada por localidad.
+	 *
+	 * @param location localidad del usuario.
+	 * @return La lista paginada y filtrada de agencias.
+	 * @throws ServiceException
+	 */
+	public List<Agency> getByLocation(String location) throws ServiceException {
+		if (location != null) {
+			if (!location.equals("")) {
+				return repository.getByLocation(location);
+
+			} else {
+				logger.error("El nombre de usuario no es valido");
+
+				throw new ServiceException("El nombre del usuario no es valido");
+			}
+
+		} else {
+			logger.error("El nombre de usuario es nulo");
+
+			throw new ServiceException("El nomnbre del usuario es nulo");
+		}
+
+	}
+
+	/**
 	 * Devuelve una lista paginada de agencias por puntos.
 	 *
 	 * @param points     puntos para filtrar.
@@ -174,7 +200,7 @@ public class AgencyService {
 	 * @throws ServiceException
 	 */
 	public List<Agency> getByPoints(int points) throws ServiceException {
-		return repository.getByUsernamePaged(points);
+		return repository.getByPoints(points);
 
 	}
 
@@ -207,7 +233,7 @@ public class AgencyService {
 	 * registro con este id en la BBDD. Lanza una excepci�n si no se encuentra la
 	 * agencia en la BBDD.
 	 * 
-	 * @param Agency: La agencia a actualizar/insertar.
+	 * @param agency: La agencia a actualizar/insertar.
 	 * @return Devuelve la agencia con el id generado.
 	 * @throws RecordNotFoundException
 	 * @throws ServiceException
@@ -343,7 +369,7 @@ public class AgencyService {
 	 * M�todo que recibe una agencia y la elimina de la BBDD. Lanza una excepci�n si
 	 * no se encuentra la agencia en la BBDD.
 	 * 
-	 * @param Agency: La agencia a eliminar.
+	 * @param agency: La agencia a eliminar.
 	 * @throws RecordNotFoundException
 	 * @throws ServiceException 
 	 */

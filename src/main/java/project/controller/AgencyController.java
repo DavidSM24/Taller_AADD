@@ -160,6 +160,37 @@ public class AgencyController {
 	}
 
 	/**
+	 * Devuelve una respuesta HTTP con una lista de agencias paginadas y filtradas por localidades
+	 * dependiendo de si la consulta se ha realizado correctamente o no.
+	 *
+	 * @param location localidad por la que filtrar.
+	 * @return respuesta con lista de agencias paginada y filtrada por username.
+	 * @throws RecordNotFoundException
+	 */
+	@ApiOperation(value = "Return all Agencies Paged By her location", notes="Return a Agencies List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/location/{location}")
+	public ResponseEntity<List<Agency>> getByLocation(
+			@PathVariable("location") String location)
+			throws RecordNotFoundException{
+
+		List<Agency> result;
+		try {
+			result = service.getByLocation(location);
+			return new ResponseEntity<List<Agency>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<List<Agency>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	/**
 	 * Devuelve una respuesta HTTP con una lista de agencias paginadas y filtradas por username
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 *

@@ -33,4 +33,8 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	
 	@Query(value = "SELECT * FROM agency WHERE is_active = :active LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<Agency> getByActivePaged(@Param("active") boolean active, @Param("element") int element, @Param("page") int page);
+
+	@Query(value = "SELECT a.* FROM agency AS a "
+			+ "WHERE CAST(location AS TEXT) LIKE '%:location%'",nativeQuery = true)
+	public List<Agency> getByLocation(@Param("location") String location);
 }
