@@ -202,7 +202,8 @@ public class AgencyService {
 	public List<Agency> getByCompany(String company) throws ServiceException {
 		if (company != null) {
 			if (!company.equals("")) {
-				return repository.getByCompany(company);
+				//return repository.getByCompany(company);
+				return null;
 
 			} else {
 				logger.error("Compañía no es valida");
