@@ -86,7 +86,7 @@ public class ExchangeGiftService {
 	 * existe un registro con este id en la BBDD. Lanza una excepci�n si no se
 	 * encuentra al regalo intercambiado en la BBDD.
 	 * 
-	 * @param Agency: El regalo intercambiado a actualizar/insertar.
+	 * @param exgift: El regalo intercambiado a actualizar/insertar.
 	 * @return Devuelve el regalo intercambiado con el id generado.
 	 * @throws ServiceException
 	 * @throws RecordNotFoundException
@@ -156,7 +156,7 @@ public class ExchangeGiftService {
 	 * M�todo que recibe un regalo intercambiado y la elimina de la BBDD. Lanza una
 	 * excepci�n si no se encuentra el regalo intercambiado en la BBDD.
 	 * 
-	 * @param Agency: El regalo intercambiado a eliminar.
+	 * @param gift: El regalo intercambiado a eliminar.
 	 * @return Devuelve true si el regalo intercambiado se ha borrado False si no.
 	 * @throws RecordNotFoundException
 	 * @throws ServiceException 
@@ -258,6 +258,7 @@ public class ExchangeGiftService {
 		if(date!=null){
 			return repository.getByDate(date);
 		}
+		return null;
 
 
 	}
@@ -296,7 +297,7 @@ public class ExchangeGiftService {
 	 * Resta puntos a una agencia al canjear un regalo.
 	 * 
 	 * @param agency La agencia a la que se le restarán los puntos.
-	 * @param points Número de puntos a restar.
+	 * @param gift Número de puntos a restar.
 	 * @return booleano con el resultado de la operación.
 	 * @throws ServiceException
 	 */
