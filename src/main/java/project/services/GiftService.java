@@ -144,6 +144,18 @@ public class GiftService {
 		}
 	}
 
+	/**
+	 * Devuelve una lista de regalos paginada filtrada por la disponibilidad actual,
+	 * comenzando por la pagina recivida.
+	 *
+	 * @param points puntos para filtrar la b�squeda.
+	 * @return lista de regalos paginada y filtrada por nombre
+	 * @throws ServiceException
+	 */
+	public List<Gift> getByPoints(int points) throws ServiceException {
+		return repository.getByPoints(points);
+	}
+
 	/***
 	 * M�todo para insertar o actualizar un regalo dependiendo de si existe un
 	 * registro con este id en la BBDD. Lanza una excepci�n si no se encuentra el

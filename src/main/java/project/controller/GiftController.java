@@ -198,6 +198,38 @@ public class GiftController {
 	}
 
 	/**
+	 * Devuelve una respuesta HTTP con una lista de regalos paginada filtrada por
+	 * disponibilidadvdependiendo de si la consulta se ha realizado correctamente o no.
+	 *
+	 * @param points puntos para filtrar la búsqueda.
+	 * @return lista de regalos paginada y filtrada por nombre
+	 */
+	@ApiOperation(value = "Return Gifts Paged depending if they are available", notes="Return a Gifts List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get Gifts"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/points/{points}")
+	public ResponseEntity<List<Gift>> getByPoints(@PathVariable("points")int points) {
+
+		List<Gift> result;
+
+		try {
+
+			result = service.getByPoints(points);
+
+			return new ResponseEntity<List<Gift>>(result,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			return new ResponseEntity<List<Gift>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	/**
 	 * Recibe un regalo. Crea o updatea el regalo.
 	 * 
 	 * @param g regalo a crear o updatear recibido en el cuerpo.
@@ -212,7 +244,6 @@ public class GiftController {
 			@ApiResponse(code=404,message="ERROR, It was not possible to create or update"),
 			@ApiResponse(code=500,message="Internal Error"),
 	})
-	
 	@PostMapping()
 	public ResponseEntity<Gift> createOrUpdate(@Valid @RequestPart("g") Gift g, @RequestPart("file") MultipartFile file) {
 		

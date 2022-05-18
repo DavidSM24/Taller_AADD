@@ -21,4 +21,7 @@ public interface GiftRepository extends JpaRepository<Gift,Long>{
 	@Query(value = "SELECT * FROM gift WHERE is_avaliable = :avaliable LIMIT :element OFFSET :page", nativeQuery = true)
 	public List<Gift> getByAvaliablePaged(@Param("avaliable")boolean avaliable, @Param("element") int element,@Param("page") int page);
 
+	@Query(value = "SELECT * FROM gift WHERE CAST(points AS TEXT) LIKE '%:points%'", nativeQuery = true)
+	public List<Gift> getByPoints(@Param("points")int points);
+
 }
