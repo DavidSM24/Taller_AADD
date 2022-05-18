@@ -42,4 +42,12 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 			+ "INNER JOIN public.insurance_company AS c ON a.id_InsuranceCompany=c.id "
 			+ "WHERE CAST(c.CIA_name AS TEXT) LIKE %:company%",nativeQuery = true)
 	public List<Agency> getByCompany(@Param("company") String company);
+
+	@Query(value = "SELECT a.* FROM agency AS a "
+			+ "WHERE CAST(address AS TEXT) LIKE %:dir%",nativeQuery = true)
+	public List<Agency> getByAddress(@Param("dir") String dir);
+
+	@Query(value = "SELECT a.* FROM agency AS a "
+			+ "WHERE CAST(zipCode AS TEXT) LIKE %:zip%",nativeQuery = true)
+	public List<Agency>getByZipcode(@Param("zip") long zip);
 }

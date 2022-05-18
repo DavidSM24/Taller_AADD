@@ -220,6 +220,32 @@ public class AgencyService {
 	}
 
 	/**
+	 * Devuelve una lista paginada de agencias filtrada por dirección.
+	 *
+	 * @param dir compañia del usuario.
+	 * @return La lista paginada y filtrada de agencias.
+	 * @throws ServiceException
+	 */
+	public List<Agency> getByAddress(String dir) throws ServiceException {
+		if (dir != null) {
+			if (!dir.equals("")) {
+				return repository.getByAddress(dir);
+
+			} else {
+				logger.error("Dirección no es valida");
+
+				throw new ServiceException("Dirección no es valida");
+			}
+
+		} else {
+			logger.error("Dirección nula");
+
+			throw new ServiceException("Dirección nula");
+		}
+
+	}
+
+	/**
 	 * Devuelve una lista paginada de agencias por puntos.
 	 *
 	 * @param points     puntos para filtrar.
@@ -228,6 +254,18 @@ public class AgencyService {
 	 */
 	public List<Agency> getByPoints(int points) throws ServiceException {
 		return repository.getByPoints(points);
+
+	}
+
+	/**
+	 * Devuelve una lista de agencias por zipcode.
+	 *
+	 * @param zip     zipcode para filtrar.
+	 * @return La lista paginada y filtrada de agencias.
+	 * @throws ServiceException
+	 */
+	public List<Agency> getByZipcode(long zip) throws ServiceException {
+		return repository.getByZipcode(zip);
 
 	}
 
