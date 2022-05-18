@@ -1,6 +1,7 @@
 package project.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -241,6 +242,24 @@ public class ExchangeGiftService {
 			
 			throw new ServiceException("El n�mero de elementos introducido no es correcto");
 		}
+	}
+
+	/**
+	 * Devuelve todos los regalos intercambiados que coincidan con el par�metro
+	 * date paginadas.
+	 *
+	 * @param date fecha para filtrar.
+	 * @return Lista de regalos intercambiados paginados y flitrados por
+	 *         isDelivered.
+	 * @throws ServiceException
+	 */
+	public List<ExchangeGift> getByDate(Date date) throws ServiceException {
+
+		if(date!=null){
+			return repository.getByDate(date);
+		}
+
+
 	}
 
 	/**
