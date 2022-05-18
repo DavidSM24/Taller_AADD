@@ -28,13 +28,13 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	public List<Agency>getByUsernamePaged(@Param("username")String username, @Param("element") int element,@Param("page") int page);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(points AS TEXT) LIKE '%:points%'",nativeQuery = true)
+			+ "WHERE CAST(points AS TEXT) LIKE %:points%",nativeQuery = true)
 	public List<Agency>getByPoints(@Param("points") int points);
 	
 	@Query(value = "SELECT * FROM agency WHERE is_active = :active LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<Agency> getByActivePaged(@Param("active") boolean active, @Param("element") int element, @Param("page") int page);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(location AS TEXT) LIKE '%:location%'",nativeQuery = true)
+			+ "WHERE CAST(location AS TEXT) LIKE %:location%",nativeQuery = true)
 	public List<Agency> getByLocation(@Param("location") String location);
 }
