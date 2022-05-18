@@ -167,6 +167,18 @@ public class AgencyService {
 	}
 
 	/**
+	 * Devuelve una lista paginada de agencias por puntos.
+	 *
+	 * @param points     puntos para filtrar.
+	 * @return La lista paginada y filtrada de agencias.
+	 * @throws ServiceException
+	 */
+	public List<Agency> getByPoints(int points) throws ServiceException {
+		return repository.getByUsernamePaged(points);
+
+	}
+
+	/**
 	 * Devuelve todas las agencias que coincidan con el par�metro isActive
 	 * paginadas, pudiendo ser las que est�n o no activas en funci�n de lo que se
 	 * reciba.
