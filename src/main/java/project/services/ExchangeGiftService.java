@@ -253,7 +253,7 @@ public class ExchangeGiftService {
 	 *         isDelivered.
 	 * @throws ServiceException
 	 */
-	public List<ExchangeGift> getByDate(Date date) throws ServiceException {
+	public List<ExchangeGift> getByDate(String date) throws ServiceException {
 
 		if(date!=null){
 			return repository.getByDate(date);
