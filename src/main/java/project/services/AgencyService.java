@@ -176,7 +176,7 @@ public class AgencyService {
 	public List<Agency> getByLocation(String location) throws ServiceException {
 		if (location != null) {
 			if (!location.equals("")) {
-				return repository.getByLocation(location);
+				return repository.getByLocation(location.toLowerCase());
 
 			} else {
 				logger.error("localidad no es valido");
@@ -202,7 +202,7 @@ public class AgencyService {
 	public List<Agency> getByCompany(String company) throws ServiceException {
 		if (company != null) {
 			if (!company.equals("")) {
-				return repository.getByCompany(company);
+				return repository.getByCompany(company.toLowerCase());
 
 			} else {
 				logger.error("Compañía no es valida");
@@ -228,7 +228,7 @@ public class AgencyService {
 	public List<Agency> getByAddress(String dir) throws ServiceException {
 		if (dir != null) {
 			if (!dir.equals("")) {
-				return repository.getByAddress(dir);
+				return repository.getByAddress(dir.toLowerCase());
 
 			} else {
 				logger.error("Dirección no es valida");

@@ -28,26 +28,26 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	public List<Agency>getByUsernamePaged(@Param("username")String username, @Param("element") int element,@Param("page") int page);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(points AS TEXT) LIKE %:points%",nativeQuery = true)
+			+ "WHERE LOWER(CAST(points AS TEXT)) LIKE %:points%",nativeQuery = true)
 	public List<Agency>getByPoints(@Param("points") int points);
 	
 	@Query(value = "SELECT * FROM agency WHERE is_active = :active LIMIT :element OFFSET :page",nativeQuery = true)
 	public List<Agency> getByActivePaged(@Param("active") boolean active, @Param("element") int element, @Param("page") int page);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(location AS TEXT) LIKE %:location%",nativeQuery = true)
+			+ "WHERE LOWER(CAST(location AS TEXT)) LIKE %:location%",nativeQuery = true)
 	public List<Agency> getByLocation(@Param("location") String location);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
 			+ "INNER JOIN public.insurance_company AS c ON a.id_insurance_company=c.id "
-			+ "WHERE CAST(c.CIA_name AS TEXT) LIKE %:company%",nativeQuery = true)
+			+ "WHERE LOWER(CAST(c.CIA_name AS TEXT)) LIKE %:company%",nativeQuery = true)
 	public List<Agency> getByCompany(@Param("company") String company);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(address AS TEXT) LIKE %:dir%",nativeQuery = true)
+			+ "WHERE LOWER(CAST(address AS TEXT)) LIKE %:dir%",nativeQuery = true)
 	public List<Agency> getByAddress(@Param("dir") String dir);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(zip_code AS TEXT) LIKE %:zip%",nativeQuery = true)
+			+ "WHERE LOWER(CAST(zip_code AS TEXT)) LIKE %:zip%",nativeQuery = true)
 	public List<Agency>getByZipcode(@Param("zip") long zip);
 }
