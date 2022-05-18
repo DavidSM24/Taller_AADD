@@ -25,6 +25,6 @@ public interface ExchangeGiftRepository extends JpaRepository<ExchangeGift, Long
 	public List<ExchangeGift> getByAgencyPaged(@Param("id_agency") int id_agency, @Param("element") int element, @Param("page") int page);
 
 	@Query(value = "SELECT * FROM exchange_gift "
-			+ "WHERE CAST(date_exchange AS TEXT) LIKE '%:date%' ",nativeQuery = true)
+			+ "WHERE CAST(date_exchange AS TEXT) LIKE %:date%",nativeQuery = true)
 	public List<ExchangeGift> getByDate(@Param("date") String date);
 }
