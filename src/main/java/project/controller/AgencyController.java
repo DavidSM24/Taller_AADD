@@ -205,7 +205,7 @@ public class AgencyController {
 			@ApiResponse(code=404,message="ERROR, Can't get Agencies"),
 			@ApiResponse(code=500,message="Internal Error"),
 	})
-	@GetMapping("/points")
+	@GetMapping("/points/{points}")
 	public ResponseEntity<List<Agency>> getByUsernamePaged(
 			@PathVariable("points") int points)
 			throws RecordNotFoundException{
