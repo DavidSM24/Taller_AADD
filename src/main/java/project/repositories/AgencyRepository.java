@@ -48,6 +48,6 @@ public interface AgencyRepository extends JpaRepository<Agency,Long>{
 	public List<Agency> getByAddress(@Param("dir") String dir);
 
 	@Query(value = "SELECT a.* FROM agency AS a "
-			+ "WHERE CAST(zipCode AS TEXT) LIKE %:zip%",nativeQuery = true)
+			+ "WHERE CAST(zip_code AS TEXT) LIKE %:zip%",nativeQuery = true)
 	public List<Agency>getByZipcode(@Param("zip") long zip);
 }
