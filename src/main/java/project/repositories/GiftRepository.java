@@ -23,5 +23,4 @@ public interface GiftRepository extends JpaRepository<Gift,Long>{
 
 	@Query(value = "SELECT * FROM gift WHERE CAST(points AS TEXT) LIKE %:points%", nativeQuery = true)
 	public List<Gift> getByPoints(@Param("points")int points);
-
 }

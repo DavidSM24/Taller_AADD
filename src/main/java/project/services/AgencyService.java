@@ -179,15 +179,41 @@ public class AgencyService {
 				return repository.getByLocation(location);
 
 			} else {
-				logger.error("El nombre de usuario no es valido");
+				logger.error("localidad no es valido");
 
-				throw new ServiceException("El nombre del usuario no es valido");
+				throw new ServiceException("localidad no es valido");
 			}
 
 		} else {
-			logger.error("El nombre de usuario es nulo");
+			logger.error("localidad es nulo");
 
-			throw new ServiceException("El nomnbre del usuario es nulo");
+			throw new ServiceException("localidad es nulo");
+		}
+
+	}
+
+	/**
+	 * Devuelve una lista paginada de agencias filtrada por localidad.
+	 *
+	 * @param company compañia del usuario.
+	 * @return La lista paginada y filtrada de agencias.
+	 * @throws ServiceException
+	 */
+	public List<Agency> getByCompany(String company) throws ServiceException {
+		if (company != null) {
+			if (!company.equals("")) {
+				return repository.getByCompany(company);
+
+			} else {
+				logger.error("Compañía no es valida");
+
+				throw new ServiceException("company no es valida");
+			}
+
+		} else {
+			logger.error("company nula");
+
+			throw new ServiceException("Compañia nula");
 		}
 
 	}
