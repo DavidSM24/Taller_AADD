@@ -248,7 +248,7 @@ public class AgencyService {
 	 * Devuelve una lista paginada de agencias por puntos.
 	 *
 	 * @param points     puntos para filtrar.
-	 * @return La lista paginada y filtrada de agencias.
+	 * @return La lista filtrada por puntos.
 	 * @throws ServiceException
 	 */
 	public List<Agency> getByPoints(int points) throws ServiceException {

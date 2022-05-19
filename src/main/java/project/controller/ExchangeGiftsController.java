@@ -144,6 +144,35 @@ public class ExchangeGiftsController {
 
 	/**
 	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
+	 * dependiendo de los puntos.
+	 *
+	 * @param points el parametro date para filtrar.
+	 * @return la respuesta HTTP con la lista de regalos intercambiados.
+	 */
+	@ApiOperation(value = "Return all ExchangesGifts Paged by points", notes="Return a ExchangesGifts List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get ExchangesGifts"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/points/{points}")
+	public ResponseEntity<List<ExchangeGift>> getByPoints(@PathVariable("points") long points){
+		List<ExchangeGift> all;
+		try {
+			all = service.getByPoints(points);
+
+			return new ResponseEntity<List<ExchangeGift>>(all,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			return new ResponseEntity<List<ExchangeGift>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * Devuelve una respuesta HTTP con una lista de regalos intercambiados paginado y filtrados
 	 * dependiendo de si la consulta se ha realizado correctamente o no.
 	 * 
 	 * @param element n� de elementos a buscar.

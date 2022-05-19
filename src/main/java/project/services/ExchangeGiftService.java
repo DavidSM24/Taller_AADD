@@ -264,6 +264,22 @@ public class ExchangeGiftService {
 	}
 
 	/**
+	 * Devuelve todos los regalos intercambiados que coincidan con el par�metro
+	 * points.
+	 *
+	 * @param points fecha para filtrar.
+	 * @return Lista de regalos intercambiados flitrados por
+	 *         points
+	 * @throws ServiceException
+	 */
+	public List<ExchangeGift> getByPoints(long points) throws ServiceException {
+
+		return repository.getByPoints(points);
+
+
+	}
+
+	/**
 	 * Devuelve una lista paginada de regalos intercambiados cuyo id de agencia
 	 * contenga el parametro agency.
 	 * 
