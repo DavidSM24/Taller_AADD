@@ -35,6 +35,6 @@ public interface ExchangeGiftRepository extends JpaRepository<ExchangeGift, Long
 
 	@Query(value = "SELECT * FROM exchange_gift AS eg "
 			+ "INNER JOIN public.gift AS g ON g.id=eg.id_gift "
-			+ "WHERE g.name LIKE %:gname%",nativeQuery = true)
+			+ "WHERE LOWER(g.name) LIKE %:gname%",nativeQuery = true)
 	public List<ExchangeGift> getByGiftName(@Param("gname") String gname);
 }
