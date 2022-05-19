@@ -40,7 +40,7 @@ public interface ExchangeGiftRepository extends JpaRepository<ExchangeGift, Long
 
 	@Query(value = "SELECT * FROM exchange_gift AS eg "
 			+ "INNER JOIN public.agency AS a ON a.id=eg.id_agency "
-			+ "INNER JOIN public.user AS u ON a.id_user=u.id"
+			+ "INNER JOIN public.user AS u ON a.id_user=u.id "
 			+ "WHERE LOWER(u.name) LIKE %:auname%",nativeQuery = true)
 	public List<ExchangeGift> getByAUName(@Param("auname") String auname);
 }
