@@ -29,7 +29,7 @@ public interface ExchangeGiftRepository extends JpaRepository<ExchangeGift, Long
 	public List<ExchangeGift> getByDate(@Param("date") String date);
 
 	@Query(value = "SELECT * FROM exchange_gift AS eg "
-			+ "INNER JOIN public.gift AS g ON g.id=eg.id_gift"
-			+ "WHERE LOWER(CAST(g.points AS TEXT)) LIKE %:points%",nativeQuery = true)
+			+ "INNER JOIN public.gift AS g ON g.id=eg.id_gift "
+			+ "WHERE CAST(g.points AS TEXT) LIKE %:points%",nativeQuery = true)
 	public List<ExchangeGift> getByPoints(@Param("points") long points);
 }
