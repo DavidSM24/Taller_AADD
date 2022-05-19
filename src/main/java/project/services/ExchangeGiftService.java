@@ -308,6 +308,32 @@ public class ExchangeGiftService {
 			throw new ServiceException("El id de la agencia es incorrecto");
 		}
 	}
+
+	/**
+	 * Devuelve una lista paginada de canjees filtrada por nombre de regalos.
+	 *
+	 * @param gname nombre del regalo.
+	 * @return La lista paginada y filtrada de canjees.
+	 * @throws ServiceException
+	 */
+	public List<ExchangeGift> getByGiftName(String gname) throws ServiceException {
+		if (gname != null) {
+			if (!gname.equals("")) {
+				return repository.getByGiftName(gname.toLowerCase());
+
+			} else {
+				logger.error("Nombre no es valido");
+
+				throw new ServiceException("Nombre no es valido");
+			}
+
+		} else {
+			logger.error("Nombre nulo");
+
+			throw new ServiceException("Nombre nulo");
+		}
+
+	}
 	
 	/**
 	 * Resta puntos a una agencia al canjear un regalo.
