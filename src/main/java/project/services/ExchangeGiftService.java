@@ -173,6 +173,7 @@ public class ExchangeGiftService {
 				if (optional.isPresent()) {
 					repository.deleteById(gift.getId());
 					result = true;
+					if(!gift.isDelivered()) sumPoints(gift.getAgency(),gift.getGift());
 				} else {
 					result = false;
 					logger.error("El ExchangeGift introducido no esta registrado en la base de datos");
@@ -367,6 +368,42 @@ public class ExchangeGiftService {
 		}else {
 			logger.error("La agencia introducida es nula");
 			
+			throw new ServiceException("La agencia introducida es nula");
+		}
+	}
+
+	/**
+	 * Suma puntos a una agencia al cancelar un pedido no entregado.
+	 *
+	 * @param agency La agencia a la que se le sumarán los puntos.
+	 * @param gift Número de puntos a sumar.
+	 * @return booleano con el resultado de la operación.
+	 * @throws ServiceException
+	 */
+	public boolean sumPoints(Agency agency,Gift gift) throws ServiceException {
+		if(agency!=null) {
+			if(agency.getId()!=null&&agency.getId()>0
+					&&gift!=null&&gift.getId()>0) {
+
+				Agency newAgency=agencyService.getById(agency.getId());
+				Gift newGift=giftService.getById(gift.getId());
+
+				newAgency.setPoints(newAgency.getPoints()+newGift.getPoints());
+
+				agencyService.createOrUpdate(newAgency);
+
+				return true;
+
+
+			}else {
+				logger.error("El id introducido no es v�lido");
+
+				throw new RecordNotFoundException("El id introducido no es v�liso", agency.getId());
+			}
+
+		}else {
+			logger.error("La agencia introducida es nula");
+
 			throw new ServiceException("La agencia introducida es nula");
 		}
 	}
