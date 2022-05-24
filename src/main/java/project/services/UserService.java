@@ -291,6 +291,32 @@ public class UserService {
 	}
 
 	/**
+	 * Metodo que devuelve un usuario a partir de su código.
+	 *
+	 * @param fcode código del usuario a recivir
+	 * @return Usuario encontrado.
+	 * @throws ServiceException
+	 */
+	public List<User> getByFilterCode(String fcode) throws ServiceException {
+		if(fcode!=null) {
+			if(!fcode.equals("")) {
+				logger.info("Petici�n realizada correctamente");
+
+				return repository.getByFilterCode(fcode.toLowerCase());
+
+			}else {
+				logger.error("El codigo esta vacio");
+
+				throw new ServiceException("El codigo esta vacio");
+			}
+		}else {
+			logger.error("El codigo es nulo");
+
+			throw new ServiceException("El codigo es nulo");
+		}
+	}
+
+	/**
 	 * Devuelve una lista de usuarios paginada en funci�n de la p�gina que se est�
 	 * buscando y si es administrador.
 	 * 

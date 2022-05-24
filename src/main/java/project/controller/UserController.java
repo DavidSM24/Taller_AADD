@@ -169,6 +169,35 @@ public class UserController {
 
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por codigo.
+	 *
+	 * @param code el codigo por el que se filtrar� el usuario.
+	 * @return respuesta con el usuario encontrada con ese nombre.
+	 * @throws RecordNotFoundException
+	 */
+	@ApiOperation(value = "Return a User filtered by code", notes="Return a User")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get User"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/fcode/{fcode}")
+	public ResponseEntity<List<User>> getByCodeFilter(@PathVariable("fcode")String fcode) throws RecordNotFoundException{
+		List<User> user;
+		try {
+			user = service.getByFilterCode(fcode.toLowerCase());
+
+			return new ResponseEntity<List<User>>(user,new HttpHeaders(),HttpStatus.OK);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * Devuelve una respuesta HTTP con un usuario filtrada por codigo.
 	 * 
 	 * @param code el codigo por el que se filtrar� el usuario.
 	 * @return respuesta con el usuario encontrada con ese nombre.
