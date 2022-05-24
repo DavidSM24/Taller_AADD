@@ -153,17 +153,17 @@ public class UserController {
 			@ApiResponse(code=500,message="Internal Error"),
 	})
 	@GetMapping("/name/{name}")
-	public ResponseEntity<User> getUserByName(@PathVariable("name")String name) throws RecordNotFoundException{
-		User user;
+	public ResponseEntity<List<User>> getUserByName(@PathVariable("name")String name) throws RecordNotFoundException{
+		List<User> user;
 		try {
 			user = service.getByName(name.toLowerCase());
 			
-			return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
+			return new ResponseEntity<List<User>>(user,new HttpHeaders(),HttpStatus.OK);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

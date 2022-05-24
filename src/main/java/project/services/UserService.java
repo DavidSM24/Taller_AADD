@@ -245,7 +245,7 @@ public class UserService {
 	 * @return Usuario encontrado.
 	 * @throws ServiceException 
 	 */
-	public User getByName(String name) throws ServiceException {
+	public List<User> getByName(String name) throws ServiceException {
 		if(name!=null) {
 			if(!name.equals("")) {
 				logger.info("Petici�n realizada correctamente");
