@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "gift")
@@ -39,6 +40,7 @@ public class Gift implements Serializable {
 	@Column(name = "picture", length = 250)
 	private String picture;
 
+    @JsonManagedReference
 	@JsonIgnoreProperties("gift")
 	@OneToMany(mappedBy = "gift")
 	private List<ExchangeGift> exchangeGifts;

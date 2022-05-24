@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -41,8 +42,9 @@ public class ExchangeGift implements Serializable{
 	@JsonIgnoreProperties("myExchangesGifts")
 	@ManyToOne()
 	@JoinColumn(name="id_agency")
-	protected Agency agency;	
-	
+	protected Agency agency;
+
+	@JsonBackReference
 	@JsonIgnoreProperties("exchangeGifts")
 	@ManyToOne()
 	@JoinColumn(name="id_gift")
