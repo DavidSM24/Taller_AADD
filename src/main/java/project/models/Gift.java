@@ -40,7 +40,6 @@ public class Gift implements Serializable {
 	@Column(name = "picture", length = 250)
 	private String picture;
 
-    @JsonManagedReference
 	@JsonIgnoreProperties("gift")
 	@OneToMany(mappedBy = "gift")
 	private List<ExchangeGift> exchangeGifts;

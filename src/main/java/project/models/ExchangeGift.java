@@ -44,7 +44,6 @@ public class ExchangeGift implements Serializable{
 	@JoinColumn(name="id_agency")
 	protected Agency agency;
 
-	@JsonBackReference
 	@JsonIgnoreProperties("exchangeGifts")
 	@ManyToOne()
 	@JoinColumn(name="id_gift")
