@@ -166,6 +166,7 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
 	/**
 	 * Devuelve una respuesta HTTP con un usuario filtrada por codigo.
 	 * 
@@ -185,7 +186,7 @@ public class UserController {
 		User user;
 		try {
 			user = service.getByCode(code);
-			
+
 			return new ResponseEntity<User>(user,new HttpHeaders(),HttpStatus.OK);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
@@ -194,7 +195,36 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+    /**
+     * Devuelve una respuesta HTTP con un usuario filtrada por mail.
+     *
+     * @param mail el mail por el que se filtrar� el usuario.
+     * @return respuesta con el usuario encontrada con ese nombre.
+     * @throws RecordNotFoundException
+     */
+    @ApiOperation(value = "Return a User filtered by mail", notes="Return a User")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message="Successful Operation"),
+            @ApiResponse(code=400,message="Bad Request"),
+            @ApiResponse(code=404,message="ERROR, Can't get User"),
+            @ApiResponse(code=500,message="Internal Error"),
+    })
+    @GetMapping("/mail/{mail}")
+    public ResponseEntity<List<User>> getByMail(@PathVariable("mail")String mail) throws RecordNotFoundException{
+        List<User>result;
+        try {
+            result = service.getByMail(mail.toLowerCase());
+
+            return new ResponseEntity<List<User>>(result,new HttpHeaders(),HttpStatus.OK);
+        } catch (ServiceException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+            return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 	/**
 	 * Devuelve una respuesta HTTP con una lista de Usuarios disponibles dependiendo de si la consulta
 	 * para asignar a agencias, y de  si la consulta se ha realizado correctamente o no.
@@ -213,11 +243,13 @@ public class UserController {
 		List<User> all=service.getByAvailable();
 		return new ResponseEntity<List<User>>(all,new HttpHeaders(),HttpStatus.OK);
 	}
+
+
 	
 	/**
 	 * Recibe un usuario. Crea o updatea un usuario.
 	 * 
-	 * @param a usuario a crear o updatear recibida en el cuerpo.
+	 * @param u usuario a crear o updatear recibida en el cuerpo.
 	 * @return respuesta con el usuario actualido o insertado con su id correspondiente.
 	 * @throws RecordNotFoundException
 	 */
@@ -253,7 +285,7 @@ public class UserController {
 	 * Recibe un usuario y devuelve una respuesta HTTP en funci�n de si ha podido eliminarla
 	 * correctamente.
 	 * 
-	 * @param usuario a eliminar recibida en el cuerpo.
+	 * @param u a eliminar recibida en el cuerpo.
 	 * @return respuesta http sobre el status de la petici�n.
 	 * @throws RecordNotFoundException
 	 */

@@ -93,7 +93,7 @@ public class UserService {
 	 * registro con este id en la BBDD. Lanza una excepci�n si no se encuentra al
 	 * usuario en la BBDD.
 	 * 
-	 * @param Agency: El usuario a actualizar/insertar.
+	 * @param user: El usuario a actualizar/insertar.
 	 * @return Devuelve el usuario con el id generado.
 	 * @throws RecordNotFoundException
 	 * @throws SerialException
@@ -154,7 +154,7 @@ public class UserService {
 	 * M�todo que recibe un usuario y la elimina de la BBDD. Lanza una excepci�n si
 	 * no se encuentra el usuario en la BBDD.
 	 * 
-	 * @param Agency: El Usuario a eliminar.
+	 * @param user: El Usuario a eliminar.
 	 * @return Devuelve true si el usuario se ha borrado False si no.
 	 * @throws RecordNotFoundException
 	 * @throws ServiceException 
@@ -261,6 +261,32 @@ public class UserService {
 			logger.error("El nombre es nulo");
 			
 			throw new ServiceException("El nombre es nulo");
+		}
+	}
+
+	/**
+	 * Metodo que devuelve un usuario a partir de su mail.
+	 *
+	 * @param mail mail del usuario a recivir
+	 * @return Usuario encontrado.
+	 * @throws ServiceException
+	 */
+	public List<User> getByMail(String mail) throws ServiceException {
+		if(mail!=null) {
+			if(!mail.equals("")) {
+				logger.info("Petici�n realizada correctamente");
+
+				return repository.getByMail(mail.toLowerCase());
+
+			}else {
+				logger.error("El mail esta vacio");
+
+				throw new ServiceException("El mail esta vacio");
+			}
+		}else {
+			logger.error("El mail es nulo");
+
+			throw new ServiceException("El mail es nulo");
 		}
 	}
 
