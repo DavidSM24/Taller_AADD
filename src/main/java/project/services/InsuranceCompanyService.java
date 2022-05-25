@@ -263,16 +263,7 @@ public class InsuranceCompanyService {
 				List<InsuranceCompany> insuranceCompany = repository.getByCIAName(name.toLowerCase());
 				
 				if (insuranceCompany != null) {
-					if (insuranceCompany.size() > 0) {
-						logger.info("Petición realizada correctamente");
-						
-						return insuranceCompany;
-
-					} else {
-						logger.error("La lista obtenida esta vacia");
-						
-						throw new ServiceException("La lista obtenida esta vacia");
-					}
+					return insuranceCompany;
 				} else {
 					logger.error("La lista obtenida es nula");
 					
