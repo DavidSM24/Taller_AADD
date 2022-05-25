@@ -150,7 +150,7 @@ public class InsuranceCompanyService {
 	/**
 	 * Método que borra la compañia de seguros
 	 * 
-	 * @param id
+	 * @param insurance
 	 * @return boolean que especifica si se ha borrado o no de la base de datos
 	 * @throws ServiceException
 	 */
@@ -252,7 +252,7 @@ public class InsuranceCompanyService {
 	 * 
 	 * @param name
 	 * @return List<InsuranceCompany>
-	 * @throws exception.ServiceException
+	 * @throws exception
 	 */
 	public List<InsuranceCompany> getByCIAName(String name) throws ServiceException {
 		if (name != null) {

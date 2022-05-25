@@ -46,7 +46,7 @@ public class InsuranceCompanyController {
 			@ApiResponse(code=500,message="Internal Error"),
 	})
 	@GetMapping("/CIA_Name/{CIA_Name}")
-	public ResponseEntity<List<InsuranceCompany>> getByCIAName(@PathVariable("CIA_NAME") String name){
+	public ResponseEntity<List<InsuranceCompany>> getByCIAName(@PathVariable("CIA_Name") String name){
 		
 				List<InsuranceCompany> result;
 				try {
