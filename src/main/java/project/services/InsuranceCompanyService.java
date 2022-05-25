@@ -252,14 +252,13 @@ public class InsuranceCompanyService {
 	 * 
 	 * @param name
 	 * @return List<InsuranceCompany>
-	 * @throws exception
 	 */
 	public List<InsuranceCompany> getByCIAName(String name) throws ServiceException {
 
 		System.out.println(name);
 
 		if (name != null) {
-			if (name.equals("")) {
+			if (!name.equals("")) {
 				
 				List<InsuranceCompany> insuranceCompany = repository.getByCIAName(name.toLowerCase());
 				
