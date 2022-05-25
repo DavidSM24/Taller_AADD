@@ -256,7 +256,7 @@ public class InsuranceCompanyService {
 	 */
 	public List<InsuranceCompany> getByCIAName(String name) throws ServiceException {
 
-		console.log(name);
+		System.out.println(name);
 
 		if (name != null) {
 			if (name.equals("")) {
