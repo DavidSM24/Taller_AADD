@@ -255,6 +255,9 @@ public class InsuranceCompanyService {
 	 * @throws exception
 	 */
 	public List<InsuranceCompany> getByCIAName(String name) throws ServiceException {
+
+		console.log(name);
+
 		if (name != null) {
 			if (name.equals("")) {
 				
