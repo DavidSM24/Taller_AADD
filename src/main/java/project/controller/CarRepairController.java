@@ -249,6 +249,38 @@ public class CarRepairController {
 			
 		}
 	}
+
+	/**
+	 * M�todo que devuelve una lista de reparaciones seg�n la agencia.
+	 * @param fagency
+	 * @return ResponseEntity<List<CarRepair>>
+	 */
+	@ApiOperation(value = "Return all CarRepairs Paged by agency info like location and company", notes="Return a CarRepairs List")
+	@ApiResponses(value = {
+			@ApiResponse(code=200,message="Successful Operation"),
+			@ApiResponse(code=400,message="Bad Request"),
+			@ApiResponse(code=404,message="ERROR, Can't get CarRepairs"),
+			@ApiResponse(code=500,message="Internal Error"),
+	})
+	@GetMapping("/fagency/{fagency}")
+	public ResponseEntity<List<CarRepair>> getByAgencyFilter(
+			@PathVariable("fagency")String fagency){
+
+		List<CarRepair> result=new ArrayList<CarRepair>();
+
+		try {
+			result=service.getByAgencyFilter(fagency);
+
+			return new ResponseEntity<List<CarRepair>>(result,new HttpHeaders(),HttpStatus.OK);
+
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			return new ResponseEntity<List<CarRepair>>(HttpStatus.BAD_REQUEST);
+
+		}
+	}
 	
 	/**
 	 * M�todo que devuelve una lista de reparaciones que se encuentren dentro de una fecha

@@ -50,6 +50,10 @@ public interface CarRepairRepository extends JpaRepository<CarRepair, Long> {
 	@Query(value = "SELECT * FROM car_repair WHERE id_agency=:id_agency LIMIT :element OFFSET :paged", nativeQuery = true)
 	public List<CarRepair> getByAgencyPaged(@Param("id_agency") int id_agency, @Param("element") int nElement,
 			@Param("paged") int paged);
-	
 
+	@Query(value = "SELECT * FROM car_repair AS cr " +
+			"INNER JOIN agency AS a ON a.id=cr.id_agency " +
+			"INNER JOIN insurance_company AS ic ON ic.id=a.id_insurance_company " +
+			"WHERE LOWER(a.location) LIKE %:fagency% OR LOWER(ic.cia_name) LIKE %:fagency%", nativeQuery = true)
+	public List<CarRepair> getByAgencyFilter(@Param("fagency") String fagency);
 }

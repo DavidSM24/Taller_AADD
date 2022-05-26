@@ -246,6 +246,31 @@ public class CarRepairService {
 	}
 
 	/**
+	 * M�todo que devuelve una lista de reparacipones busccando por matricula
+	 *
+	 * @param fagency
+	 * @return List<CarRepair>
+	 * @throws ServiceException
+	 */
+	public List<CarRepair> getByAgencyFilter(String fagency) throws ServiceException {
+		if (fagency != null) {
+			if (!fagency.equals("")) {
+
+				return repository.getByAgencyFilter(fagency.toLowerCase());
+
+			} else {
+				logger.error("La agencia introducida no es v�lida");
+
+				throw new ServiceException("La agencia es invalida");
+			}
+		} else {
+			logger.error("La agencia es nula");
+
+			throw new ServiceException("agencia es nulo");
+		}
+	}
+
+	/**
 	 * M�todod que devuelve una lista de reparaciones buscando por la operaci�n
 	 * 
 	 * @param operation
@@ -283,8 +308,6 @@ public class CarRepairService {
 	 * M�todod que devuelve una lista de reparaciones buscando por la operaci�n
 	 *
 	 * @param operation
-	 * @param element
-	 * @param paged
 	 * @return List<CarRepair>
 	 * @throws ServiceException
 	 */
