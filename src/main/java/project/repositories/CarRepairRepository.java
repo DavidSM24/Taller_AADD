@@ -24,7 +24,7 @@ public interface CarRepairRepository extends JpaRepository<CarRepair, Long> {
 
 	@Query(value = "SELECT * " +
 			"FROM car_repair " +
-			"WHERE CAST(car_plate AS TEXT) LIKE %:operation%", nativeQuery = true)
+			"WHERE CAST(operation AS TEXT) LIKE %:operation%", nativeQuery = true)
 	public List<CarRepair> getByIdOperationFilter(@Param("operation") String operation);
 
 	@Query(value = "SELECT * FROM car_repair WHERE LOWER(car_plate) LIKE %:carPlate% LIMIT :element OFFSET :paged", nativeQuery = true)
