@@ -18,7 +18,7 @@ public interface CarRepairRepository extends JpaRepository<CarRepair, Long> {
 
 	@Query(value = "SELECT * " +
 			"FROM car_repair " +
-			"CAST(g.points AS TEXT) LIKE %:operation% LIMIT :element OFFSET :paged", nativeQuery = true)
+			"CAST(car_plate AS TEXT) LIKE %:operation% LIMIT :element OFFSET :paged", nativeQuery = true)
 	public List<CarRepair> getByIdOperationPaged(@Param("operation") Long operation, @Param("element") int nElement,
 			@Param("paged") int paged);
 
