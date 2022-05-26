@@ -2,6 +2,7 @@ package project.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -279,6 +280,33 @@ public class CarRepairService {
 	}
 
 	/**
+	 * Mï¿½todod que devuelve una lista de reparaciones buscando por la operaciï¿½n
+	 *
+	 * @param operation
+	 * @param element
+	 * @param paged
+	 * @return List<CarRepair>
+	 * @throws ServiceException
+	 */
+	public List<CarRepair> getByOperationFilter(String operation) throws ServiceException {
+		if (operation != null) {
+			if (!operation.equals("")) {
+
+				return repository.getByIdOperationFilter(operation.toLowerCase());
+
+			} else {
+				logger.error("La operaciï¿½n introducida no es vï¿½lida");
+
+				throw new ServiceException("La operaciï¿½n introducida es invalida");
+			}
+		} else {
+			logger.error("La operaciï¿½n introducida es nula");
+
+			throw new ServiceException("La operaciï¿½n introducida es nula");
+		}
+	}
+
+	/**
 	 * Mï¿½todo que devuelve una lista de reparaciï¿½nes paginada segï¿½n el cliente
 	 * del coche
 	 * 
@@ -475,9 +503,9 @@ public class CarRepairService {
 	}
 
 	/**
-	 * Método que devuelve una lista con las reparaciones que pertenecen a una agencia
+	 * Mï¿½todo que devuelve una lista con las reparaciones que pertenecen a una agencia
 	 * @param id_agency id de la agencia que se quiera obtener las reparaciones
-	 * @param nElement número de reparaciones que se quiere obtener
+	 * @param nElement nï¿½mero de reparaciones que se quiere obtener
 	 * @param paged a partir de que elemento se empieza a contar
 	 * @return List<CarRepair> reparaciones de una agencia en concreto
 	 * @throws ServiceException
