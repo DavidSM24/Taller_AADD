@@ -43,7 +43,7 @@ public class CarRepair implements Serializable{
 	@Column(name = "operation", length = 3)
 	protected Long operation;
 
-	@Column(name = "carPlate", length = 7)
+	@Column(name = "carPlate", length = 10)
 	protected String carPlate;
 
 	@Column(name = "model", length = 50)
