@@ -1,5 +1,6 @@
 package project.services;
 
+import org.springframework.stereotype.Service;
 import project.models.Email;
 
 import javax.mail.Message;
@@ -11,6 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+@Service
 public class MailSenderService {
 
     public boolean sendMail(Email mail) {
