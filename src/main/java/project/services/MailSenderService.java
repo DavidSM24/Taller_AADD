@@ -3,108 +3,73 @@ package project.services;
 import org.springframework.stereotype.Service;
 import project.models.Email;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Properties;
 
 @Service
 public class MailSenderService {
 
+    final String User_Email = "backtoraceapp@hotmail.com"; //your email
+    final String Password = "Backtorace"; // your email password
+    final String Sender = "backtoraceapp@hotmail.com"; // Insert Your email again
+
+    String receiver = ""; // Insert Receiver's Email
+    String email_Subject = "";
+    String content = "";
+
     public boolean sendMail(Email mail) {
-        //Sesión
 
         if(
-            mail!=null
-            &&mail.getSubject()!=null
-            &&mail.getReceiver()!=null
-            &&mail.getMessage()!=null){
+                mail!=null
+                &&mail.getMessage()!=null
+                &&mail.getReceiver()!=null
+                &&mail.getSubject()!=null
+        ){
 
-            Properties props = new Properties();
+            this.receiver=mail.getReceiver();
+            this.content=mail.getMessage();
+            this.email_Subject=mail.getSubject();
+        } else return false;
 
-            // Nombre del host de correo, es smtp.gmail.com
-            props.setProperty("mail.smtp.host", "smtp.gmail.com");
-
-            // TLS si está disponible
-            props.setProperty("mail.smtp.starttls.enable", "true");
-
-            // Puerto de gmail para envio de correos
-            props.setProperty("mail.smtp.port","587");
-
-            // Nombre del usuario
-            props.setProperty("mail.smtp.user", "finalShowdown@gmail.com");
-
-            // Si requiere o no usuario y password para conectarse.
-            props.setProperty("mail.smtp.auth", "true");
-
-            Session session = Session.getDefaultInstance(props);
-
-            // Para obtener un log de salida más extenso
-            session.setDebug(false);
-
-            //Mensaje
-
-            MimeMessage message = new MimeMessage(session);
-
-            // Quien envia el correo
-            try {
-                message.setFrom(new InternetAddress("finalshowdown@gmail.com"));
-            } catch (AddressException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return false;
-            } catch (MessagingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return false;
+        final Session newsession = Session.getInstance(this.Mail_Properties(), new Authenticator() {
+            @Override
+            // password authentication
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(User_Email, Password);
             }
-
-            // A quien va dirigido
-            try {
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(mail.getReceiver()));
-            } catch (MessagingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return false;
-            }
-
-            try {
-                message.setSubject(mail.getSubject());
-            } catch (MessagingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return false;
-            }
-            try {
-                message.setText(mail.getMessage());
-            } catch (MessagingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return false;
-            }
-
-            //Enviamos el mensaje
-
-            try {
-                Transport t = session.getTransport("smtp");
-                t.connect("finalshowdownrecover@gmail.com","magnokurai24");
-                t.sendMessage(message,message.getAllRecipients());
-
-            } catch (MessagingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return false;
-            }
-
+        });
+        // MimeMessage is used to create the email message
+        try {
+            final Message Demo_Message = new MimeMessage(newsession);
+            Demo_Message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
+            Demo_Message.setFrom(new InternetAddress(Sender));
+            Demo_Message.setSubject(email_Subject); // email subject
+            Demo_Message.setText(content); // The content of email
+            Demo_Message.setSentDate(new Date());
+            Transport.send(Demo_Message);// Transport the email
+            System.out.println("Your Email has been sent successfully!");
             return true;
         }
-        else return false;
+        catch (final MessagingException e) { // exception to catch the errors
+            System.out.println("Email Sending Failed"); // failed
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-
+    // The permanent  set of properties containing string keys, the following
+    // setting the properties for SMPT function
+    public Properties Mail_Properties() {
+        final Properties Mail_Prop = new Properties();
+        Mail_Prop.put("mail.smtp.host", "smtp.office365.com");
+        Mail_Prop.put("mail.smtp.post", "587");
+        Mail_Prop.put("mail.smtp.auth", true);
+        Mail_Prop.put("mail.smtp.starttls.enable", true);
+        Mail_Prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        return Mail_Prop;
     }
 
 }
