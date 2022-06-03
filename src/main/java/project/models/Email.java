@@ -1,12 +1,17 @@
 package project.models;
 
-public class Email {
+import java.io.Serializable;
+
+public class Email implements Serializable {
 
     private String subject;
     private String receiver;
     private String message;
 
-    public Email(String subject, String receiver, String message) {
+    public Email() {
+    }
+
+    public Email (String subject, String receiver, String message) {
         this.subject = subject;
         this.receiver = receiver;
         this.message = message;
