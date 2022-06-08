@@ -107,7 +107,7 @@ public class GiftService {
 			if (element > 0 && page > -1) {
 				logger.info("Petici�n realizada correctamente");
 
-				return repository.getByNamePaged(name, element, page);
+				return repository.getByNamePaged(name.toLowerCase(), element, page);
 
 			} else {
 				logger.error("El n�mero de elementos pedido no es v�lido");
