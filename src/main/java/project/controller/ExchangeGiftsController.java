@@ -341,7 +341,7 @@ public class ExchangeGiftsController {
 	public HttpStatus delete(@Valid @RequestBody ExchangeGift ex) throws RecordNotFoundException{
 		try {
 			if(service.delete(ex)) {
-				
+				System.out.println(ex.getGift());
 				this.service.sumPoints(ex.getAgency(), ex.getGift());
 				
 				
