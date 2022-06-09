@@ -342,6 +342,9 @@ public class ExchangeGiftsController {
 		try {
 			if(service.delete(ex)) {
 				
+				this.service.sumPoints(ex.getAgency(), ex.getGift());
+				
+				
 				return HttpStatus.OK;
 			}else {
 				 
