@@ -158,14 +158,11 @@ public class CarRepairService {
 						CarRepair newCarRepair = result.get();
 
 						if (!newCarRepair.isRepaired() && carRepair.isRepaired()) {
-							if (!sumPoints(carRepair.getMyAgency(), carRepair.getAsigPoints())) {
-
-							}
-							sumAmount(carRepair.getMyAgency(), carRepair.getAmount());
+							sum(carRepair.getMyAgency(), carRepair.getAsigPoints(),carRepair.getAmount());
 						}
 						
 						else if(!carRepair.isRepaired()&& newCarRepair.isRepaired()) {
-							restAmount(carRepair.getMyAgency(), carRepair.getAmount());
+							rest(carRepair.getMyAgency(), carRepair.getAsigPoints(),carRepair.getAmount());
 						}
 
 						newCarRepair.setId(carRepair.getId());// id
@@ -462,15 +459,15 @@ public class CarRepairService {
 	 * 
 	 * @throws ServiceException
 	 */
-	public boolean sumPoints(Agency agency, long points) throws ServiceException {
+	public boolean sum(Agency agency, long points, float f) throws ServiceException {
 		if (agency != null) {
 			if (agency.getId() != null && agency.getId() > 0) {
-				if (points > 0) {
+				if (points > 0 && f >0) {
 
 					Agency newAgency = agencyService.getById(agency.getId());
 
 					newAgency.setPoints(newAgency.getPoints() + points);
-
+					newAgency.setAmount(newAgency.getAmount() + f);
 					agencyService.createOrUpdate(newAgency);
 
 					return true;
@@ -492,63 +489,22 @@ public class CarRepairService {
 			throw new ServiceException("La agencia introducida es nula");
 		}
 	}
-
-	/**
-	 * M�todo que a�ade el coste de la reparaci�n al total de la agencia
-	 * 
-	 * @throws ServiceException
-	 */
-	public boolean sumAmount(Agency agency, float amount) throws ServiceException {
-		if (agency != null) {
-			if (agency.getId() != null && agency.getId() > 0) {
-				if (amount > 0) {
-
-					Agency newAgency = agencyService.getById(agency.getId());
-
-					newAgency.setAmount(newAgency.getAmount() + amount);
-
-					agencyService.createOrUpdate(newAgency);
-
-					return true;
-
-				} else {
-					logger.error("Los montante introducidos son menores que 0");
-
-					throw new ServiceException("Los puntos introducidos son menores que 0");
-				}
-			} else {
-				logger.error("El id introducido no es v�lido");
-
-				throw new RecordNotFoundException("El id introducido no es v�liso", agency.getId());
-			}
-
-		} else {
-			logger.error("La agencia introducida es nula");
-
-			throw new ServiceException("La agencia introducida es nula");
-		}
-	}
 	
-	/**
-	 * M�todo que a�ade el coste de la reparaci�n al total de la agencia
-	 * 
-	 * @throws ServiceException
-	 */
-	public boolean restAmount(Agency agency, float amount) throws ServiceException {
+	public boolean rest(Agency agency, long f, float g) throws ServiceException {
 		if (agency != null) {
 			if (agency.getId() != null && agency.getId() > 0) {
-				if (amount > 0) {
+				if (f > 0 && g >0) {
 
 					Agency newAgency = agencyService.getById(agency.getId());
 
-					newAgency.setAmount(newAgency.getAmount() - amount);
-
+					newAgency.setPoints(newAgency.getPoints() - f);
+					newAgency.setAmount(newAgency.getAmount()-g);
 					agencyService.createOrUpdate(newAgency);
 
 					return true;
 
 				} else {
-					logger.error("Los montante introducidos son menores que 0");
+					logger.error("Los puntos introducidos son menores que 0");
 
 					throw new ServiceException("Los puntos introducidos son menores que 0");
 				}
