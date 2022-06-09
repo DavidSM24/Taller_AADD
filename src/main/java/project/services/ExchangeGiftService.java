@@ -173,7 +173,6 @@ public class ExchangeGiftService {
 				if (optional.isPresent()) {
 					repository.deleteById(gift.getId());
 					result = true;
-					if(!gift.isDelivered()) sumPoints(gift.getAgency(),gift.getGift());
 				} else {
 					result = false;
 					logger.error("El ExchangeGift introducido no esta registrado en la base de datos");
@@ -407,9 +406,8 @@ public class ExchangeGiftService {
 	 * @throws ServiceException
 	 */
 	public boolean sumPoints(Agency agency,Gift gift) throws ServiceException {
-		if(agency!=null) {
-			if(agency.getId()!=null&&agency.getId()>0
-					&&gift!=null&&gift.getId()>0) {
+		if(agency!=null && gift!=null) {
+			if(agency.getId()!=null&&gift!=null&&gift.getId()!=null) {
 
 				Agency newAgency=agencyService.getById(agency.getId());
 				Gift newGift=giftService.getById(gift.getId());
