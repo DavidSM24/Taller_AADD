@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin(origins="http://tallerpmd-5810b.firebaseapp.com")
+@CrossOrigin(origins="*")
 @SpringBootApplication
 public class AppMain {
 	
