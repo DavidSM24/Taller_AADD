@@ -25,7 +25,7 @@ import project.exception.ServiceException;
 import project.models.Agency;
 import project.services.AgencyService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://tallerpmd-5810b.firebaseapp.com/")
 @RestController
 @RequestMapping("/agencies")
 public class AgencyController {
